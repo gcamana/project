@@ -1,0 +1,35 @@
+
+<h1 mat-dialog-title>{{ title }}</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <mat-list class="no-padding">
+    <mat-list-item><img matListAvatar [src]="element.profile_image || UNKNOWN_USER_IMAGE">
+      <p matLine><strong>{{ element.first_name | csCapitalize }}</strong><span>{{ element.last_name | csCapitalize }} {{ element.last_name2 | csCapitalize }}</span></p>
+    </mat-list-item>
+  </mat-list>
+  <div *ngIf="!element.has_prom">
+    <form [formGroup]="formBeca">
+      <mat-form-field>
+        <mat-select panelClass="cs-treasury-select" placeholder="Tipo de beca" formControlName="beca">
+          <mat-option *ngFor="let beca of dataCombo.becas" [value]="beca.id_beca">{{ beca.beca }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formBeca.controls.beca.invalid">Selecciona una beca</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select panelClass="cs-treasury-select" placeholder="Año" formControlName="year">
+          <mat-option *ngFor="let year of dataCombo.years" [value]="year.year">{{ year.desc_year }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formBeca.controls.year.invalid">Selecciona una beca</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div *ngIf="element.has_prom">
+    <div class="cs-content">
+      <p class="padding-right">Beca</p><strong>{{ element.beca.desc_condicion }}</strong>
+      <p class="padding-right">Año</p><strong>{{ element.beca.year_condicion }}</strong>
+      <p class="padding-right">Persona registro</p><strong>{{ element.beca.pers_assing }}</strong>
+    </div>
+  </div>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button mat-button (click)="acceptProm()" [disabled]="formBeca.invalid">{{ info_button }}</button>
+</div>

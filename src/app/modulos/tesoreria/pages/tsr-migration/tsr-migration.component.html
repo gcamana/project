@@ -1,0 +1,59 @@
+
+<div class="theme-treasury">
+  <cs-shrinking-header-component [headerHeight]="mobileQuery.matches ? 192 : 256" [offset]="mobileQuery.matches ? 45: 64">
+    <div class="wrapper"><span class="font-size-56" [class.hideTitle]="displayTitle" (click)="backPage()">Migración</span></div>
+  </cs-shrinking-header-component>
+</div>
+<div class="theme-treasury margin-minus-top">
+  <div class="cs-overload" [class.active]="isOpenInfo" (click)="closeAction()"></div>
+  <div class="cs-content">
+    <mat-radio-group [(ngModel)]="card" labelPosition="before" (change)="onChangeBank($event)">
+      <mat-radio-button [value]="card" *ngFor="let card of cards" [disabled]="card.disabled" [class.disabled]="card.disabled">
+        <figure><img [src]="card.image"></figure>
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="wrapper z-index">
+    <div class="cs-content-action" [ngClass]="isOpenToolbar ? 'activeToolbar':'hide'">
+      <mat-toolbar class="transparent">
+        <mat-toolbar-row><img [src]="cardTmp?.image"><span class="cs-spacer"></span>
+          <div class="cs-text-action" *ngIf="isSiscont" (click)="openImporModal(idBank)">
+            <mat-icon>file_upload</mat-icon><strong>{{ 'important txt' | uppercase }}</strong>
+          </div>
+          <div class="cs-text-action margin-left" (click)="openExportToggle(idBank)">
+            <mat-icon>file_download</mat-icon><strong>{{ 'EXPORTAR TXT' | uppercase }}</strong>
+          </div>
+          <div class="cs-text-action margin-left" (click)="toggle()">
+            <mat-icon>info_outline</mat-icon><strong>{{ 'INFORMACIÓN' | uppercase }}</strong>
+          </div>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="cs-toolbar-content" [ngClass]="isOpenInfo ? 'activeInfo':'hide'">
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="business">
+            <mat-header-cell *matHeaderCellDef>Empresa</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.business }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="last_import">
+            <mat-header-cell *matHeaderCellDef>última importación</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.last_import }}<img [src]="element.photo_import" matTooltip="{{ element.name_pers_import }}"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="quantity_import">
+            <mat-header-cell class="text-center" *matHeaderCellDef>Cantidad</mat-header-cell>
+            <mat-cell class="text-center" *matCellDef="let element"> <a class="subrayado" (click)="openModalMigrationCant(element)">{{ element.quantity_import }}</a></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="last_export">
+            <mat-header-cell *matHeaderCellDef>Última exportación</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.last_export }}<img [src]="element.photo_export" matTooltip="{{ element.name_pers_export }}"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="quantity_export">
+            <mat-header-cell class="w-80 text-center" *matHeaderCellDef>Cantidad</mat-header-cell>
+            <mat-cell class="w-80 text-center" *matCellDef="let element"><a class="subrayado" (click)="openModalMigrationCant(element)">{{ element.quantity_export }}</a></mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</div>

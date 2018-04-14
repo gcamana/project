@@ -1,0 +1,7 @@
+
+<div class="cs-trend-table">
+  <p matLine>{{ value + unidad_med }}</p>
+  <mat-icon *ngIf="trendFlag !== 2" [ngClass]="textClass">{{ trendIcon }}</mat-icon>
+  <mat-icon class="svg" *ngIf="trendFlag === 2" [svgIcon]="trendIcon" [ngClass]="textClass"></mat-icon>
+  <p matLine [ngClass]="textClass">{{ variation }}%</p>
+</div>

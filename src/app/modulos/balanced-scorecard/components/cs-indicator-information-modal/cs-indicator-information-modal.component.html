@@ -1,0 +1,46 @@
+
+<div class="theme-bsc" *ngIf="isShowProgress">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<h1 mat-dialog-title>{{data.title}}
+  <button mat-icon-button>
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content>
+  <form class="theme-bsc">
+    <div class="w-1">
+      <mat-form-field>
+        <input matInput placeholder="Descripción" name="descripcion" [(ngModel)]="data.descripcion">
+      </mat-form-field>
+    </div>
+    <div class="w-1">
+      <mat-form-field>
+        <input matInput placeholder="Oportunidad de medición" name="oportunidad" [(ngModel)]="data.oportunidad">
+      </mat-form-field>
+    </div>
+    <div class="w-2">
+      <mat-form-field>
+        <input matInput placeholder="Formula de cálculo" name="formula" [(ngModel)]="data.formula">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Fuente de procesamiento" name="fuente" [(ngModel)]="data.fuente_data">
+      </mat-form-field>
+    </div>
+    <div class="w-2">
+      <mat-form-field>
+        <input matInput placeholder="Unidad" name="unidad" [(ngModel)]="data.unidad">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Frecuencia de medición" name="tipo_med" [(ngModel)]="data.tipo_med">
+      </mat-form-field>
+    </div>
+  </form>
+  <div class="cs-resp">
+    <p>Responsables :</p>
+    <cs-user-avatar [users]="responsables" [usersCount]="responsables.length"></cs-user-avatar>
+  </div>
+</div>
+<div class="theme-bsc" mat-dialog-actions>
+  <button mat-button color="primary" (click)="onNoClick()">CERRAR</button>
+</div>

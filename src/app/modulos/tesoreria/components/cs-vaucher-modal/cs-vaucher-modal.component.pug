@@ -1,0 +1,51 @@
+h1(mat-dialog-title, *ngIf="!hideType") Comprobantes
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+.cs-row.theme-treasury(*ngIf="hideType")
+    .cs-panel
+        button(mat-icon-button, (click)="backOne()", *ngIf="!isDelete")
+            mat-icon arrow_back
+        button(mat-icon-button, (click)="backTwo()", *ngIf="isDelete")
+            mat-icon arrow_back
+
+
+        p {{ doc_selected.tipo_documento | csCapitalize }} {{ doc_selected.nro_documento }}
+
+    button(mat-icon-button, *ngIf="isDelete", (click)="edit()")
+        mat-icon create
+
+mat-card.theme-treasury(*ngIf="isEdit")
+    mat-form-field.full-width((focus)="onFocus($event)")
+        input(matInput, [(ngModel)]="number", #autoFocus, (keyup)="addChange($event)")
+
+div.theme-treasury(mat-dialog-content)
+    form.cs-padding(*ngIf="!hideType")
+        mat-radio-group((change)="onChangeVaucher($event)")
+            mat-radio-button(*ngFor="let doc of documents; let i = index",value="{{doc.tipo_documento}}", labelPosition="before", (change)="selectDocument(doc, i)") {{doc.info}}
+                .cs-number {{ doc.nro_documento }}
+
+    form.cs-padding(*ngIf="hideType", [class.none]="isDelete")
+        mat-radio-group((change)="onChangeAction($event)", [(ngModel)]="action_selected", name="action_selected")
+            mat-radio-button(value="FILE_DOWNLOAD", labelPosition="before")
+                mat-icon file_download
+                .cs-text Descargar
+
+            mat-radio-button(value="DELETE", labelPosition="before", [disabled]="doc_selected.disabled")
+                mat-icon delete
+                .cs-text Anular
+
+    .cs-content(*ngIf="isDelete")
+        h3 {{ titleDelete }}
+        p {{ descDelete }}
+
+        mat-form-field.full-width.padding-top.padding-bottom(*ngIf="isBoleta")
+            input(matInput, [matDatepicker]="picker", placeholder="Fecha de emisión", [formControl]="date", [(ngModel)]="fecha_emision")
+            mat-datepicker-toggle(matSuffix, [for]="picker")
+                //- matPrefix
+                mat-icon(matDatepickerToggleIcon) date_range
+            mat-datepicker(#picker, panelClass="cs-vaucher-picker")
+
+
+div.theme-treasury(mat-dialog-actions)
+    button(mat-button, color="accent",(click)="actionDocument()", [disabled]="!isActiveButton", cdkFocusInitial) CONFIRMAR

@@ -1,0 +1,10 @@
+div.theme-bsc(*ngIf="!active")
+    //- .cs-container(*ngIf="loader")
+    //-     mat-progress-bar(mode="indeterminate")
+
+    .cs-card
+        img([src]="image")
+        h1 {{ title | csCapitalize }}
+        h2 {{ fullMessage }}
+
+        button(*ngIf="invite", mat-raised-button, color="primary") {{ inviteMessage }}

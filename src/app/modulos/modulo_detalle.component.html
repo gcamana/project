@@ -1,0 +1,6 @@
+<h1>Modulo ID: {{modulo_id}}</h1>
+<button *ngIf="flag_botonCronograma==false" (click)="goToPermiso(1)"> Cronograma </button>
+<button *ngIf="flag_botonCronograma==false" (click)="goToPermiso(2)"> Movimientos </button>
+<button *ngIf="flag_botonCronograma==false" (click)="goToPermiso(3)"> Reportes </button>
+<button *ngIf="flag_botonCronograma==false" (click)="goToPermiso(4)"> Caja </button>
+<button (click)="goBack()">Regresar</button>

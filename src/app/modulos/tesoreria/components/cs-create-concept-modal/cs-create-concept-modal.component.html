@@ -1,0 +1,70 @@
+
+<h1 *ngIf="!isAddConcept" mat-dialog-title>Conceptos
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="cs-add theme-treasury" *ngIf="!isAddConcept">
+  <button mat-mini-fab cdkFocusInitial (click)="toogleConcept()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <p class="padding-left">Asignar persona</p>
+</div>
+<div class="cs-row theme-treasury" *ngIf="isAddConcept">
+  <button mat-icon-button (click)="toogleConcept()">
+    <mat-icon>arrow_back</mat-icon>
+  </button><span>Crear concepto</span>
+</div>
+<div class="theme-treasury no-padding" mat-dialog-content>
+  <mat-table *ngIf="!isAddConcept" #table [dataSource]="conceptos">
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>description</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <mat-header-cell class="w-100" *matHeaderCellDef>Tipo</mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">{{element.type}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <mat-header-cell class="w-100" *matHeaderCellDef>Fecha</mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">{{element.date}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="amount_ref">
+      <mat-header-cell class="w-100" *matHeaderCellDef>Monto ref. (S/)</mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">{{element.amount_ref}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="state">
+      <mat-header-cell class="w-80" *matHeaderCellDef>Estado</mat-header-cell>
+      <mat-cell class="w-80" *matCellDef="let element">
+        <mat-slide-toggle *ngIf="element.flg_edit == 2" [checked]="element.state"></mat-slide-toggle>
+        <mat-icon *ngIf="element.flg_edit == 1" [matTooltip]="element.tooltip">lock</mat-icon>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+  </mat-table>
+  <form *ngIf="isAddConcept" [formGroup]="conceptForm">
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Tipo" formControlName="description">
+      <mat-error *ngIf="conceptForm.controls.description.invalid">Ingresa una descripción</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-select placeholder="Tipo de movimiento" panelClass="cs-treasury-select" formControlName="typeMovement" required>
+        <mat-option *ngFor="let elem of list_type_move" [value]="elem.id_combo">{{ elem.desc_combo }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="conceptForm.controls.typeMovement.invalid">Seleccionar un tipo de movimiento</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width"><span matPrefix>S/ &nbsp;</span>
+      <input matInput onlyNumber placeholder="Monto de referencia" formControlName="amount" name="monto" required>
+      <mat-error *ngIf="conceptForm.controls.amount.invalid">Ingresa un monto</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <mat-paginator *ngIf="!isAddConcept" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+  <div class="cs-buttons">
+    <button *ngIf="!isAddConcept" color="accent" mat-button (click)="onNoClick()">{{ 'cancelar' | uppercase }}</button>
+    <button *ngIf="!isAddConcept" color="accent" mat-button [mat-dialog-close]="data.animal" disabled="true">CONFIRMAR</button>
+    <button *ngIf="isAddConcept" color="accent" mat-button [disabled]="conceptForm.invalid" (click)="createConcept()">{{ 'crear' | uppercase }}</button>
+  </div>
+</div>

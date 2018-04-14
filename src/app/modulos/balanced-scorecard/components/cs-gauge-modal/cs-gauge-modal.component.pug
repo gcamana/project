@@ -1,0 +1,37 @@
+div.theme-bsc
+    mat-progress-bar(mode="indeterminate", *ngIf="isShowProgress")
+
+h1(mat-dialog-title) Editar valores
+div(mat-dialog-content)
+    form.cs-form.theme-bsc
+        mat-form-field.cs-full-width
+            input(matInput, type="tel", color="primary", [placeholder]="ZONA_CRITICIDAD", [(ngModel)]="dataGauge.zona_riesgo", name="zona_riesgo", [errorStateMatcher]="errRiesgo", (keyup)="resetInput('errRiesgo');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ dataGauge.unidad_medida }}
+
+        mat-form-field.cs-full-width
+            input(matInput, type="tel", color="primary", [placeholder]="ZONA_OPTIMA", [(ngModel)]="dataGauge.valor_amarillo", name="valor_amarillo", [errorStateMatcher]="errVulnerable", (keyup)="resetInput('errVulnerable');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ dataGauge.unidad_medida }}
+
+        mat-form-field.cs-full-width(*ngIf="dataGauge.meta_visible")
+            input(matInput, type="tel", color="primary", [placeholder]="COLOR_VERDE", [(ngModel)]="dataGauge.valor_meta", name="valor_meta", [errorStateMatcher]="errMeta", (keyup)="resetInput('errMeta');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ dataGauge.unidad_medida }}
+
+        mat-form-field.cs-full-width(*ngIf="dataGauge.tipo_calculo != 'PORCENTAJE' && dataGauge.tipo_calculo != undefined")
+            input(matInput, type="tel", color="primary", [placeholder]="ZONA_INICIAL", [(ngModel)]="dataGauge.valor_inicial", name="valor_inicial", [errorStateMatcher]="errInicial", (keyup)="resetInput('errInicial');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ dataGauge.unidad_medida }}
+
+        mat-form-field.cs-full-width(*ngIf="dataGauge.tipo_calculo != 'PORCENTAJE' && dataGauge.tipo_calculo != undefined")
+            input(matInput, type="tel", color="primary", [placeholder]="ZONA_FINAL", [(ngModel)]="dataGauge.valor_final", name="valor_final", [errorStateMatcher]="errFinal", (keyup)="resetInput('errFinal');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ dataGauge.unidad_medida }}
+
+div.theme-bsc(mat-dialog-actions)
+    button(mat-button, (click)="onNoClick()", color="primary") CERRAR
+    button(*ngIf="dataGauge.view == 'detail'"     , mat-button, color="primary", cdkFocusInitial, (click)="guardarDataGauge()", [disabled]="btnDisable") GUARDAR
+    button(*ngIf="dataGauge.view == 'perspectiva'", mat-button, color="primary", cdkFocusInitial, (click)="guardarValuesDash()", [disabled]="") GUARDAR
+    button(*ngIf="dataGauge.view == 'objetivo'"   , mat-button, color="primary", cdkFocusInitial, (click)="guardarValuesObj()") GUARDAR
+    button(*ngIf="dataGauge.view == 'general'"    , mat-button, color="primary", cdkFocusInitial, (click)="guardarValuesGeneral()") GUARDAR

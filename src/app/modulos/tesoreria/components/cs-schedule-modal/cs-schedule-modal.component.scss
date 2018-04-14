@@ -1,0 +1,97 @@
+@import './../../../../variables';
+h1 {
+    justify-content: space-between;
+    display: flex;
+}
+
+.cs-padding {
+    padding-left: .5rem;
+}
+
+.mat-card {
+    padding: 14px 16px 0 16px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.mat-form-field {
+    width: calc(100% / 4 - 3px);
+    padding-left: 10px;
+    position: relative;
+    &:before {
+        content: "";
+        height: 28px;
+        width: 1px;
+        background-color: rgba(0, 0, 0, 0.42);
+        display: block;
+        position: absolute;
+        top: 10px;
+        bottom: 0;
+        left: 4px;
+    }
+    &:first-child {
+        padding-left: 0;
+        &:before {
+            display: none;
+        }
+    }
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+    position: relative;
+}
+
+.mat-column-select {
+    overflow: visible;
+}
+
+.mat-cell,
+.mat-header-cell {
+    &:nth-last-child(1) {
+        text-align: right;
+    }
+}
+
+.w-30 {
+    max-width: 30px;
+}
+
+.w-80 {
+    max-width: 80px;
+}
+
+.w-100 {
+    max-width: 100px;
+}
+
+//Table selected active
+.mat-row {
+    position: relative;
+    cursor: pointer;
+    @media screen and (min-width: 1025px) {
+        &:hover {
+            background-color: $muted;
+        }
+    }
+}
+
+.mat-checkbox-checked {
+    transition: max-width 1s linear;
+    &:before {
+        content: "";
+        background-color: #f4f4f4;
+        width: 100%;
+        height: 100%;
+        display: block;
+        top: 0;
+        left: 0;
+        position: absolute;
+        z-index: 0;
+    }
+}
+
+.cs-text {
+    position: relative;
+}

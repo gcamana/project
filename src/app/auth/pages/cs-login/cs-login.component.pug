@@ -1,0 +1,136 @@
+mat-toolbar([ngStyle]="{ 'background-color': primary }")
+    mat-toolbar-row
+        span.cs-spacer
+        a(href="http://smiledu.pe/", target="_blank", [ngStyle]="{ 'color': light }")
+            ghost.isLoading.xl Ayuda
+
+        figure.cs-logo
+            ghost.img.isLoading
+                a(href="http://smiledu.pe/", target="_blank")
+                    img([src]="SMILEDU_ICO")
+
+figure.cs-help(*ngIf="isSkeletonPage")
+    img([src]="MESSAGE_HELP")
+
+.cs-wrapper
+    .cs-content__top([ngStyle]="{ 'background-color': primary }")
+        .cs-row.cs-flex-end(*ngIf="!mobileQuery.matches")
+            .cs-content__inner(*ngIf="isSkeletonPage")
+                figure.cs-doodle
+                    img([src]="LOVE_SCHOOL")
+
+            .cs-content__inner(*ngIf="!isSkeletonPage")
+                figure.cs-iso-logo
+                    img(src="assets/images/icons/iso_smiledu.png")
+
+                    h3 Estamos aquí para ayudarte
+                    p - El equipo de smiledu
+
+        mat-progress-bar(*ngIf="!isSkeletonPage", mode="indeterminate")
+
+    .cs-content__bottom([ngStyle]="{ 'background-color': secondary }")
+        .cs-row(*ngIf="!mobileQuery.matches")
+            .cs-content__inner
+                .cs-text
+                    h3
+                        ghost.isLoading.lg La educación es el pasaporte hacia el futuro.
+                    p
+                        ghost.isLoading.paragraph
+                        ghost.isLoading.paragraph
+                                | La educación es el proceso de facilitar el aprendizaje. Los conocimientos, habilidades, valores, creencias y hábitos de un grupo de personas…
+
+                    ghost.isLoading.gt-button-two
+                        .cs-button-row
+                            button(mat-button)
+                                span ENTÉRATE MÁS
+                                mat-icon open_in_new
+
+                            button.margin-left(mat-button)
+                                span COMPARTIR
+
+
+    .cs-content.cs-wancho
+        .cs-panel
+            mat-card.cs-width.no-padding
+                mat-toolbar.transparent
+                    mat-toolbar-row
+                        button(mat-icon-button, [disabled]="!isSkeletonPage", [matMenuTriggerFor]="appMenu")
+                            mat-icon keyboard_arrow_down
+
+                        mat-menu(#appMenu="matMenu", panelClass="cs-history-session", xPosition="before", yPosition="below")
+                            //- ng-template(matMenuContent)
+                            mat-nav-list
+                                mat-list-item(*ngFor="let user of usersTmp", (click)="selectUser(user)")
+                                    img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+                                    h3(matLine) {{ user.fullName }}
+                                    p(matLine) {{ user.email }}
+                                    button(mat-icon-button)
+                                        mat-icon close
+
+
+                        ghost.img-custom.isLoading
+                            img.cs-form-logo(*ngIf="!userCache", [src]="collegePage?.logo_cole")
+                            mat-list.cs-mat-nav-list(*ngIf="userCache")
+                                mat-list-item
+                                    img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+                                    h3(matLine) {{ userCache?.fullName }}
+                                    p(matLine) {{ userCache?.email }}
+
+                        span.cs-spacer
+                            ghost.isLoading.md
+
+                        button(*ngIf="isSkeletonPage", mat-icon-button, [matMenuTriggerFor]="popover")
+                            mat-icon more_vert
+                        mat-menu(#popover="matMenu",  xPosition="before", yPosition="below")
+                            button(mat-menu-item)
+                                mat-icon info_outline
+                                | Mi escuela
+                            button(mat-menu-item)
+                                mat-icon announcement
+                                | Sugerencias
+
+                form([formGroup]="newUserForm")
+                    ghost.isLoading.cs-input-full
+                        mat-form-field.full-width(#formColor)
+                            input(matInput, placeholder="Usuario o correo", [value]="userCache?.email", formControlName="username")
+
+                    ghost.isLoading.cs-input-full
+                        mat-form-field.full-width(#formColor)
+                            input(matInput, type="password", placeholder="Contraseña", formControlName="password")
+
+                    ghost.isLoading.md
+                        a([ngStyle]="{ 'color': primary }", [matMenuTriggerFor]="menu") ¿Has olvidado cómo ingresar?
+                        mat-menu(#menu="matMenu")
+                            button(mat-menu-item, (click)="openFortgotUser('password')") ¿Has olvidado tu contraseña?
+                            button(mat-menu-item, (click)="openFortgotUser('usuario')") ¿Has olvidado tu usuario?
+
+
+                .cs-action
+                    ghost.isLoading.gt-button
+                        button.full-width((click)="login()", mat-raised-button, [ngStyle]="newUserForm.valid ? { 'background-color': primary } : {}", [disabled]="!newUserForm.valid") SIGUIENTE
+
+                    .cs-line
+                        ghost.isLoading.xl O conectar con
+
+                .cs-connect
+                    ghost.isLoading.gt-btn-icon.circle
+                        button(mat-icon-button)
+                            img([src]="ICON_FACEBOOK")
+                    ghost.isLoading.gt-btn-icon.circle
+                        button(mat-icon-button)
+                            img([src]="ICON_GOOGLE")
+                    ghost.isLoading.gt-btn-icon.circle
+                        button(mat-icon-button)
+                            img([src]="ICON_OUTLOOK")
+
+            .cs-p.cs-width
+                ghost.isLoading.xl.min-height
+                    p Haciendo clic en ‘Ingresar’, estoy de acuerdo con
+                        a Términos y condiciones
+                        | de Smiledu, y
+                        a Política de privacidad
+
+        .cs-panel(*ngIf="!mobileQuery.matches")
+            mat-card.cs-width.no-padding.transparent
+
+footer-component(*ngIf="isSkeletonPage",[color]="primary")

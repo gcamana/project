@@ -1,0 +1,133 @@
+@import './../../../../variables';
+.wrapper{
+    padding: 0 92px;
+    position: relative;
+    @media screen and (max-width: 1024px) {
+        padding: 0 42px;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 0 24px;
+    }
+}
+.cs-button-fabs{
+    position: absolute;
+    right: 17px;
+    top: 34px;
+    text-align: center;
+    z-index: 2;
+}
+.col-5, .col-3{
+    &:before{
+        content: "";
+        width: 2px;
+        height: 210px;
+        border-radius: 3px;
+        background-color: $muted;
+        display: block;
+        position: absolute;
+    }
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+}
+/*user*/
+.cs-list {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    padding: 10px 8px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    &.hover {
+        &.active,
+        &:hover {
+            box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+.cs-list-item,
+.cs-list-item__title {
+    display: flex;
+    align-items: center;
+}
+
+.cs-list-item {
+    span {
+        &.cs-red {
+            color: $red;
+        }
+        &.cs-green {
+            color: $green;
+        }
+    }
+}
+
+.cs-list-item__title {
+    font-weight: 400;
+    opacity: .7;
+}
+.columns-accor{
+    padding-right: 16px;
+    padding-left: 16px;
+}
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number{
+    color:#fff !important;
+}
+//table
+.caja_table{
+    padding-top: 30px
+}
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  .mat-cell {
+    img {
+        width: 27px;
+        height: 27px;
+        display: block;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: auto;
+    }
+}
+// table finish
+//form
+.cs-flex{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.cs-filter-content {
+    padding:  0 32px;
+}
+.cs-flex .mat-icon {
+    color: rgba(0, 0, 0, 0.5);
+}
+.cs-filter-text {
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+.button-row{
+    justify-content: flex-end;
+    display: flex;
+}
+//form finish
+//calendar
+
+//calendar finish
+.min_width{
+    min-width: 310px;
+}
+#ocultar{
+    display:none;
+    transition: 1s ease-out;
+}

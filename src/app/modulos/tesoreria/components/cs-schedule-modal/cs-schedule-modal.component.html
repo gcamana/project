@@ -1,0 +1,90 @@
+
+<h1 class="theme-treasury" mat-dialog-title>Cronograma
+  <mat-slide-toggle labelPosition="before">¿Prorrateo?</mat-slide-toggle>
+</h1>
+<mat-list class="no-padding">
+  <mat-list-item><img matListAvatar [src]="UNKNOWN_USER_IMAGE">
+    <p matLine><strong>Giovanni</strong><span class="cs-padding">Camana Infanzon</span></p>
+  </mat-list-item>
+</mat-list>
+<mat-card class="theme-treasury">
+  <mat-form-field>
+    <input type="text" placeholder="Año" aria-label="Año" matInput [formControl]="year" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let year of filteredOptions | async" [value]="year"> {{ year }}</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Sede" panelClass="cs-treasury-select">
+      <mat-option *ngFor="let food of foods" [value]="food.value">{{ food.viewValue }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Programa" panelClass="cs-treasury-select">
+      <mat-option *ngFor="let food of foods" [value]="food.value">{{ food.viewValue }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Grado" panelClass="cs-treasury-select">
+      <mat-option *ngFor="let food of foods" [value]="food.value">{{ food.viewValue }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-card>
+<div class="theme-treasury no-padding" mat-dialog-content>
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <mat-header-cell class="w-30" *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() &amp;&amp; isAllSelected()" [indeterminate]="selection.hasValue() &amp;&amp; !isAllSelected()"></mat-checkbox>
+      </mat-header-cell>
+      <mat-cell class="w-30" *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>
+        <div class="cs-text">description</div>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <div class="cs-text">{{element.description}}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date_start">
+      <mat-header-cell class="w-100" *matHeaderCellDef>
+        <div class="cs-text">Fec.ini.</div>
+      </mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">
+        <div class="cs-text">{{element.date_start}}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date_finished">
+      <mat-header-cell class="w-100" *matHeaderCellDef>
+        <div class="cs-text">Fec.venc.</div>
+      </mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">
+        <div class="cs-text">{{element.date_finished}}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="data_prorroteo">
+      <mat-header-cell class="w-100" *matHeaderCellDef>
+        <div class="cs-text">Fec.prorroteo</div>
+      </mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">
+        <div class="cs-text">{{element.data_prorroteo}}</div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="total">
+      <mat-header-cell class="w-80" *matHeaderCellDef>
+        <div class="cs-text">Total(S/)</div>
+      </mat-header-cell>
+      <mat-cell class="w-80" *matCellDef="let element">
+        <div class="cs-text">{{element.total}}</div>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+  </mat-table>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button color="accent" mat-button (click)="onNoClick()">{{ 'cancelar' | uppercase }}</button>
+  <button color="accent" mat-button [mat-dialog-close]="data.animal" cdkFocusInitial disabled="true">CONFIRMAR</button>
+</div>

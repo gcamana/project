@@ -1,0 +1,218 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+  <mat-card-header>
+    <mat-card-title class="lbl-titulo">{{cronograma_Nombre}}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="row">
+
+      <!--<button  style="margin-left:15%;display:inline;" type="button"  class="my-btn mdl-button mdl-js-button " 
+            data-toggle="modal" data-target="#modalDetalleCronograma" >
+            <i class="material-icons">settings</i><label class="lbl-btn"> Cuota por Mes</label>
+            </button>-->
+      <button mat-icon-button data-toggle="modal" style="margin-left:140px;color:#5cb85c" data-target="#modalCrearCuotaXMes" [disabled]="disable">
+        <mat-icon aria-label="Example icon-button with a heart icon">
+          settings</mat-icon>
+        <label style="cursor:pointer"> Cuota por Mes</label>
+      </button>
+      <button mat-icon-button data-toggle="modal" style="margin-left:200px;color:#5cb85c" data-target="#modalDetalleCronograma"
+        (click)="openmodalIngresarCronograma()" [disabled]="disable">
+        <mat-icon aria-label="Example icon-button with a heart icon">
+          add</mat-icon>
+        <label style="cursor:pointer"> Nuevo Concepto</label>
+      </button>
+      <button mat-icon-button data-toggle="modal" style="margin-left:260px;color:#5cb85c" (click)="deshabilitar()" [disabled]="disable">
+        <mat-icon aria-label="Example icon-button with a heart icon">
+          lock</mat-icon>
+        <label style="cursor:pointer"> Definir Cuotas</label>
+      </button>
+    </div>
+    <table style="margin: 0 auto; margin-top: 0.5cm;" *ngIf="detalle_cronograma_datos.length > 0" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+      <thead>
+
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">#</td>
+          <td class="mdl-data-table__cell--non-numeric">Descripción</td>
+          <td class="mdl-data-table__cell--non-numeric">%Mora</td>
+          <td class="mdl-data-table__cell--non-numeric">Fecha de Vencimiento</td>
+          <td class="mdl-data-table__cell--non-numeric">Fecha de Descuento</td>
+          <td class="mdl-data-table__cell--non-numeric">¿Aplica Beca?</td>
+          <!--<td class="mdl-data-table__cell--non-numeric">Tipo</td>-->
+          <!--<td class="mdl-data-table__cell--non-numeric">Cantidad de conceptos</td>-->
+          <td class="mdl-data-table__cell--non-numeric">Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let _d_Crono of detalle_cronograma_datos; let i = index">
+          <td class="mdl-data-table__cell--non-numeric">{{i+1}}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{_d_Crono.desc_detalle_crono}}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{_d_Crono.cantidad_mora}}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{_d_Crono.fecha_vencimiento}}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{_d_Crono.fecha_descuento}}</td>
+          <!--<td class="mdl-data-table__cell--non-numeric">{{_d_Crono.flg_beca}}</td>-->
+          <td class="mdl-data-table__cell--non-numeric">
+            <!--<button id="btnF-{{i}}" class="btn btn-default" *ngIf="flag_ocultar[i]==true" (click)="aplicaBeca(i,_d_Crono.id_detalle_cronograma)" 
+            style="margin: 0 auto;background-color: #8DE880;">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    </button>-->
+
+            <button type="button" [disabled]="disabled[i]" (click)="aplicaBeca(i,_d_Crono.id_detalle_cronograma)" class="btn btn-sm btn-toggle"
+              *ngIf="flag_ocultar[i]==true" data-toggle="button" aria-pressed="false" autocomplete="off">
+              <div class="handle"></div>
+            </button>
+
+            <button [disabled]="disabled[i]" type="button" (click)="aplicaBeca(i,_d_Crono.id_detalle_cronograma)" class="btn btn-sm btn-toggle active"
+              *ngIf="flag_ocultar[i]==false" data-toggle="button" aria-pressed="true" autocomplete="off">
+              <div class="handle"></div>
+            </button>
+            <!--<button class="btn btn-default" *ngIf="flag_ocultar[i]==false" (click)="aplicaBeca(i,_d_Crono.id_detalle_cronograma)" 
+            style="margin: 0 auto;background-color: #DF4444;">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    </button>          -->
+          </td>
+          <td class="mdl-data-table__cell--non-numeric">
+            <!--<td class="mdl-data-table__cell--non-numeric">{{_d_Crono.flg_tipo}}</td>-->
+            <!--<td class="mdl-data-table__cell--non-numeric">{{_d_Crono.count}}</td>-->
+            <button type="button" class="mdl-button mdl-js-button mdl-button--icon" *ngIf="lockButton" (click)="editar(_d_Crono.desc_detalle_crono,_d_Crono.cantidad_mora
+            , _d_Crono.fecha_vencimiento,_d_Crono.fecha_descuento,_d_Crono.id_detalle_cronograma  )">
+              <i class="material-icons">create</i>
+            </button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--icon" *ngIf="lockButton" (click)="eliminarDetalle(i,_d_Crono.id_detalle_cronograma)">
+              <i class="material-icons">delete</i>
+            </button>
+            <button mat-icon-button disabled *ngIf="lockButton==false">
+              <mat-icon matTooltip="Deshabilitado!" aria-label="lock">lock</mat-icon>
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div *ngIf="detalle_cronograma_datos.length == 0" class="img-search" id="cont_img_search_alum">
+      <img src="assets/img/smiledu_faces/not_data_found.png">
+      <p>No se encontraron conceptos de pago</p>
+    </div>
+  </mat-card-content>
+
+</mat-card>
+<div style="margin: 0 auto;margin-top: 1cm;">
+
+  <!--<button style="margin-left: 26cm;display:inline;" type="button" class="mdl-button mdl-js-button mdl-button--icon" (click) = "regresarCronograma()"  > 
+         <i class="material-icons">arrow_left_bold</i> </button>-->
+
+
+</div>
+<hr>
+
+<!-- MODAL Nuevo Concepto -->
+<div #modalDetalleCronograma class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal contenido-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title">Nuevo Cronograma</h4>
+      </div>
+      <div class="modal-body">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field>
+                <!-- [formControl]="conceptoFormControl" -->
+                <input matInput maxlength="100" #conceptoInput placeholder="Nombre del concepto" [(ngModel)]="desc_cronograma" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="conceptoFormControl.hasError('required')">
+                  El Nombre de Concepto es
+                  <strong>necesario</strong>
+                </mat-error>
+                <mat-hint align="end">{{ conceptoInput.value.length}} / 100 </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field>
+                <!-- [formControl]="moraFormControl" -->
+                <input matInput maxlength="7" placeholder="Cantidad de Mora" [(ngModel)]="mora" moraFormControl [errorStateMatcher]="matcher">
+                <mat-error *ngIf="moraFormControl.hasError('pattern') && !moraFormControl.hasError('required')">
+                  Ingrese una mora correcta
+                </mat-error>
+                <mat-error *ngIf="moraFormControl.hasError('required')">
+                  La mora es
+                  <strong>necesario</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="fechaVenc" placeholder="Fecha de Vencimiento " disabled>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker disabled="false"></mat-datepicker>
+
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field>
+                <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="fechaDesc" placeholder="Fecha de Descuento" disabled>
+                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker disabled="false"></mat-datepicker>
+              </mat-form-field>
+              <button mat-icon-button (click)="limpiarFechaDesc()">
+                <mat-icon style="font-size: 15px;">backspace</mat-icon>
+              </button>
+            </div>
+            <mat-radio-group class="example-radio-group">
+              <mat-radio-button style="margin:5px" class="example-radio-button" *ngFor="let _tipoCuota of tipoCuotaDatos; let i = index"
+                [value]="_tipoCuota.id_tipo_cuota">
+                {{_tipoCuota.desc_tipo_cuota}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </mat-card-content>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="crearDetalleCronograma()">
+          Guardar</button>
+        <button type="button" class="btn btn-default" (click)="closemodalIngresarCronograma()">
+          Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL Cuotas -->
+<div id="modalCrearCuotaXMes" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal contenido-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+        <h4 class="modal-title">Cuota por mes</h4>
+      </div>
+      <div class="modal-body">
+        <mat-card-content>
+          <div class="row">
+            <div *ngFor="let _cuotaMes of cuota_x_mes_datos; let i = index" class="col-sm-6 mdl-input-group mdl-input-group__only">
+              <mat-form-field>
+                <!-- [formControl]="cuotaFormControl[i]" -->
+                <input matInput maxlength="2" placeholder="{{_cuotaMes.mes}}" [(ngModel)]="cuota_x_mes_datos[i].cant_cuotas" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="cuotaFormControl[i].hasError('pattern') && !cuotaFormControl[i].hasError('required')">
+                  Ingrese una cuota correcta
+                </mat-error>
+                <mat-error *ngIf="cuotaFormControl[i].hasError('required')">
+                  La cuota es
+                  <strong>necesaria</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="updateCuotaXMes()">
+          Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

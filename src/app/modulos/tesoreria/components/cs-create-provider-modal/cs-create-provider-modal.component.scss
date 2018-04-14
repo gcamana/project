@@ -1,0 +1,125 @@
+@import './../../../../variables';
+.cs-row {
+    display: flex;
+    align-items: center;
+}
+
+form {
+    padding: 24px;
+}
+
+.cs-profile-image {
+    position: relative;
+    max-width: 12rem;
+    max-height: 12rem;
+    margin: auto;
+    margin-bottom: 4rem;
+    &:hover {
+        label {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    img {
+        width: 12rem;
+        height: 12rem;
+        display: block;
+        border-radius: 50%;
+        margin: auto;
+        object-fit: cover;
+    }
+    .mat-icon {
+        height: 34px;
+        width: 34px;
+        font-size: 34px;
+        color: $light;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        transition: .3s all ease;
+    }
+    label {
+        background-color: rgba($light, .4);
+        z-index: 0;
+        opacity: 0;
+        cursor: pointer;
+        visibility: hidden;
+    }
+
+    label ,
+    #cs-file {
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 12rem;
+        height: 12rem;
+        display: block;
+        position: absolute;
+    }
+
+    #cs-file {
+        z-index: 1;
+        opacity: 0;
+        -moz-opacity: 0;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+    }
+}
+
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.cs-add {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    p {
+        margin-bottom: 0;
+    }
+}
+
+.cs-padding {
+    padding-left: .5rem;
+}
+
+.mat-table {
+    overflow: auto; // max-height: 500px;
+    position: relative;
+}
+
+.mat-cell {
+    img {
+        width: 25px;
+        height: 25px;
+        object-fit: cover;
+        display: block;
+        margin: auto;
+        border-radius: 50%;
+    }
+}
+
+.mat-cell,
+.mat-header-cell {
+    &:nth-last-child(1) {
+        text-align: right;
+        overflow: visible;
+    }
+}
+
+.w-40 {
+    max-width: 40px;
+}
+
+.w-80 {
+    max-width: 80px;
+}
+
+.w-100 {
+    max-width: 100px;
+}

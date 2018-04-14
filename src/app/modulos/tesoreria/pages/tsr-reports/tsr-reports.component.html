@@ -1,0 +1,85 @@
+
+<div class="theme-treasury">
+  <cs-shrinking-header-component [headerHeight]="mobileQuery.matches ? 128 : 192" [offset]="mobileQuery.matches ? 45 : 64" [margin]="3">
+    <div class="wrapper"><span class="hideTitle" (click)="backPage()">Reportes</span></div>
+  </cs-shrinking-header-component>
+</div>
+<mat-sidenav-container class="theme-treasury margin-minus-top">
+  <mat-sidenav class="margin-top-64" #tsrsidenav [class.mobile-mat-sidenav]="mobileQuery.matches" [mode]="mobileQuerySide.matches ? 'over': 'side'" position="start" [opened]="mobileQuerySide.matches ? false : true">
+    <div class="cs-calendar-content">
+      <mat-toolbar class="transparent">
+        <mat-toolbar-row class="cs-mat-toolbar-row" [class.no-padding-left]="isFilterMode">
+          <button mat-icon-button (click)="toggleFilter()">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+          <div class="cs-filter-text">Filtrar</div><span class="cs-spacer"></span>
+          <button mat-icon-button (click)="toggleFilter()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <button mat-icon-button (click)="mobileQuery.matches ? closeSidenav() : tsrsidenav.close()">
+            <mat-icon aria-label="Example icon-button with a heart icon">{{ mobileQuerySide.matches ?  "close" : "arrow_back" }}</mat-icon>
+          </button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="cs-action">
+        <form [formGroup]="newSelectForm">
+          <mat-form-field class="full-width">
+            <mat-select panelClass="cs-treasury-select" placeholder="Selecc. tipo reporte" formControlName="type">
+              <mat-option *ngFor="let report of typeReports" [value]="report.value"> {{ report.viewValue }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <div class="cs-buttons">
+          <button mat-button color="accent" [disabled]="!newSelectForm.valid">CANCELAR</button>
+          <button mat-button color="accent" [disabled]="!newSelectForm.valid">ACEPTAR</button>
+        </div>
+      </div>
+    </div>
+    <div class="cs-filter-content" *ngIf="isFilterMode">
+      <form [formGroup]="newDateForm">
+        <div class="cs-flex">
+          <button mat-icon-button color="accent" (click)="startDate.open()">
+            <mat-icon>date_range</mat-icon>
+          </button>
+          <mat-form-field class="full-width">
+            <input matInput #focusStart [matDatepicker]="startDate" placeholder="Fecha de inicio" formControlName="startDate">
+            <mat-datepicker #startDate panelClass="tsr-datapicker"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="cs-flex">
+          <button mat-icon-button color="accent" (click)="stopDate.open()">
+            <mat-icon>date_range</mat-icon>
+          </button>
+          <mat-form-field class="full-width">
+            <input matInput #focusStop [matDatepicker]="stopDate" placeholder="Fecha fin" formControlName="stopDate">
+            <mat-datepicker #stopDate panelClass="tsr-datapicker"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </form>
+      <div class="button-row">
+        <button mat-button color="accent" (click)="toggleFilter()">{{ 'cancelar' | uppercase }}</button>
+        <button mat-button color="accent" [disabled]="!newDateForm.valid" (click)="filterDate()">{{ 'aceptar' | uppercase }}</button>
+      </div>
+    </div>
+    <div class="cs-action">
+      <cs-expired-pensions [title]="'Expired'"></cs-expired-pensions>
+      <cs-reports-history [title]="'Selecciones pineadas'" [data]="historicos"></cs-reports-history>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="transparent" [class.fixed-mobile]="mobileQuery.matches">
+      <mat-toolbar-row>
+        <button class="margin-top-128" mat-icon-button *ngIf="!tsrsidenav._opened" (click)="mobileQuery.matches ? openSidenav() : tsrsidenav.toggle()">
+          <mat-icon aria-label="Example icon-button with a heart icon">{{ mobileQuery.matches ?  'keyboard_arrow_up' : 'arrow_forward' }}</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="wrapper cs-margin-minus-top" id="tsr-wrapper" [class.open]="!tsrsidenav._opened">
+      <div class="cs-box mat-elevation-z8">
+        <div class="cs-content">
+          <cs-empty [message]="messageEmpty" [image]="EMPTY_TESORERIA" [title]="'Realiza los pagos o cobranzas'"></cs-empty>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

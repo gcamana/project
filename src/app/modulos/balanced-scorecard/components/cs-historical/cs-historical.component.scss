@@ -1,0 +1,65 @@
+@import './../../../../variables';
+
+mat-icon {
+    color: rgba($color: #000000, $alpha: .56) !important;
+}
+
+.accordion-head {
+    position: relative;
+    width: 100%;
+    h3,
+    .button-row {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    h3 {
+        margin: 0;
+        line-height: 40px;
+        color: rgba($color: #000000, $alpha: .86) !important;
+    }
+    .button-row {
+        float: right;
+    }
+}
+
+.accordion-body {
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s linear;
+    &.active {
+        height: 100%;
+        opacity: 1;
+        visibility: visible;
+        padding-top: 15px;
+    }
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0); }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.dialog-header {
+    font-size: 1.4rem;
+}

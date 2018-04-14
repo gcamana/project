@@ -1,0 +1,48 @@
+h1(*ngIf="!isFileSelected", mat-dialog-title)
+    img([src]="data.card.image")
+
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.cs-row.theme-treasury(*ngIf="isFileSelected")
+    button(mat-icon-button, (click)="toggle()")
+        mat-icon arrow_back
+
+    img([src]="data.card.image")
+
+div.theme-treasury.no-padding(mat-dialog-content)
+    mat-list(*ngIf="!isFileSelected")
+        div(*ngFor = "let company of data.company")
+            mat-divider
+            mat-list-item 
+                h4(mat-line) {{ company.razon_social }}
+                button(mat-icon-button, (click)="openFile(company.id_empresa)")
+                    mat-icon(color="accent") file_upload
+        mat-divider
+
+    .cs-table(*ngIf="isFileSelected")
+        p Empresa de servicios Privados
+        mat-table(#table, [dataSource]="dataSource")
+            ng-container(matColumnDef="fee")
+                mat-header-cell(*matHeaderCellDef) Cuota
+                mat-cell(*matCellDef="let element")
+                    
+                        span {{element.fee}}
+                        mat-icon(*ngIf="element.icon", [ngClass]="element.icon == 'warning' ? 'cs-red': 'cs-yellow'") {{ element.icon }}
+
+            ng-container(matColumnDef="student")
+                mat-header-cell(*matHeaderCellDef) Estudiante
+                mat-cell(*matCellDef="let element")
+                    img([src]="UNKNOWN_USER_IMAGE")
+                    span {{element.student}}
+
+            ng-container(matColumnDef="quantity")
+                mat-header-cell.w-100.text-right(*matHeaderCellDef) Cantidad S/
+                mat-cell.w-100.text-right(*matCellDef="let element") {{element.quantity}}
+
+            mat-header-row(*matHeaderRowDef="displayedColumns")
+            mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+input(type="file", style="display:none", #fileTxt, (change)="fileChangeEvent($event)")
+div.theme-treasury(*ngIf="isFileSelected", mat-dialog-actions)
+    button(mat-button, color="accent", [mat-dialog-close]="data.animal", cdkFocusInitial, (click)="uploadPayments()") CONFIRMAR

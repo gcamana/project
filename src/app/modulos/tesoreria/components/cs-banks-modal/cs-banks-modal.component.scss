@@ -1,0 +1,17 @@
+@import './../../../../variables';
+.col-5, .col-3{
+    &:before{
+        content: "";
+        width: 2px;
+        height: 210px;
+        border-radius: 3px;
+        background-color: $muted;
+        display: block;
+        position: absolute;
+    }
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+}

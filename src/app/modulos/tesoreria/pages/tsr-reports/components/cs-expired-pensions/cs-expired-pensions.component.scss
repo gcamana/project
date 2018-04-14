@@ -1,0 +1,10 @@
+@import '../../../../../../variables';
+
+h3 {
+    color: $gray;
+    font-size: 16px !important;
+}
+
+.cs-rotate {
+    transform: rotate(45deg);
+}

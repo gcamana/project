@@ -1,0 +1,388 @@
+.theme-treasury
+    cs-shrinking-header-component([ngClass]="tsrsidenav._opened ? 'cs-parche' : 'cs-parche-hide' ", [headerHeight]="mobileQuery.matches ? 192 : 256", [offset]="mobileQuery.matches ? 45: 64")
+        .wrapper
+            span.font-size-56([class.hideTitle]="displayTitle", (click)="backPage()") Movimientos
+
+
+mat-sidenav-container.theme-treasury.cs-margin-minus-top
+    mat-sidenav.margin-top-64(#tsrsidenav, [class.mobile-mat-sidenav]="mobileQuery.matches", [mode]="mobileQuerySide.matches ? 'over': 'side'", position="start", [opened]="mobileQuerySide.matches ? false : true")
+        .mat-wrapper
+            .mat-item
+                mat-icon search
+
+            .mat-item
+                mat-form-field(floatLabel="never")
+                    input(matInput, type="text", placeholder="Buscar", [(ngModel)]="filter", (keyup)="filterUsers($event, 0)")
+                    button(mat-button, *ngIf="filter", matSuffix, mat-icon-button, aria-label="Clear", (click)="filter=''")
+                        mat-icon close
+            .mat-item
+                button(mat-icon-button, [matMenuTriggerFor]="menuFiltro")
+                    mat-icon sort
+                mat-menu(#menuFiltro="matMenu", yPosition="below", xPosition="before")
+                    button(mat-menu-item, (click)="filterByTipo(1, '')")
+                        span Todos
+                    button(mat-menu-item, (click)="filterByTipo(2, 'Estudiantes')")
+                        span Estudiantes
+                    button(mat-menu-item, (click)="filterByTipo(3, 'Colaboradores')")
+                        span Colaboradores
+                    button(mat-menu-item, (click)="filterByTipo(4, 'Colaboradores PP.FF.')")
+                        span Colaboradores PP.FF.
+                    button(mat-menu-item, (click)="filterByTipo(5, 'Proveedores')")
+                        span Proveedores
+
+            .mat-item
+                button(mat-icon-button, (click)='mobileQuery.matches ? closeSidenav() : tsrsidenav.close()')
+                    mat-icon {{ mobileQuerySide.matches ?  "close" : "arrow_back" }}
+
+        .cs-info
+            h3.cs-sort-title(*ngIf="users.length > 0") {{ filter_name }}
+            .cs-side-wrapper.m-130([ngClass]="isOpen ? 'cs-show' : 'cs-hide' ", *ngIf="users.length > 0", (scroll)="onScrollOne($event)")
+                cs-user-connented([users]="users", (selectUser)="selectUser($event)")
+
+            p.text-center.padding-top(*ngIf="messageUserConnect") {{ messageUserConnect }}
+
+            #cs-click-1.cs-figure__click([class.sombra_1]="isOpen", *ngIf="users.length > 4")
+                button(mat-icon-button, (click)="openToggle()")
+                    mat-icon {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+
+            .cs-figure-title
+                h2 Últimos registros
+                .cs-amount
+                    span S/ {{ current_money }}
+                    button(mat-icon-button, [matMenuTriggerFor]="menuCaja")
+                        mat-icon.cs-icon account_balance_wallet
+
+                    mat-menu(#menuCaja="matMenu", yPosition="below", xPosition="before")
+                        button(mat-menu-item, (click)="openDialogCash(1)", [disabled]="this.estado_caja != null && this.estado_caja != 'CERRADA'")
+                            span(*ngIf="this.estado_caja == null") Aperturar
+                            span(*ngIf="this.estado_caja == 'CERRADA' || this.estado_caja == 'APERTURADA'") Reaperturar
+                        button(mat-menu-item, [disabled]="this.estado_caja != 'APERTURADA'", (click)="openDialogCash(2)")
+                            span Cerrar
+
+                        button(mat-menu-item, (click)="openShareCash()", [disabled]="this.estado_caja != 'APERTURADA'")
+                            img(*ngIf="caja_share.name != null", [src]="caja_share.foto || UNKNOWN_USER_IMAGE", matTooltip="{{caja_share.name}}")
+                            span Compartir
+
+                        mat-divider
+                        button(mat-menu-item, routerLink="/tesoreria/caja")
+                            span Ir a caja
+
+            .cs-side-wrapper.m-308([ngClass]="!isOpen ? 'cs-show' : 'cs-hide' ", (scroll)="onScrollTwo($event)")
+                cs-user-last-register([users]="users_historical", [current_money]="current_money")
+
+            #cs-click-2.cs-figure__click(*ngIf="users_historical.length > 6")
+                button(mat-icon-button, (click)="openToggle()")
+                    mat-icon {{ !isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+
+    mat-sidenav-content
+        mat-toolbar.transparent
+            mat-toolbar-row
+                button.margin-top-128(mat-icon-button, *ngIf="!tsrsidenav._opened", (click)="mobileQuery.matches ? openSidenav() : this.tsrsidenav.toggle()")
+                    mat-icon arrow_forward
+
+        .wrapper.cs-margin-minus-top#tsr-wrapper([class.open]="!this.tsrsidenav._opened")
+            .cs-button-fabs
+                button.cs-button-fab(mat-fab, (click)="toggleMoreFabs(); tooltip.hide()")
+                    mat-icon([class.rotate]="!isOpenFab") close
+
+                .cs-fabs([class.active]="isOpenFab")
+                    button(mat-raised-button, #tooltip="matTooltip", mat-icon-button, matTooltip="Conceptos" , matTooltipPosition="before", (click)="openCreateConcept()")
+                        mat-icon build
+
+                    button(mat-raised-button, #tooltip="matTooltip", mat-icon-button, matTooltip="Proveedores" , matTooltipPosition="before", (click)="openCreateProvider()")
+                        mat-icon work
+
+                    button(mat-raised-button, #tooltip="matTooltip", mat-icon-button, matTooltip="Comprobantes" , matTooltipPosition="before", (click)="openCreateVoucher()")
+                        mat-icon receipt
+
+            .cs-inner-wrapp.mat-elevation-z6
+                .cs-content(*ngIf="isEmpty")
+                    .cs-panel.width-300
+                        mat-toolbar.transparent
+                            mat-toolbar-row
+                                figure.cs-figure
+                                    img([src]="user_selected.profile_image || UNKNOWN_USER_IMAGE", alt="")
+                                    caption
+                                        strong {{ user_selected.first_name | csCapitalize }}
+                                        span {{ user_selected.last_name | csCapitalize }}
+
+                                    .cs-figure__state(*ngIf="user_selected.role == ESTUDIANTE")
+                                        span([ngClass]="user_selected?.has_prom  ? 'beca'   : ''")
+                                        span([ngClass]="user_selected?.is_debtor ? 'deudor' : 'no-deudor'")
+
+                                span.cs-spacer
+                                button(mat-icon-button, (click)="goTofullscreen()")
+                                    mat-icon.cs-icon fullscreen
+
+                                button(mat-icon-button, [matMenuTriggerFor]="menuInfo",*ngIf="user_selected.role == ESTUDIANTE")
+                                    mat-icon.cs-icon more_vert
+                                mat-menu(#menuInfo="matMenu", yPosition="below", xPosition="before")
+                                    button(mat-menu-item, (click)="goToAssingBeca()")
+                                        span(*ngIf="!user_selected.has_prom") Asignar beca
+                                        span(*ngIf="user_selected.has_prom") Desasignar beca
+                                    button(mat-menu-item, (click)="goToWantBill()")
+                                        span ¿Desea factura?
+
+                        .cs-chart__spline
+                            cs-chart-spline([move_chart]="move_chart", [role]="user_selected.role")
+
+                        div(*ngIf="user_selected.role == ESTUDIANTE")
+                            .cs-detail__student
+                                h3 Detalles de {{user_selected.role | csCapitalize }}
+                                ul
+                                    li
+                                        strong Código del estudiante
+                                        span {{ dataUser.cod_estu }}
+                                    li
+                                        strong Sede
+                                        span {{ dataUser.sede }}
+                                    li
+                                        strong Grado
+                                        span {{ dataUser.grado }}
+                                    li
+                                        strong Aula
+                                        span {{ dataUser.seccion }}
+
+                                h3(*ngIf="familiares.length > 0") Familiares
+                                cs-user-avatar([users]="familiares", [title]="'Familiares'", [type]="'family'")
+
+                                h3(*ngIf="hermanos.length > 0") Hermanos
+                                cs-user-avatar([users]="hermanos", [title]="'Hermanos'",[type]="'brother'", (goToStudent)="selectUser($event)")
+                                
+                                h3(*ngIf="collaboratorSon.length > 0") Hijos en la escuela
+                                cs-user-avatar([users]="collaboratorSon", [title]="'Hijos en la escuela'", [type]="'son'")
+
+                        div(*ngIf="user_selected.role == COLABORADOR")
+                            .cs-detail__student
+                                h3 Detalles de {{user_selected.role | csCapitalize }}
+                                ul
+                                    li
+                                        strong Sede
+                                        span {{ dataUser.sede }}
+                                    li
+                                        strong Nivel
+                                        span {{ dataUser.nivel }}
+                                    li
+                                        strong Área
+                                        span {{ dataUser.area }}
+                                    li
+                                        strong DNI
+                                        span {{ dataUser.nro_doc }}
+                                    li
+                                        strong Teléf.
+                                        span {{ dataUser.telefono }}
+
+                        div(*ngIf="user_selected.role == PROVEEDOR")
+                            .cs-detail__student
+                                h3 Detalles de {{ user_selected.role | csCapitalize }}
+                                ul
+                                    li
+                                        strong Responsable
+                                        span {{ dataUser.responsable }}
+                                    li
+                                        strong Teléfono
+                                        span {{ dataUser.telefono }}
+                                    li
+                                        strong Dirección
+                                        span {{ dataUser.direccion }}
+
+                    .cs-panel
+                        .cs-mat-toolbar
+                            .cs-mat-toolbar-row
+                                h3 Compromisos
+                                span.cs-spacer
+
+                                button(mat-icon-button, matTooltip="Asignar Compromiso", [matMenuTriggerFor]="menuCreateMore")
+                                    mat-icon(svgIcon="create_more")
+
+                                mat-menu(#menuCreateMore="matMenu", yPosition="below", xPosition="before")
+                                    button(mat-menu-item, (click)="openRegisterConcept()")
+                                        span Regular
+
+                                    button(mat-menu-item, (click)="openScheduleModal()")
+                                        span Cronograma
+
+                                button(mat-icon-button, matTooltip="Ordenar por", [matMenuTriggerFor]="menu", *ngIf="user_selected.role == ESTUDIANTE")
+                                    mat-icon.cs-icon sort
+
+                                mat-menu(#menu="matMenu", yPosition="below", xPosition="before")
+                                    button(mat-menu-item, (click)="getMovimientosPendientes(1)")
+                                        span Todo
+                                    button(mat-menu-item, (click)="getMovimientosPendientes(2)")
+                                        span Pendiente
+
+                            mat-toolbar.cs-absolute([class.active]="movementSel.length > 0", color="accent")
+                                p(*ngIf="movementSel.length <= 1; else pBlock")  {{ movementSel.length }}  Compromiso Seleccionado. Total 504.86
+                                ng-template(#pBlock)
+                                    p {{ movementSel.length }}  Compromisos Seleccionados. Total 504.86
+
+                                span.cs-spacer
+                                button(mat-button, (click)="openPayDialog()") PAGAR
+                                    mat-icon.color-light monetization_on
+
+                                button(mat-icon-button, [matMenuTriggerFor]="menuMore")
+                                    mat-icon.color-light more_vert
+                                mat-menu(#menuMore="matMenu",  yPosition="below", xPosition="before")
+                                    button(mat-menu-item, (click)="goToEliminateDebt(i)")
+                                        span Eliminar mora
+
+                                    button(mat-menu-item, (click)="goToDiscount()")
+                                        span Descuentos especiales
+
+                        .cs-container__table(*ngIf="isEmptyTable; else tableBlock")
+                            mat-table(*ngIf="dataMovemets", #table, [dataSource]="dataMovemets")
+                                ng-container(matColumnDef="select")
+                                    mat-header-cell.w-50(*matHeaderCellDef) #
+                                    mat-cell.w-50(*matCellDef="let element")
+                                        div(*ngIf="!element.flg_block")
+                                            mat-checkbox((click)="$event.stopPropagation()", (change)="checkedMovement($event, element)", [checked]="selection.isSelected(row)")
+                                        div(*ngIf="element.flg_block")
+                                            mat-icon([matTooltip]="element.tooltip") lock
+
+                                ng-container(matColumnDef="description")
+                                    mat-header-cell(*matHeaderCellDef) Descripción
+                                    mat-cell(*matCellDef="let element")
+                                        .cs-text {{ element.description | csCapitalize }}
+
+                                ng-container(matColumnDef="total")
+                                    mat-header-cell.w-100(*matHeaderCellDef) Total (S/)
+                                    mat-cell.w-100(*matCellDef="let element")
+                                        .cs-text {{element.total }}
+
+                                ng-container(matColumnDef="date_regi")
+                                    mat-header-cell.w-160(*matHeaderCellDef) Fec. regi
+                                    mat-cell.cs-action1.w-160(*matCellDef="let element")
+                                        .cs-text {{element.date_regi }}
+
+                                ng-container(matColumnDef="debt")
+                                    mat-header-cell.w-100(*matHeaderCellDef) Deuda (S/)
+                                    mat-cell.w-100(*matCellDef="let element")
+                                        .cs-text {{element.debt }}
+
+                                ng-container(matColumnDef="paid")
+                                    mat-header-cell.w-100(*matHeaderCellDef) Pagado (S/)
+                                    mat-cell.w-100(*matCellDef="let element")
+                                        .cs-text {{element.paid }}
+
+                                ng-container(matColumnDef="date_pay")
+                                    mat-header-cell.w-100(*matHeaderCellDef) Fec. pago
+                                    mat-cell.w-100(*matCellDef="let element")
+                                        .cs-text {{element.date_pay }}
+
+                                ng-container(matColumnDef="action")
+                                    mat-header-cell.w-100.text-right(*matHeaderCellDef) Acción
+                                    mat-cell.cs-action.w-100.text-right(*matCellDef="let element")
+                                        div([ngSwitch]="element.accion")
+                                            .cs-color(*ngSwitchCase="PAGADO") {{ element.accion }}
+                                            .cs-color.green(*ngSwitchCase="POR_PAGAR") {{ element.accion }}
+                                            .cs-color.red(*ngSwitchCase="VENCIDO") {{ element.accion }}
+                                            .cs-color.blue(*ngSwitchCase="ANULADO") {{ element.accion }}
+
+                                ng-container(matColumnDef="more")
+                                    mat-header-cell.w-40(*matHeaderCellDef)
+                                    mat-cell.w-40(*matCellDef="let element; let i = index")
+                                        button.cs-hover(mat-icon-button, [matMenuTriggerFor]="menuTable")
+                                            mat-icon.cs-icon more_vert
+
+                                        mat-menu(#menuTable="matMenu", yPosition="below", xPosition="before")
+                                            //- button(mat-menu-item, (click)="anularEgreso( .id_move)")
+                                            div(*ngIf="element.accion == 'PAGADO' && user_selected.role == ESTUDIANTE")
+                                                button(mat-menu-item, (click)="openCancelCommitment(element, i)")
+                                                    span Anular
+                                                button(mat-menu-item, (click)="openRefundMoney()")
+                                                    span Devolución
+                                                button(mat-menu-item, (click)="openPassCredit()")
+                                                    span Pasar saldo
+                                                mat-divider
+                                                button(mat-menu-item, (click)="openVaucher(element)")
+                                                    span Comprobantes
+                                                mat-divider
+                                                button(mat-menu-item, (click)="openInformation(element.id_move)")
+                                                    span Más información
+
+                                            div(*ngIf="element.accion != 'PAGADO' && user_selected.role == ESTUDIANTE")
+                                                button(mat-menu-item, (click)="openCancelCommitment(element, i)")
+                                                    span Anular
+
+                                                button(mat-menu-item, (click)="goToEliminateDebt()")
+                                                    span Eliminar mora
+
+                                                button(mat-menu-item, (click)="goToDiscount()")
+                                                    span Descuentos especiales
+
+                                            div(*ngIf="element.accion == 'RETIRADO' && user_selected.role != ESTUDIANTE")
+                                                button(mat-menu-item, (click)="goToCancelExpenses(element, i)", [disabled]="element.flg_anular_dsbl")
+                                                    span Anular
+
+                                                button(mat-menu-item, (click)="goToRetunExpenses(element, i)", [disabled]="element.flg_vuelto")
+                                                    span Devolución
+
+
+
+
+                                mat-header-row(*matHeaderRowDef="displayedColumns")
+
+                                mat-row(*matRowDef="let row; columns: displayedColumns;", (click)="selection.toggle(row)")
+
+                            mat-paginator(#paginator, [pageSize]="10", [pageSizeOptions]="[5, 10, 20]", [showFirstLastButtons]="true")
+
+                        ng-template(#tableBlock)
+                            cs-empty([data]="dataMovemets", [message]="messageEmpty", [image]="EMPTY_TESORERIA", [title]="titleTable")
+
+                    .cs-panel.width-285.cs-color-gray([class.active]="isOpenInformation")
+                        .cs-mat-toolbar
+                            .cs-mat-toolbar-row
+                                button(mat-icon-button, (click)="isOpenInformation = false")
+                                    mat-icon close
+                                span.cs-spacer
+                                h3 Más información
+
+                        .cs-content-info
+                            .cs-box.mat-elevation-z2
+                                .cs-list
+                                    .cs-item-title Descripción
+                                    .cs-item-title Total (S/)
+                                .cs-list
+                                    .cs-item {{ metadata_move.description }}
+                                    .cs-item {{ metadata_move.total_amount }}
+
+                            .cs-list
+                                .cs-item-title Pagado (S/)
+                                .cs-item {{ metadata_move.total_amount }}
+                            //-.cs-list
+                                .cs-item-title Deuda (S/)
+                                .cs-item 1000.00
+                            .cs-list
+                                .cs-item-title Fec. pago
+                                .cs-item {{ metadata_move.date_pay }}
+                            .cs-list
+                                .cs-item-title Mora
+                                .cs-item {{ metadata_move.mora_acumulada }}
+                            .cs-list
+                                .cs-item-title Dias vencimiento
+                                .cs-item.cs-red {{ metadata_move.dias_mora }}
+                            .cs-list
+                                .cs-item-title Documentos
+                                .cs-item {{ metadata_move.documents }}
+                            .cs-list
+                                .cs-item-title ¿Quién lo pagó?
+                                .cs-item(*ngFor="let pers_pay of metadata_move.pers_pay")
+                                    img([src]="pers_pay.foto || UNKNOWN_USER_IMAGE", [matTooltip]="pers_pay.nombre")
+                            .cs-list
+                                .cs-item-title ¿Donde?
+                                .cs-item {{ metadata_move.place_pay }}
+                            .cs-list
+                                .cs-item-title ¿Cómo?
+                                .cs-item
+                                    strong {{ metadata_move.method_pay }}
+                            .cs-list
+                                .cs-item-title ¿Descuento de plani.?
+                                .cs-item(*ngIf="metadata_move.descuento_planilla != null")
+                                    img([src]="UNKNOWN_USER_IMAGE", matTooltip="Carlitos Fuentes")
+                                .cs-item(*ngIf="metadata_move.descuento_planilla == null")
+                                    -
+
+
+
+                .cs-content(*ngIf="!isEmpty")
+                    cs-empty([data]="dataUser", [message]="messageEmpty", [image]="EMPTY_TESORERIA", [title]="'Realiza los pagos o cobranzas'")

@@ -1,0 +1,26 @@
+div.theme-bsc
+    mat-progress-bar(mode="indeterminate", *ngIf="isShowProgress")
+
+h1(mat-dialog-title) {{ data.name }}
+div(mat-dialog-content)
+    .cs-form.theme-bsc
+        mat-form-field(*ngIf="data.tipo =='goal'")
+            input(color="primary", matInput, type="tel",  tabindex="1", [(ngModel)]="data.goal", placeholder="Valor Meta", [errorStateMatcher]="errGoal", (keyup)="resetInput('errGoal');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ data.unidad_medida }}
+        mat-form-field(*ngIf="data.tipo=='current'")
+            input(color="primary", matInput, type="tel",  tabindex="1", [(ngModel)]="data.current", placeholder="Valor Actual", [errorStateMatcher]="errCurrent", (keyup)="resetInput('errCurrent');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ data.unidad_medida }}
+        mat-form-field(*ngIf="data.tipo=='current' && data.tipo_calc =='PORCENTAJE'")
+            input(color="primary", matInput, type="tel",  tabindex="1", [(ngModel)]="data.total", placeholder="Valor Total", [errorStateMatcher]="errTotal", (keyup)="resetInput('errTotal');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ data.unidad_medida }}
+        mat-form-field(*ngIf="data.tipo == 'anterior'")
+            input(color="primary", matInput, type="tel",  tabindex="1", [(ngModel)]="data.anterior", placeholder="Valor Anterior", [errorStateMatcher]="errAnterior", (keyup)="resetInput('errAnterior');valideInput();")
+            mat-error() {{msj}}
+            span(matSuffix) {{ data.unidad_medida }}
+
+div.theme-bsc(mat-dialog-actions)
+    button(mat-button, color="primary", (click)="onNoClick()") CANCELAR
+    button(mat-button, color="primary", [mat-dialog-close]="data", [disabled]="btnDisable", cdkFocusInitial, (click)="guardarDato()") GUARDAR

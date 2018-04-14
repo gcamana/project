@@ -1,0 +1,104 @@
+@import './../../../../variables';
+.cs-list {
+    margin-top: 15px;
+}
+.cs-item {
+    margin-bottom: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    i {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+}
+.circle {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: block;
+    margin-right: .2rem;
+    margin-left: .2rem;
+    &.green {
+        background-color:$green;
+    }
+    &.orange {
+        background-color: $orange;
+    }
+    &.red {
+        background-color: $red;
+    }
+}
+.cs-p {
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: stretch;
+
+    p {
+        font-size: 11.5px;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        max-width: 100%;
+        margin-bottom: 0;
+        font-weight: 100;
+        line-height: 1.5;
+    }
+
+    @media screen and (min-width: 1024px) {
+        .mat-icon-button {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .25s ease;
+        }
+    }
+
+    &:hover {
+        .mat-icon-button {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+.cs-avatar {
+    display: inline-block;
+    vertical-align: middle;
+    img {
+        width: 28px;
+        height: 28px;
+        display: block;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    img,
+    .cs-circle,
+    .material-icons {
+        display: inline-block;
+    }
+}
+.material-icons {
+    padding-right: .2rem;
+    &.green {
+        color: $green;
+    }
+    &.orange {
+        color: $orange;
+    }
+    &.red {
+        color: $red;
+    }
+    &.gray{
+        color: $gray;
+    }
+}

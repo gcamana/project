@@ -1,0 +1,59 @@
+@import './../../../../variables';
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.cs-flex {
+    display: flex;
+    align-items: center;
+    span {
+        padding-right: .5rem;
+    }
+}
+
+.cs-yellow{
+    color: yellow;
+}
+.cs-red {
+  color: red;
+}
+
+h1 {
+    img {
+        max-width: 140px;
+        margin-top: -20px;
+    }
+}
+.cs-row {
+    display: flex;
+    align-items: center;
+    img {
+        max-width: 140px;
+    }
+}
+.mat-cell {
+    img {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
+    span {
+        padding-left: .5rem;
+    }
+}
+.mat-list {
+    .mat-list-item {
+        .mat-list-avatar {
+            width: auto;
+            height: 40px;
+            border-radius: 0;
+        }
+    }
+}
+.cs-table {
+    p {
+        padding: 0 24px;
+    }
+}

@@ -1,0 +1,62 @@
+h1(*ngIf="!isAddVoucher", mat-dialog-title) Comprobantes
+    button(mat-icon-button)
+            mat-icon info_outline
+    
+    .cs-close
+        button(mat-icon-button, (click)="onNoClick()")
+            mat-icon search
+        button(mat-icon-button, (click)="onNoClick()")
+            mat-icon <i class="material-icons">filter_list</i>
+        button(mat-icon-button, (click)="onNoClick()")
+            mat-icon close
+
+.cs-add.theme-treasury(*ngIf="!isAddVoucher")
+    button(mat-mini-fab, cdkFocusInitial, (click)="toogleConcept()")
+        mat-icon add
+    p.padding-left Crear Comprobante
+    button.margin-left(mat-mini-fab, cdkFocusInitial, (click)="toogleConcept()")
+        mat-icon add
+    p.padding-left Imprimir
+
+div.cs-row.theme-treasury(*ngIf="isAddVoucher")
+    button(mat-icon-button, (click)="toogleConcept()")
+        mat-icon arrow_back
+
+    span Crear concepto
+
+div.theme-treasury.no-padding(mat-dialog-content)
+    mat-table(*ngIf="!isAddVoucher", [dataSource]="dataSource")
+        ng-container(matColumnDef='select')
+            mat-header-cell.w-40(*matHeaderCellDef="")
+                mat-checkbox((change)='$event ? masterToggle() : null', [checked]='selection.hasValue() && isAllSelected()', [indeterminate]='selection.hasValue() && !isAllSelected()')
+            mat-cell.w-40(*matCellDef="let row")
+                mat-checkbox((click)='$event.stopPropagation()', (change)='$event ? selection.toggle(row) : null', [checked]='selection.isSelected(row)')
+
+        ng-container(matColumnDef="student")
+            mat-header-cell(*matHeaderCellDef) Estudiante
+            mat-cell(*matCellDef="let element")
+                img([src]="UNKNOWN_USER_IMAGE", matTooltip="Solimarco")
+                span {{ ' '+ element.student }}
+        ng-container(matColumnDef="cuote")
+            mat-header-cell.w-70(*matHeaderCellDef) Cuota
+            mat-cell.w-70(*matCellDef="let element") {{element.cuote}}
+        ng-container(matColumnDef="dateRegister")
+            mat-header-cell.w-100(*matHeaderCellDef) Fecha registro
+            mat-cell.w-100(*matCellDef="let element") {{element.dateRegister}}
+        ng-container(matColumnDef="DatePayment")
+            mat-header-cell.w-100(*matHeaderCellDef) Fecha pago
+            mat-cell.w-100(*matCellDef="let element") {{element.DatePayment}}
+        ng-container(matColumnDef="correlative")
+            mat-header-cell.w-90(*matHeaderCellDef) Correlativo
+            mat-cell.w-90(*matCellDef="let element") {{element.correlative}}
+        ng-container(matColumnDef="state")
+            mat-header-cell.w-90(*matHeaderCellDef) Estado
+            mat-cell.w-90(*matCellDef="let element") {{element.state}}
+        ng-container(matColumnDef="action")
+            mat-header-cell.w-40.text-right(*matHeaderCellDef) Acciones
+            mat-cell.w-40.text-right(*matCellDef="let element")
+                button(mat-icon-button)
+                    mat-icon more_vert
+
+        mat-header-row(*matHeaderRowDef="displayedColumns")
+        mat-row(*matRowDef="let row; columns: displayedColumns;", (click)="selection.toggle(row)")

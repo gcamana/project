@@ -1,0 +1,99 @@
+
+<div mat-dialog-title>
+  <mat-card>
+    <figure class="cs-figure"><img [src]="UNKNOWN_USER_IMAGE" alt="">
+      <caption><strong>{{ user.first_name | csCapitalize }} <span>{{ user.last_name | csCapitalize }}</span></strong><span>22 dias</span></caption>
+      <div class="cs-figure__state" *ngIf="user.role == 'ESTUDIANTE'"><span [ngClass]="user.is_debtor ? 'deudor' : 'no-deudor'"></span></div>
+    </figure>
+    <button class="cs-position" mat-icon-button (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card>
+</div>
+<div class="theme-treasury" mat-dialog-content>
+  <mat-card class="no-padding">
+    <mat-tab-group>
+      <mat-tab label="EFECTIVO">
+        <div class="cs-wrapper">
+          <mat-button-toggle-group #cash="matButtonToggleGroup">
+            <mat-button-toggle value="efectivo_completo" checked="true">Completo</mat-button-toggle>
+            <mat-button-toggle value="efectivo_cuenta">A cuenta</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <mat-divider *ngIf="cash.value == 'efectivo_cuenta'"></mat-divider>
+        <div class="cs-wrapper" *ngIf="cash.value == 'efectivo_cuenta'">
+          <form class="cs-form">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Monto (S/)*">
+            </mat-form-field>
+          </form>
+        </div>
+      </mat-tab>
+      <mat-tab label="TARJETA">
+        <div class="cs-wrapper">
+          <mat-radio-group>
+            <mat-radio-button value="visa" checked><img [src]="VISA"></mat-radio-button>
+            <mat-radio-button value="mastercard"><img [src]="MASTERCARD"></mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="cs-wrapper">
+          <mat-button-toggle-group #card="matButtonToggleGroup">
+            <mat-button-toggle value="tarjeta_completo" checked="true">Completo</mat-button-toggle>
+            <mat-button-toggle value="tarjeta_cuenta">A cuenta</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="cs-wrapper">
+          <form class="cs-form">
+            <mat-form-field class="full-width" *ngIf="card.value == 'tarjeta_cuenta'">
+              <input matInput placeholder="Monto (S/)*">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nro. voucher*">
+            </mat-form-field>
+          </form>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+  <mat-card>
+    <mat-slide-toggle (change)="isChange($event)">¿Desea factura?</mat-slide-toggle>
+    <form class="cs-form padding-top" *ngIf="isFactura">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="RUC*">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Razón social*">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Domicilio fiscal*">
+      </mat-form-field>
+    </form>
+  </mat-card>
+  <mat-card>
+    <div class="cs-content" *ngFor="let concep of concepts">
+      <div class="cs-panel">
+        <p>{{ concep.desc | csCapitalize }}</p>
+      </div>
+      <div class="cs-panel text-right">
+        <p>{{concep.total}}</p>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="cs-content padding-top">
+      <div class="cs-panel">
+        <p>Total a pagar</p>
+      </div>
+      <div class="cs-panel text-right">
+        <h2>S/ {{ total }}</h2>
+      </div>
+    </div>
+  </mat-card>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <p class="text-right">Campos obligatorios (*)</p>
+  <button class="cs-full color-light" mat-raised-button mat-button color="accent" cdkFocusInitial>
+    <mat-icon class="color-light">attach_money</mat-icon><span class="color-light">PAGAR</span>
+  </button>
+</div>

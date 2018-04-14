@@ -1,0 +1,100 @@
+<div class="col-sm-6">
+    <div class="mdl-card">
+        <div class="mdl-card__title ">
+            <h2 class="mdl-card__title-text">Cobranza General</h2>
+        </div>
+        <div class="mdl-card__supporting-text p-rl-0 p-t-0 br-b">
+            <div [chart]="chart1"></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="mdl-card">
+        <div class="mdl-card__title ">
+            <h2 class="mdl-card__title-text">Pagado vs. Pendiente(Mes)</h2>
+        </div>
+        <div class="mdl-card__supporting-text p-rl-0 p-t-0 br-b">
+            <div [chart]="chart2"></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="mdl-card">
+        <div class="mdl-card__title ">
+            <h2 class="mdl-card__title-text">Pagado vs. Pendiente(Sede)</h2>
+        </div>
+        <div class="mdl-card__supporting-text p-rl-0 p-t-0 br-b">
+            <div [chart]="chart3"></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="mdl-card">
+        <div class="mdl-card__title ">
+            <h2 class="mdl-card__title-text">Vencidos vs. Pronto pago vs. Normal</h2>
+        </div>
+        <div class="mdl-card__supporting-text p-rl-0 p-t-0 br-b">
+            <div [chart]="chart4"></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <div class="mdl-card">
+        <div class="mdl-card__title ">
+            <h2 class="mdl-card__title-text">INGRESOS</h2>
+        </div>
+        <div class="mdl-card__supporting-text p-rl-0 p-t-0 br-b">
+            <div [chart]="chart5"></div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <div class="mdl-card">
+        <div class="mdl-card__title ">
+            <h2 class="mdl-card__title-text">EGRESOS</h2>
+        </div>
+        <div class="mdl-card__supporting-text p-rl-0 p-t-0 br-b">
+            <div [chart]="chart6"></div>
+        </div>
+    </div>
+</div>
+
+<button mat-fab class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling" color="warn" style="float: right;" data-toggle="modal" data-target="#modalFiltro">
+    <mat-icon>filter_list</mat-icon>
+</button>
+
+
+<div id="modalFiltro" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Filtros</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="fecha_inicio" placeholder="Fecha Inicio " disabled>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="fecha_fin" placeholder="Fecha Fin" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #myDatepicker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <button mat-icon-button (click)="limpiarFechaDesc()">
+                    LIMPIAR FECHAS
+                    <mat-icon style="font-size: 15px;">backspace</mat-icon>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button mat-button (click)="getGraficosByFiltro()">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

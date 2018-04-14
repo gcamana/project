@@ -1,0 +1,51 @@
+
+<div class="theme-main">
+  <cs-shrinking-header-component [headerHeight]="mobileQuery.matches ? 192 : 256" [offset]="mobileQuery.matches ? 45: 64">
+    <div class="wrapper"><span class="font-size-56" [class.hideTitle]="displayTitle" (click)="backPage()">Bienvenido</span></div>
+  </cs-shrinking-header-component>
+</div>
+<div class="cs-arrow-img"><img [src]="SEARCH_MAGIC"></div>
+<div class="wrapper theme-main margin-minus-top">
+  <div class="cs-row-flex">
+    <div class="cs-row-column w-25 text-left">
+      <div class="cs-info">
+        <div class="cs-avatar"><img [src]="UNKNOWN_USER_IMAGE">
+          <h2>Hola, Giovanni Camana</h2>
+        </div>
+        <div class="cs-p margin-top padding-bottom">
+          <p>{{ 'Bienvenido al módulo Balance scorecard desde el cual puedes evaluar los resultados de toda tu institución. Accede a un fácil recorrido siempre.' }}</p>
+        </div>
+        <div class="button-row margin-top">
+          <button class="border-radius-20 cs-btn-custom" mat-raised-button>INICIAR TOUR
+            <mat-icon color="primary">arrow_forward</mat-icon>
+          </button>
+          <button mat-button color="primary">OMITIR AYUDA</button>
+        </div>
+      </div>
+    </div>
+    <div class="cs-row-column w-75">
+      <mat-card class="cs-card padding-custom margin-bottom">
+        <h2>Todo lo que puedes hacer desde  'Balance Scorecard'</h2>
+        <mat-card-content>
+          <div class="cs-p">
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime doloremque est, quam reiciendis ipsa molestias? Sit velit odit asperiores unde obcaecati! Tempora ab quos totam numquam fugiat tempore sed officia minus et ratione aliquid id libero rem, iure placeat fuga assumenda, doloribus in consequuntur nam sunt. Minima inventore quas, officiis necessitatibus fugiat sequi alias sunt vero quasi voluptatem aut. Reprehenderit quam hic doloremque quaerat minus odio animi aut iste, at explicabo maxime laboriosam ipsa nesciunt cupiditate totam dolores placeat nam magni! Cupiditate quos officia reprehenderit magnam vero? Distinctio fuga ex ea facilis, dolorum, delectus ducimus non autem deserunt alias ratione!</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="cs-card padding-custom margin-bottom">
+        <h2>Todo lo que puedes hacer desde  'Balance Scorecard'</h2>
+        <div class="cs-img-absolute"><img [src]="DOODLE"></div>
+        <mat-card-content>
+          <div class="cs-p">
+            <p>Realiza la planificación estratégica de tu institución y dale seguimiento a los indicadores clave de rendimiento.</p>
+          </div>
+          <ul>
+            <li>Monitorear el<a routerLink="/bsc/" routerLinkActive="active-link">dashboard</a> principal de indicadores</li>
+            <li><a routerLink="/tesoreria/caja">Caja</a> los indicadores y frecuencias de medición.</li>
+            <li>Visualiza los<a href="">gráficos</a> más importantes.</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1093 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'animations';
+@import "assets/css/m-p.css";
+@import "assets/css/menu.css";
+@import "assets/css/mdl-card-style.css";
+@import "~bootstrap-table/dist/bootstrap-table.min.css";
+@import './app/variables';
+@import './app/material-layout';
+@import './app/cs-ghost';
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+    scroll-behavior: smooth;
+    @media screen and (min-width: 1024px) {
+        ::-webkit-scrollbar {
+            width:9px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f4f4f4;
+        }
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            background: #BCBCBC;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        ::-webkit-scrollbar-thumb:window-inactive {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        scrollbar-arrow-color: #F8F2DC; // scrollbar-face-color: #BCBCBC;
+        // scrollbar-highlight-color: #BCBCBC;
+        // scrollbar-3dlight-color: #BCBCBC;
+        // scrollbar-darkshadow-color: #BCBCBC;
+        // scrollbar-shadow-color: #BCBCBC;
+        // scrollbar-track-color: #f4f4f4;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}
+
+/*
+    Estilos generales
+*/
+
+a {
+    cursor: pointer;
+}
+
+h3 {
+    font-size: 18px !important;
+    font-weight: normal;
+}
+
+li {
+    list-style: none;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+bsc-dashboard-component,
+bsc-self-indicators-component,
+tsr-movements-component,
+tsr-bank-component {
+    display: block;
+    background: #e9e9e9;
+    overflow: hidden;
+}
+
+tsr-settings-component {
+    .mat-expansion-panel-header-title,
+    .example-headers-align .mat-expansion-panel-header-description {
+        flex-basis: 0;
+    }
+    .example-headers-align .mat-expansion-panel-header-description {
+        justify-content: space-between;
+        align-items: center;
+    }
+    .mat-content {
+        overflow: visible !important;
+    }
+    .mat-nav-list {
+        padding-top: 0px !important;
+    }
+    .mat-expansion-panel-body {
+        padding: 0px !important;
+    }
+    .mat-nav-list {
+        .mat-list-item {
+            .mat-list-item-content {
+                padding: 0 24px 0 35px !important;
+                p {
+                    font-size: 14px !important;
+                }
+            }
+        }
+    }
+}
+
+tsr-bank-component {
+    .mat-list {
+        padding-top: 0;
+    }
+    .mat-list-text {
+        h3 {
+            font-size: 15px !important;
+            line-height: 100%;
+            strong {
+                padding-right: .5rem !important;
+            }
+        }
+        p {
+            font-size: 13px !important;
+            line-height: 100%;
+        }
+    }
+}
+
+cs-login {
+    width: 100%;
+    display: block;
+    .mat-input-element {
+        height: 20px;
+    }
+    .cs-mat-nav-list {
+        &.mat-list {
+            padding-top: 0 !important;
+            .mat-list-item {
+                .mat-list-item-content {
+                    padding: 0 !important;
+                    .mat-list-text:not(:nth-child(2)) {
+                        padding-left: 8px !important;
+                    }
+                    .mat-list-text {
+                        h3 {
+                            font-size: 12px !important;
+                            line-height: 100%;
+                        }
+                        p {
+                            font-size: 10px !important;
+                            line-height: 1.5;
+                        }
+                    }
+                }
+            }
+            .mat-list-item.mat-2-line {
+                height: 52px !important;
+            }
+        }
+    }
+}
+
+cs-user-avatar.custom-user-avatar {
+    .cs-avatar {
+        img {
+            border: 2px solid $muted !important;
+        }
+    }
+    .cs-avatar-count {
+        span {
+            border: 2px solid #f4f4f4 !important;
+            background: #f4f4f4 !important;
+        }
+    }
+}
+
+bsc-welcome-component {
+    margin-bottom: 1rem;
+}
+
+.mat-expansion-panel-content {
+    position: relative;
+}
+
+cs-circular-gauge-component {
+    width: 100%;
+    max-width: 200px;
+    margin: auto;
+    &.medium {
+        max-width: 240px;
+    }
+    &.large {
+        max-width: 300px;
+    }
+    @media screen and (max-width: 640px) {
+        .highcharts-data-labels {
+            span {
+                font-size: 15px !important;
+            }
+        }
+        tspan {
+            font-size: 7px !important;
+        }
+    }
+}
+
+tsr-general-banks-component {
+    .accordion-body {
+        margin-bottom: 10px !important;
+        max-height: 270px !important;
+        padding: 0 0 30px 0 !important;
+        &.active {
+            max-height: 100% !important;
+            padding: 0 0 30px 0;
+            margin-bottom: 20px !important;
+        }
+    }
+    .cal-month-view .cal-day-number {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+    }
+    .cal-month-view {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    cs-acordion-global {
+        .accordion-click {
+            bottom: -11px !important;
+        }
+    }
+    .tsr-datapicker .mat-calendar-body-selected {
+        color: #fff;
+    }
+}
+
+cs-accordion-group,
+cs-acordion-global-group {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+cs-accordion,
+cs-acordion-global,
+cs-setting-table-group,
+cs-setting-table {
+    display: block;
+    position: relative;
+}
+
+//button
+.mat-button {
+    border-radius: 20px !important;
+    overflow: hidden;
+}
+
+//highcharts general
+.highcharts-credits {
+    display: none;
+}
+
+rect.highcharts-label-box,
+.highcharts-button {
+    display: none !important;
+}
+
+chart {
+    display: block;
+    overflow: hidden;
+}
+
+.mat-tooltip {
+    border-radius: 15px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.highcharts-gauge-series .highcharts-pivot {
+    // stroke: #8A8A8A;
+    fill-opacity: 1;
+    fill: #8A8A8A;
+}
+
+.highcharts-data-labels {
+    span,
+    tspan {
+        font-weight: 400;
+        font-family: Roboto, 'Helvetice New', 'Arial', sans-serif !important;
+    }
+}
+
+//Gauge
+.cs-gauge {
+    .cs-gauge-state {
+        top: 25px !important;
+        left: 28px !important;
+    }
+}
+
+//Tabs
+.cs-mat-tab-group-indicator {
+    .mat-tab-label {
+        color: $bsc !important;
+        min-width: 80px !important;
+    }
+    .mat-tab-label-active {
+        mat-icon {
+            color: $bsc !important;
+        }
+    }
+}
+
+.cs-history-session {
+    .mat-nav-list {
+        padding-top: 0 !important;
+    }
+    .mat-menu-content {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+.cs-header-title {
+    z-index: 3;
+    color: $light;
+    cursor: pointer;
+    line-height: 1.5;
+    font-weight: 400;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 24px !important;
+    position: fixed;
+    top: 16px;
+    left: 72px;
+    margin-left: 0 !important;
+}
+
+cs-reports-history {
+    .mat-list[dense] {
+        .mat-list-item {
+            .mat-list-item-content {
+                padding: 0 !important;
+            }
+        }
+    }
+    .mat-list[dense] .mat-list-item .mat-list-text>* {
+        font-size: 12px !important;
+    }
+}
+
+//modal
+.cdk-overlay-dark-backdrop {
+    background-color: rgba($light, 0.95) !important;
+}
+
+.cs-pay-modal-backdrop {
+    background-color: rgba($light, 0.95) !important;
+}
+
+.cs-vaucher-modal {
+    .mat-radio-button {
+        padding: 10px 0;
+    }
+    .mat-radio-label-content {
+        mat-icon,
+        .cs-text {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    .cs-number {
+        float: right;
+    }
+}
+
+cs-vaucher-modal {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    .mat-form-field-prefix,
+    .mat-form-field-suffix {
+        .mat-datepicker-toggle-default-icon {
+            width: 1.5em;
+        }
+        .mat-icon-button {
+            height: 2.5em;
+            width: 2.5em;
+            .mat-icon {
+                font-size: 1.6em;
+            }
+        }
+    }
+}
+
+.cs-pass-credit-modal,
+.cs-vaucher-modal {
+    .mat-radio-label-content {
+        color: $dark;
+    }
+    .mat-button-toggle-group {
+        box-shadow: none;
+        overflow: visible;
+        label {
+            margin-bottom: 0;
+        }
+    }
+    .mat-button-toggle-label-content {
+        line-height: 30px;
+    }
+    .mat-button-toggle {
+        border-radius: 20px;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+        margin-right: 10px;
+    }
+    .mat-button-toggle-checked {
+        background-color: $tesoreria !important;
+        color: $light !important;
+    }
+    .mat-dialog-container {
+        overflow: hidden !important;
+    }
+    mat-radio-group,
+    .mat-radio-label-content,
+    .mat-radio-button {
+        width: 100%;
+    }
+    .mat-radio-label {
+        width: 100%;
+    }
+}
+
+.cs-pay-modal {
+    border-radius: 0;
+    .mat-tab-label-active {
+        .mat-tab-label-content {
+            color: $tesoreria !important;
+        }
+    }
+    .mat-dialog-actions {
+        padding-top: 0;
+    }
+    .mat-button-toggle-group {
+        box-shadow: none;
+        overflow: visible;
+        label {
+            margin-bottom: 0;
+        }
+    }
+    .mat-button-toggle-label-content {
+        line-height: 30px;
+    }
+    .mat-button-toggle {
+        border-radius: 20px;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+        margin-right: 10px;
+    }
+    .mat-button-toggle-checked {
+        background-color: $tesoreria !important;
+        color: $light !important;
+    }
+    .mat-dialog-title {
+        margin-bottom: 0;
+    }
+    .mat-dialog-container {
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 24px 4px;
+    }
+    .mat-dialog-content {
+        margin: 0 -4px;
+        padding: 0 4px;
+    }
+    .mat-tab-label {
+        min-width: 50%;
+    }
+    .mat-radio-label-content {
+        color: $dark;
+        font-weight: 100;
+    }
+    .mat-radio-checked {
+        .mat-radio-label-content {
+            color: $tesoreria !important;
+        }
+    }
+    .mat-slide-toggle-label {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+    .mat-slide-toggle {
+        width: 100%;
+    }
+    .mat-checkbox-label {
+        color: $dark;
+        font-weight: 100;
+    }
+}
+
+.cs-zoom-modal {
+    max-width: 100vw !important;
+    .cs-gauge-state {
+        left: 75px !important;
+        top: 0 !important;
+    }
+    .mat-dialog-container {
+        padding-top: 64px;
+    }
+}
+
+.cs-mat-nav-list-modal {
+    .mat-list-item-content {
+        padding: 0 20px !important;
+    }
+}
+
+.cs-toggle-filter {
+    .mat-form-field-infix {
+        width: 100% !important;
+    }
+}
+
+cs-accordion-modal {
+    .cs-p {
+        p {
+            font-size: 14px !important;
+        }
+    }
+}
+
+//datePicker
+.mat-tab-straighten {
+    .mat-form-field-disabled .mat-form-field-underline {
+        background: none !important;
+    }
+    .mat-form-field-infix {
+        padding: 0 !important;
+        border-top: 0 !important;
+        padding-left: 1rem !important;
+    }
+    .mat-calendar-body-selected {
+        background-color: $bsc !important;
+    }
+    .mat-form-field-wrapper {
+        padding-bottom: 0 !important;
+    }
+    .mat-form-field-flex {
+        align-items: center !important;
+        flex-direction: row-reverse !important;
+    }
+    .mat-input-element:disabled {
+        color: $dark !important;
+    }
+    .mat-form-field-suffix {
+        .mat-icon-button {
+            width: 40px !important;
+            height: 40px !important;
+            .mat-icon {
+                height: auto !important;
+                svg {
+                    fill: $dark !important;
+                }
+            }
+        }
+        .mat-icon {
+            width: 1.8em !important;
+        }
+    }
+}
+
+.cs-compare-table {
+    .mat-row,
+    .mat-header-row {
+        .mat-cell,
+        .mat-header-cell {
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+}
+
+mat-table {
+    mat-row {
+        mat-cell {
+            .mat-icon-button {
+                color: rgba(0, 0, 0, 0.54) !important;
+            }
+        }
+    }
+}
+
+.mat-pseudo-checkbox-checked::after {
+    top: 6px !important;
+    left: 4px !important;
+}
+
+.mat-menu-item {
+    img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+}
+
+//Date Picker
+.cs-vaucher-picker {
+    .mat-calendar-body-selected {
+        background-color: $tesoreria !important;
+        border: 0 !important;
+    }
+}
+
+.tsr-datapicker {
+    .mat-calendar-body-selected {
+        background-color: $tesoreria !important;
+        border: 0 !important;
+        color: $light;
+    }
+    .mat-calendar-table-header {
+        th {
+            text-transform: uppercase;
+        }
+    }
+}
+
+//modal custom
+.mat-dialog-container {
+    position: relative;
+}
+
+.cs-forgot-modal {
+    .mat-dialog-actions {
+        justify-content: space-between;
+    }
+    button:disabled {
+        color: $gray !important;
+    }
+}
+
+.mat-dialog-actions {
+    justify-content: flex-end;
+}
+
+.cs-user-list-modal {
+    .mat-dialog-container {
+        padding: 16px 0 24px 0;
+    }
+    .mat-dialog-content {
+        margin: 0;
+        box-sizing: border-box;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.cs-zoom-modal {
+    .mat-dialog-content {
+        max-height: 100%;
+    }
+}
+
+.cs-information-modal {
+    .mat-dialog-title {
+        position: relative;
+    }
+    .mat-icon-button {
+        position: absolute;
+        right: 0;
+        top: -6px;
+    }
+}
+
+cs-shrinking-header-component {
+    height: 256px;
+    display: block;
+    padding-top: 80px;
+    display: block;
+    background-color: inherit;
+    box-sizing: border-box;
+    margin-top: 64px;
+    -webkit-transition: margin-bottom .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    -moz-transition: margin-bottom .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    transition: margin-bottom .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+    overflow: hidden;
+    span {
+        font-size: 56px;
+        width: 100%;
+        position: relative;
+        z-index: 3;
+        color: $light;
+        cursor: pointer;
+        line-height: 1.5;
+        font-weight: 400;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-transition: font-size .8s cubic-bezier(0.0, 0.0, 0.2, 1);
+        -moz-transition: font-size .8s cubic-bezier(0.0, 0.0, 0.2, 1);
+        transition: font-size .8s cubic-bezier(0.0, 0.0, 0.2, 1);
+        &.hideTitle {
+            font-size: 24px !important;
+            position: fixed;
+            top: 16px;
+            left: 72px;
+            margin-left: 0 !important;
+            max-width: 100%;
+            width: 100%;
+            @media screen and (max-width: 1680px) {
+                max-width: 80%;
+            }
+            @media screen and (max-width: 1190px) {
+                max-width: 70%;
+            }
+            @media screen and (max-width: 768px) {
+                max-width: 60%;
+            }
+            @media screen and (max-width: 600px) {
+                max-width: 50%;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            font-size: 42px;
+            max-width: 100%;
+            padding-top: 2rem;
+            &.hideTitle {
+                padding-top: 0;
+                top: 15px;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            font-size: 30px !important;
+            &.hideTitle {
+                max-width: 35%;
+            }
+        }
+        @media screen and (max-width: 360px) {
+            font-size: 24px !important;
+            &.hideTitle {
+                left: 56px;
+                max-width: 139px;
+            }
+        }
+        @media screen and (max-width: 320px) {
+            &.hideTitle {
+                max-width: 95px;
+            }
+        }
+    }
+    @media screen and (max-width: 768px) {
+        padding-top: 40px;
+    }
+}
+
+cs-user-last-register {
+    .mat-list-item-content {
+        padding: 0 !important;
+    }
+    .mat-list-text {
+        padding-left: 8px !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+}
+
+cs-assing-beca-modal,
+cs-want-bill-modal,
+cs-payment-commitment,
+cs-schedule-modal,
+cs-eliminate-debt-modal,
+cs-discount-modal {
+    .mat-list {
+        .mat-list-item {
+            .mat-list-item-content {
+                padding: 0 !important;
+            }
+            .mat-list-avatar {
+                width: 36px;
+                height: 36px;
+            }
+            .mat-line {
+                font-size: 15px;
+                span {
+                    padding-left: .5rem;
+                }
+            }
+        }
+    }
+}
+
+//Fixed validator
+.mat-focused {
+    .mat-form-field-required-marker {
+        color: $red !important;
+    }
+}
+
+cs-schedule-modal {
+    .mat-form-field-infix {
+        width: 100%;
+    }
+}
+
+.cs-treasury-select {
+    .mat-option {
+        &.mat-selected {
+            &:not(.mat-option-disabled) {
+                color: $tesoreria !important;
+            }
+        }
+    }
+}
+
+.cs-bsc-select {
+    .mat-option {
+        &.mat-selected {
+            &:not(.mat-option-disabled) {
+                color: $bsc !important;
+            }
+        }
+    }
+}
+
+cs-share-cash-modal {
+    .mat-list {
+        .mat-list-item {
+            .mat-list-item-content {
+                padding: 0 !important;
+            }
+        }
+    }
+}
+
+.cs-schedule-modal {
+    @media screen and (max-width: 1366px) {
+        .mat-dialog-content {
+            max-height: 100%;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        max-width: 100vw !important;
+    }
+}
+
+cs-open-cash-modal {
+    .mat-dialog-actions {
+        justify-content: space-between;
+    }
+}
+
+.cs-family-son-modal {
+    transition: width .3s ease;
+    .mat-dialog-content {
+        padding: 16px 0;
+    }
+    &.w-320 {
+        width: 320px !important;
+    }
+    &.w-640 {
+        width: 640px !important;
+    }
+}
+
+.cs-family-modal,
+.cs-family-son-modal {
+    mat-radio-group,
+    .mat-radio-label-content,
+    .mat-radio-button,
+    .mat-radio-label {
+        width: 100%;
+    }
+    .mat-list .mat-list-item .mat-list-text>* {
+        white-space: unset !important;
+        line-height: 100% !important;
+    }
+}
+
+tsr-migration-component {
+    @media screen and (max-width: 360px) {
+        mat-radio-group, .mat-radio-label-content, .mat-radio-button, .mat-radio-label {
+            width: 100%;
+        }
+    }
+}
+
+.cs-filter-content {
+    .mat-form-field-prefix {
+        .mat-icon-button {
+            height: 2.5em;
+            width: 2.5em;
+            .mat-icon {
+                font-size: 1.5em !important;
+                height: 1.225em !important;
+            }
+        }
+    }
+    .mat-form-field-prefix {
+        padding-right: .5rem;
+    }
+}
+
+.cs-share-cash-modal {
+    .mat-dialog-container {
+        overflow: hidden !important;
+    }
+    mat-radio-group,
+    .mat-radio-label-content,
+    .mat-radio-button {
+        width: 100%;
+    }
+    .mat-radio-label {
+        flex-direction: row-reverse;
+        width: 100%;
+    }
+}
+
+//Calendar css Custom
+.cs-calendar-today {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.cal-day-selected {
+    &.cal-past,
+    &.cal-today {
+        .cal-day-number {
+            background-color: #c7c7c7 !important;
+        }
+    }
+}
+
+.cal-month-view {
+    .cal-cell {
+        align-items: center !important;
+        display: block !important;
+        background: transparent !important;
+    }
+    .cal-past,
+    .cal-today {
+        cursor: pointer !important;
+        .cal-day-number {
+            cursor: pointer !important;
+        }
+    }
+    .cal-cell-top {
+        position: relative;
+    }
+    .cal-day-badge {
+        position: absolute;
+    }
+    .cal-day-badge {
+        display: none !important;
+    }
+    .cal-event {
+        background: transparent !important;
+        width: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 7px solid $red;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+    .cal-events {
+        background-color: transparent !important;
+        color: transparent !important;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: 2;
+    }
+    .cal-header {
+        .cal-cell {
+            color: rgba(0, 0, 0, 0.6);
+            font-weight: 300;
+        }
+    }
+    .cal-cell-row {
+        align-items: center !important;
+        margin-bottom: 2px;
+        .cal-cell {
+            &.cal-past,
+            &.cal-today {
+                &:hover {
+                    background-color: transparent !important;
+                    .cal-day-number {
+                        background-color: #dbdbdb;
+                    }
+                }
+            }
+            &.cal-future {
+                &:hover {
+                    background-color: transparent !important;
+                }
+            }
+        }
+        &:hover {
+            background-color: transparent !important;
+        }
+    }
+    .cal-day-cell {
+        min-height: auto !important;
+        &.cal-in-month {
+            &.cal-has-events {
+                max-height: 30px;
+            }
+        }
+        &.cal-has-events {
+            position: relative;
+        }
+        &.cal-today {
+            background-color: transparent !important;
+        }
+        &:not(:last-child) {
+            border: 0 !important;
+        }
+        &.cal-today {
+            //TODO:  agregarlo en theme.scss
+            .cal-day-number {
+                font-size: .9em !important;
+                color: $light !important;
+            }
+        }
+        &.cal-past {
+            .cal-day-number {
+                color: rgba(0, 0, 0, 0.6) !important;
+            }
+        }
+        &.cal-future {
+            &.cal-out-month,
+            &.cal-in-month {
+                .cal-day-number {
+                    color: rgba(0, 0, 0, 0.2) !important;
+                }
+            }
+        }
+        &.cal-weekend {
+            &.green-cell {
+                &.cal-past {
+                    .cal-day-number {
+                        color: $light !important;
+                    }
+                }
+            }
+            &.cal-past {
+                .cal-day-number {
+                    color: rgba(0, 0, 0, 0.6) !important;
+                }
+            }
+        }
+    }
+    .green-cell {
+        position: relative;
+        &.cal-past,
+        &.cal-future,
+        &.cal-weekend {
+            .cal-day-number {
+                color: $light !important;
+            }
+        }
+        .cal-day-number {
+            background-color: rgba(0, 0, 0, 0.2) !important;
+            color: $light !important;
+        }
+    }
+    .cal-day-number {
+        margin: auto !important;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        opacity: 1 !important;
+        font-size: .9em !important;
+        line-height: 30px;
+        border-radius: 50%;
+        color: rgba(0, 0, 0, 0.6);
+        font-weight: 400 !important;
+        display: block;
+        float: initial !important;
+    }
+    .cal-cell-top {
+        min-height: auto !important;
+    }
+    .cal-days {
+        border: 0 !important;
+        .cal-cell-row {
+            border: 0 !important;
+        }
+    }
+}
+
+.subrayado {
+    text-decoration: underline;
+}

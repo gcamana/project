@@ -1,0 +1,84 @@
+@import './../../../variables';
+.cs-avatar {
+    cursor: pointer;
+    img {
+        width: 30px;
+        height: 30px;
+        border: 2px solid $light;
+        object-fit: cover;
+        display: block;
+        border-radius: 50%;
+        margin-right: .5rem;
+    }
+    strong {
+        font-size: 12px;
+        color: $gray;
+    }
+    img,
+    strong {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.cs-avatar-count {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    span {
+        width: 30px;
+        height: 30px;
+        font-size: 10px;
+        font-weight: bold;
+        color: #a2a2a2;
+        text-align: center;
+        line-height: 27px;
+        border: 2px solid $light;
+        display: block;
+        border-radius: 50%;
+        background-color: $muted;
+        box-sizing: border-box;
+    }
+}
+
+.cs-avatars {
+    &.one {
+        .cs-avatar {
+            display: none;
+            &:first-child {
+                z-index: 2;
+                display: inline-block;
+            }
+        }
+    }
+
+    &.more-images {
+        .cs-avatar {
+            display: inline-block;
+            position: relative;
+            display: none;
+            &:first-child {
+                z-index: 2;
+                display: inline-block;
+            }
+            &:nth-child(2) {
+                z-index: 1;
+                display: inline-block;
+            }
+            &:nth-child(3) {
+                z-index: 0;
+                display: inline-block;
+            }
+            &:nth-child(2),
+            &:nth-child(3) {
+                margin-left: -20px;
+            }
+            img {
+                margin-right: 0;
+            }
+            strong {
+                display: none;
+            }
+        }
+    }
+}

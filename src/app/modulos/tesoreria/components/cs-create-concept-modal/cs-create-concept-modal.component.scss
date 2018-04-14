@@ -1,0 +1,58 @@
+@import './../../../../variables';
+.cs-row {
+    display: flex;
+    align-items: center;
+}
+form {
+    padding: 24px;
+}
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+.cs-add {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    p {
+        margin-bottom: 0;
+    }
+}
+.cs-padding {
+    padding-left: .5rem;
+}
+
+.mat-table {
+    overflow: auto;
+    // max-height: 500px;
+    position: relative;
+}
+
+
+
+.mat-cell,
+.mat-header-cell {
+    &:nth-last-child(1) {
+        text-align: right;
+        overflow: visible;
+    }
+}
+
+.w-30 {
+    max-width: 30px;
+}
+
+.w-80 {
+    max-width: 80px;
+}
+
+.w-100 {
+    max-width: 100px;
+}
+
+.cs-buttons{
+    display: block;
+    width: 100%;
+    text-align: right;
+}

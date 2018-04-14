@@ -1,0 +1,71 @@
+
+<mat-toolbar [ngStyle]="{ 'background-color': primary }">
+  <mat-toolbar-row><span class="cs-spacer"></span><a href="#" [ngStyle]="{ 'color': light }">Ayuda</a>
+    <figure class="cs-logo"><img src="http://localhost/smiledu/public/general/img/header/smiledu-ico.png"></figure>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="cs-wrapper">
+  <div class="cs-content__top">
+    <div class="cs-row cs-flex-end" *ngIf="!mobileQuery.matches">
+      <div class="cs-content__inner">
+        <figure class="cs-doodle"><img src="http://localhost/smiledu/public/general/img/header/love-school.png"></figure>
+      </div>
+    </div>
+  </div>
+  <div class="cs-content__bottom" [ngStyle]="{ 'background-color': secondary }">
+    <div class="cs-row" *ngIf="!mobileQuery.matches">
+      <div class="cs-content__inner">
+        <div class="cs-text">
+          <h3>Descarga ‘Smiledu app’ gratis para Android y IOS</h3>
+          <p>La educación es el proceso de facilitar el aprendizaje. Los conocimientos, habilidades, valores, creencias y hábitos de un grupo de personas…</p>
+          <div class="cs-button-row">
+            <button mat-raised-button><span [ngStyle]="{ 'color': primary }">ENTÉRATE MÁS</span>
+              <mat-icon [ngStyle]="{ 'color': primary }">open_in_new</mat-icon>
+            </button>
+            <button class="margin-left" mat-button><span [ngStyle]="{ 'color': primary }"> COMPARTIR</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cs-content cs-wancho">
+    <div class="cs-panel">
+      <mat-card class="cs-width no-padding">
+        <mat-toolbar class="transparent">
+          <mat-toolbar-row>
+            <button mat-icon-button>
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button><img class="cs-form-logo" src="http://localhost/smiledu/public/general/img/header/logo_sistema.png"><span class="cs-spacer"></span>
+            <button mat-icon-button>
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <form>
+          <mat-form-field class="full-width" #formColor>
+            <input matInput placeholder="Usuario o correo">
+          </mat-form-field>
+          <mat-form-field class="full-width" #formColor>
+            <input matInput placeholder="Contraseña">
+          </mat-form-field><a href="">¿Has olvidado tu usuario?</a>
+        </form>
+        <div class="cs-action">
+          <button class="full-width" mat-raised-button>SIGUIENTE</button>
+          <div class="cs-line">O conectar con</div>
+        </div>
+        <div class="cs-connect">
+          <button mat-icon-button><img [src]="ICON_FACEBOOK"></button>
+          <button mat-icon-button><img [src]="ICON_GOOGLE"></button>
+          <button mat-icon-button><img [src]="ICON_OUTLOOK"></button>
+        </div>
+      </mat-card>
+      <div class="cs-p cs-width">
+        <p>Haciendo clic en ‘Ingresar’, estoy de acuerdo con<a>Términos y condiciones</a>de Smiledu, y<a>Política de privacidad</a></p>
+      </div>
+    </div>
+    <div class="cs-panel" *ngIf="!mobileQuery.matches">
+      <mat-card class="cs-width no-padding transparent"></mat-card>
+    </div>
+  </div>
+</div>
+<footer-component [color]="primary"></footer-component>

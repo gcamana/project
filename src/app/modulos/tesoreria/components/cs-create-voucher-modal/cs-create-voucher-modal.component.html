@@ -1,0 +1,78 @@
+
+<h1 *ngIf="!isAddVoucher" mat-dialog-title>Comprobantes
+  <button mat-icon-button>
+    <mat-icon>info_outline</mat-icon>
+  </button>
+  <div class="cs-close">
+    <button mat-icon-button (click)="onNoClick()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onNoClick()">
+      <mat-icon><i class="material-icons">filter_list</i></mat-icon>
+    </button>
+    <button mat-icon-button (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</h1>
+<div class="cs-add theme-treasury" *ngIf="!isAddVoucher">
+  <button mat-mini-fab cdkFocusInitial (click)="toogleConcept()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <p class="padding-left">Crear Comprobante</p>
+  <button class="margin-left" mat-mini-fab cdkFocusInitial (click)="toogleConcept()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <p class="padding-left">Imprimir</p>
+</div>
+<div class="cs-row theme-treasury" *ngIf="isAddVoucher">
+  <button mat-icon-button (click)="toogleConcept()">
+    <mat-icon>arrow_back</mat-icon>
+  </button><span>Crear concepto</span>
+</div>
+<div class="theme-treasury no-padding" mat-dialog-content>
+  <mat-table *ngIf="!isAddVoucher" [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <mat-header-cell class="w-40" *matHeaderCellDef="">
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() &amp;&amp; isAllSelected()" [indeterminate]="selection.hasValue() &amp;&amp; !isAllSelected()"></mat-checkbox>
+      </mat-header-cell>
+      <mat-cell class="w-40" *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="student">
+      <mat-header-cell *matHeaderCellDef>Estudiante</mat-header-cell>
+      <mat-cell *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE" matTooltip="Solimarco"><span>{{ ' '+ element.student }}</span></mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="cuote">
+      <mat-header-cell class="w-70" *matHeaderCellDef>Cuota</mat-header-cell>
+      <mat-cell class="w-70" *matCellDef="let element">{{element.cuote}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="dateRegister">
+      <mat-header-cell class="w-100" *matHeaderCellDef>Fecha registro</mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">{{element.dateRegister}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="DatePayment">
+      <mat-header-cell class="w-100" *matHeaderCellDef>Fecha pago</mat-header-cell>
+      <mat-cell class="w-100" *matCellDef="let element">{{element.DatePayment}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="correlative">
+      <mat-header-cell class="w-90" *matHeaderCellDef>Correlativo</mat-header-cell>
+      <mat-cell class="w-90" *matCellDef="let element">{{element.correlative}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="state">
+      <mat-header-cell class="w-90" *matHeaderCellDef>Estado</mat-header-cell>
+      <mat-cell class="w-90" *matCellDef="let element">{{element.state}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <mat-header-cell class="w-40 text-right" *matHeaderCellDef>Acciones</mat-header-cell>
+      <mat-cell class="w-40 text-right" *matCellDef="let element">
+        <button mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+  </mat-table>
+</div>

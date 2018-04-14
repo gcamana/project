@@ -1,0 +1,68 @@
+@import './../../../../variables';
+.mat-header-row {
+    display: none;
+}
+
+form {
+    padding: 16px 34px;
+}
+
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+.mat-header-cell,
+.mat-cell {
+    overflow: visible;
+}
+
+.w-40 {
+    max-width: 40px;
+}
+.w-140 {
+    max-width: 140px;
+}
+
+h1 {
+    img {
+        max-width: 140px;
+        margin-top: -20px;
+    }
+}
+
+p {
+    margin-bottom: 0;
+}
+
+.cs-row {
+    display: flex;
+    align-items: center;
+    img {
+        max-width: 140px;
+    }
+}
+.mat-cell {
+    img {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
+    span {
+        padding-left: .5rem;
+    }
+}
+.mat-list {
+    .mat-list-item {
+        .mat-list-avatar {
+            width: auto;
+            height: 40px;
+            border-radius: 0;
+        }
+    }
+}
+.cs-table {
+    p {
+        padding: 0 24px;
+    }
+}

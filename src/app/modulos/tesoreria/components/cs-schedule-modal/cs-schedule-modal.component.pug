@@ -1,0 +1,70 @@
+h1.theme-treasury(mat-dialog-title) Cronograma
+    mat-slide-toggle(labelPosition="before") ¿Prorrateo?
+
+mat-list.no-padding
+    mat-list-item
+        img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+        p(matLine)
+            strong Giovanni
+            span.cs-padding Camana Infanzon
+
+mat-card.theme-treasury
+    mat-form-field
+        input(type="text", placeholder="Año", aria-label="Año", matInput, [formControl]="year", [matAutocomplete]="auto")
+        mat-autocomplete(#auto="matAutocomplete")
+            mat-option(*ngFor="let year of filteredOptions | async", [value]="year")  {{ year }}
+
+        //- mat-select(placeholder="Año", panelClass="cs-treasury-select")
+        //-     mat-option(*ngFor="let food of foods", [value]="food.value") {{ food.viewValue }}
+
+    mat-form-field
+        mat-select(placeholder="Sede", panelClass="cs-treasury-select")
+            mat-option(*ngFor="let food of foods", [value]="food.value") {{ food.viewValue }}
+    mat-form-field
+        mat-select(placeholder="Programa", panelClass="cs-treasury-select")
+            mat-option(*ngFor="let food of foods", [value]="food.value") {{ food.viewValue }}
+    mat-form-field
+        mat-select(placeholder="Grado", panelClass="cs-treasury-select")
+            mat-option(*ngFor="let food of foods", [value]="food.value") {{ food.viewValue }}
+
+div.theme-treasury.no-padding(mat-dialog-content)
+    mat-table(#table, [dataSource]="dataSource")
+        ng-container(matColumnDef="select")
+            mat-header-cell.w-30(*matHeaderCellDef)
+                mat-checkbox((change)="$event ? masterToggle() : null", [checked]="selection.hasValue() && isAllSelected()", [indeterminate]="selection.hasValue() && !isAllSelected()")
+
+            mat-cell.w-30(*matCellDef="let row")
+                mat-checkbox((click)="$event.stopPropagation()", (change)="$event ? selection.toggle(row) : null", [checked]="selection.isSelected(row)")
+
+        ng-container(matColumnDef="description")
+            mat-header-cell(*matHeaderCellDef)
+                .cs-text description
+            mat-cell(*matCellDef="let element")
+                .cs-text {{element.description}}
+        ng-container(matColumnDef="date_start")
+            mat-header-cell.w-100(*matHeaderCellDef)
+                .cs-text Fec.ini.
+            mat-cell.w-100(*matCellDef="let element")
+                .cs-text {{element.date_start}}
+        ng-container(matColumnDef="date_finished")
+            mat-header-cell.w-100(*matHeaderCellDef)
+                .cs-text Fec.venc.
+            mat-cell.w-100(*matCellDef="let element")
+                .cs-text {{element.date_finished}}
+        ng-container(matColumnDef="data_prorroteo")
+            mat-header-cell.w-100(*matHeaderCellDef)
+                .cs-text Fec.prorroteo
+            mat-cell.w-100(*matCellDef="let element")
+                .cs-text {{element.data_prorroteo}}
+        ng-container(matColumnDef="total")
+            mat-header-cell.w-80(*matHeaderCellDef)
+                .cs-text Total(S/)
+            mat-cell.w-80(*matCellDef="let element")
+                .cs-text {{element.total}}
+
+        mat-header-row(*matHeaderRowDef="displayedColumns")
+        mat-row(*matRowDef="let row; columns: displayedColumns;", (click)="selection.toggle(row)")
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(color="accent", mat-button, (click)="onNoClick()") {{ 'cancelar' | uppercase }}
+    button(color="accent", mat-button, [mat-dialog-close]="data.animal", cdkFocusInitial, disabled="true") CONFIRMAR

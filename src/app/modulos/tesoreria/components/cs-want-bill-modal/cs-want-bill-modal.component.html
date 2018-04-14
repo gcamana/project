@@ -1,0 +1,28 @@
+
+<h1 mat-dialog-title>¿Desea factura?</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <p>No se generará ningún documento para los compromisos a partir de la fecha de hoy.</p>
+  <mat-list class="no-padding">
+    <mat-list-item><img matListAvatar [src]="data_user.profile_image || UNKNOWN_USER_IMAGE">
+      <p matLine><strong>{{ data_user.first_name | csCapitalize }}</strong><span>{{ data_user.last_name | csCapitalize }} {{ data_user.last_name2 | csCapitalize }}</span></p>
+    </mat-list-item>
+  </mat-list>
+  <form class="full-width" [formGroup]="facturaForm">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="RUC" formControlName="ruc" onlyNumbers>
+      <mat-error *ngIf="facturaForm.controls.ruc.invalid">Ingresa un RUC válido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="document == 'TICKET'">
+      <input matInput placeholder="Razón social" formControlName="razonSocial">
+      <mat-error *ngIf="facturaForm.controls.razonSocial.invalid">Ingresa una razon social válida</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="document == 'TICKET'">
+      <input matInput placeholder="Dirección" formControlName="direction">
+      <mat-error *ngIf="facturaForm.controls.direction.invalid">Ingresa una dirección válida</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury" mat-dialog-actions>
+  <button mat-button color="accent" (click)="onNoClick()">CANCELAR</button>
+  <button mat-button color="accent" (click)="saveBillEstu()" [disabled]="facturaForm.invalid ">CONFIRMAR</button>
+</div>

@@ -1,0 +1,143 @@
+.mdl-card.mdl-card-estudiantes{
+    max-width: 250px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    display: inline-block;
+    z-index: 1;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+.mdl-card.mdl-card-estudiantes.pagos .student-name{
+    color: #009688;
+}
+.mdl-card.mdl-card-estudiantes.pagos button{
+    color: #009688;
+}
+.mdl-card.mdl-card-estudiantes.deuda .student-name{
+    color: red;
+}
+.mdl-card.mdl-card-estudiantes.deuda button{
+    color: red;
+}
+.student-name,
+.student-state{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0 !important;
+    line-height: 1.25;
+    cursor: default;
+    overflow: hidden;
+    white-space: nowrap;
+    width: -webkit-calc(100% - 0px);
+    width: -moz-calc(100% - 0px);
+    width: -ms-calc(100% - 0px);
+    width: -o-calc(100% - 0px);
+    width: calc(100% - 0px);
+}
+
+.student-state {
+    font-weight: 100;
+}
+
+.student-head,
+.student-item,
+.student-value{
+    text-align: left;
+    height: 20px;
+}
+.student-head,
+.student-item{
+    text-align: left;
+}   
+.student-head{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 !important;
+}
+.student-item{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 100;
+    color: #9E9E9E;
+    padding: 0 !important;
+}
+.student-value{
+    text-align: right;
+    padding-right: 0 !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 500;
+    color: #757575 !important;
+}
+
+@media (max-width: 1652) and (min-width: 1402){
+    .mdl-content-cards{
+        max-width: 1042px;
+    }
+}
+
+.mdl-card.mdl-card-estudiantes .mat-card-header img{
+	margin: auto;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+#searchGeneral .state,
+.state-nota,
+.state{
+    position: absolute;
+    top: 95px;
+	right: -webkit-calc(50% - 60px);		
+	right: -moz-calc(50% - 60px);		
+	right: -ms-calc(50% - 60px);
+	right: -o-calc(50% - 60px);	
+    right: calc(50% - 60px);	
+	text-align: center;
+	line-height: 2.25;
+    width: 40px;
+    height: 40px;
+	border: 3px solid #FFFFFF;
+    border-radius: 50%;
+	background-color: #EEEEEE;
+    -webkit-transition: all .3s ease-in-out;
+       -moz-transition: all .3s ease-in-out;
+    	 -o-transition: all .3s ease-in-out;
+			transition: all .3s ease-in-out;
+}
+
+/*-----  BECADO  -----*/
+.state.becado{
+	background-color: #FFEB3B;
+	color: #009688;
+}
+.state.becado:after{
+	content: "B";	
+}
+.modal .state{
+	position: relative;
+	top: inherit;
+	right: inherit;
+    padding-right: 5px;
+    margin-right: 5px;
+    padding: 9px 8px;
+	border: none;
+
+}
+.state:after{
+	content: "-";
+	font-size: 13px;
+	padding-left: 1px;
+	vertical-align: middle;
+}
+.state:HOVER{
+	cursor: pointer;
+}

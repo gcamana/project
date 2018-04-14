@@ -1,0 +1,10 @@
+@import './../../../../variables';
+.cs-red {
+    color: $red;
+    padding-right: .5rem;
+}
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}

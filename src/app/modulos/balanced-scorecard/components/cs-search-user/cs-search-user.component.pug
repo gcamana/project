@@ -1,0 +1,16 @@
+div.theme-bsc
+    mat-progress-bar(mode="indeterminate", *ngIf="isShowProgress")
+
+div.dialog-header.theme-bsc(*ngIf="!isSearch")
+    h1(mat-dialog-title) Responsables
+    button(mat-icon-button, (click)="toggleSearch()")
+        mat-icon search
+
+div.dialog-header.theme-bsc(*ngIf="isSearch")
+    mat-form-field
+        span(matPrefix)
+            button(mat-icon-button, (click)="toggleSearch()")
+                mat-icon arrow_back
+        input(matInput, type="search", placeholder="Buscar responsable", [(ngModel)]="value", #searchResp, focused)
+        button(mat-button, *ngIf="value", matSuffix, mat-icon-button, aria-label="Clear", (click)="value=''")
+            mat-icon close

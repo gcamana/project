@@ -1,0 +1,85 @@
+@import './../../../../variables';
+mat-icon {
+    color: $gray;
+}
+.mat-toolbar-row {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    &.sombra {
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.04), 0 1px 10px 0 rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        z-index: 4;
+    }
+}
+.wrapper {
+    position: relative;
+}
+.cs-content {
+    display: flex;
+    margin-top: 3rem;
+    flex: 1;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.cs-panel {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 48px;
+    width: calc(100% / 2);
+    flex-direction: column;
+    &:last-child {
+        margin-right: 0px;
+    }
+    @media screen and (max-width: 1680px) {
+        &.width-180 {
+            max-width: 180px;
+        }
+        &.width-230 {
+            max-width: 230px;
+        }
+        &.width-350 {
+            max-width: 350px;
+        }
+    }
+}
+
+.cs-gauge {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    flex-direction: column;
+}
+.cs-panel-title {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 16px;
+    font-size: 16px;
+}
+
+.cs-p {
+    p {
+        font-size: 14px;
+        color: $dark;
+        font-weight: 100;
+        line-height: 1.5;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .cs-content {
+        display: block;
+    }
+    .cs-panel {
+        display: block;
+        width: 100%;
+        
+        &.width-180 ,
+        &.width-230,
+        &.width-350 {
+            max-width: 100%;
+        }
+    }
+}

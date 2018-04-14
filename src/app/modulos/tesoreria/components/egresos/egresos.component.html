@@ -1,0 +1,209 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+  <mat-card-header>
+    <mat-card-title>Egresos</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table responsive">
+      <mat-table #table [dataSource]="dataSourceEgreso">
+        <ng-container matColumnDef="desc_concepto">
+          <mat-header-cell *matHeaderCellDef> Concepto </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.desc_concepto}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="fecha_registro">
+          <mat-header-cell *matHeaderCellDef> Fecha de Registro </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.fecha_registro}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nom_persona">
+          <mat-header-cell *matHeaderCellDef> Nombre Colaborador </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.nom_persona}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="audi_nomb_regi">
+          <mat-header-cell *matHeaderCellDef> Colaborador de Registro </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.audi_nomb_regi}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="monto">
+          <mat-header-cell *matHeaderCellDef> Monto </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.monto}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="observacion">
+          <mat-header-cell *matHeaderCellDef> Observacion </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.observacion}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef> Acci&oacute;n </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index">
+            <button mat-icon-button (click)="mostrarFormularioAnular(element.id_movimiento,i,element.fecha_registro,element.monto)" data-toggle="modal"
+              data-target="#AnularEgreso">
+              <mat-icon aria-label="Example icon-button with a heart icon">do_not_disturb_alt</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumnsEgresos"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsEgresos;"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+      </mat-paginator>
+      <!--
+          <table class="table table-hover">
+    <thead>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">Concepto</td>
+            <td class="mdl-data-table__cell--non-numeric">Fecha de Registro</td>
+            <td class="mdl-data-table__cell--non-numeric">Nombre Colaborador</td>
+            <td class="mdl-data-table__cell--non-numeric">Colaborador de Registro</td>
+            <td class="mdl-data-table__cell--non-numeric">Monto</td>
+            <td class="mdl-data-table__cell--non-numeric">Observacion</td>
+            <td class="mdl-data-table__cell--non-numeric">Acciones</td>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let _egreso of egresos; let i = index">
+            <td class="mdl-data-table__cell--non-numeric">{{_egreso.desc_concepto}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_egreso.fecha_registro}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_egreso.nom_persona}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_egreso.audi_nomb_regi}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_egreso.monto}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_egreso.observacion}}</td> 
+            <td> 
+            <button mat-icon-button (click)="mostrarFormularioAnular(_egreso.id_movimiento,i,_egreso.fecha_registro,_egreso.monto)"
+            data-toggle="modal" data-target="#AnularEgreso">
+            <mat-icon aria-label="Example icon-button with a heart icon">do_not_disturb_alt</mat-icon>
+            </button>
+
+            </td>
+            </tr>
+        </tbody>
+    </table>
+
+  -->
+
+    </div>
+  </mat-card-content>
+
+  <div class="mat-right-menu">
+    <button mat-icon-button (click)="mostrarFormulario()" data-toggle="modal" data-target="#AnadirEgreso">
+      <mat-icon aria-label="agregar">add</mat-icon>
+    </button>
+
+    <!--<button mat-icon-button [matMenuTriggerFor]="tipo">modalIgresar
+      </button>-->
+
+
+  </div>
+
+</mat-card>
+
+<hr>
+
+<!-- MODALS -->
+<div #IngresarEgreso class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <mat-progress-bar mode="indeterminate" *ngIf="progress_registrar == true"></mat-progress-bar>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Registrar Egreso</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+          <!-- Select de concepto de Egresos -->
+          <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+            <mat-form-field>
+              <!-- [formControl]="conceptoFormControl" -->
+              <mat-select #listaOpciones placeholder="Concepto de Egresos" [errorStateMatcher]="matcher">
+                <mat-option>
+                  <strong>Seleccionar</strong>
+                </mat-option>
+                <mat-option *ngFor="let option of concepto; let i = index" [value]="option.id_concepto">
+                  {{option.desc_concepto}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="conceptoFormControl.hasError('required')">Debe seleccionar un tipo de Concepto</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!--  Input de Monto del Egreso -->
+          <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+            <mat-form-field>
+              <!-- [formControl]="montoFormControl" -->
+              <input matInput maxlength="7" placeholder="Monto del Egreso" [(ngModel)]="monto" [errorStateMatcher]="matcher">
+              <mat-error *ngIf="montoFormControl.hasError('pattern') && !montoFormControl.hasError('required')">
+                Ingrese un monto correcto
+              </mat-error>
+              <mat-error *ngIf="montoFormControl.hasError('required')">
+                El monto es un
+                <strong>campo</strong> necesario
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!--  Input de la observacion del Egeso -->
+
+          <mat-form-field class="example-full-width col-md-12">
+            <!-- [formControl]="observacionFormControl" -->
+            <input maxlength="100" #observacionInput [(ngModel)]="observacion" matInput placeholder="Observacion del Egreso" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="observacionFormControl.hasError('required')">
+              La observacion es un
+              <strong>campo</strong> necesario
+            </mat-error>
+            <mat-hint align="end">{{ observacionInput.value.length}} / 100 </mat-hint>
+          </mat-form-field>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModalIngresarEgreso()">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="insertarEgreso(listaOpciones.value)"> Guardar </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+
+
+<!-- Modal Anular -->
+
+<div #AnularEgreso class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmacion de Cancelacion</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <mat-form-field class="example-full-width col-md-12">
+            <!--    <mat-form-field class="example-full-width"> -->
+            <!-- [formControl]="observacionAFormControl" -->
+            <input maxlength="100" #observacionAInput [(ngModel)]="observacionA" matInput placeholder="Observacion del Egreso" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="observacionAFormControl.hasError('required')">
+              La observacion para anular el
+              <strong>egreso</strong> es necesaria
+            </mat-error>
+            <mat-hint align="end">{{ observacionAInput.value.length}} / 100 </mat-hint>
+          </mat-form-field>
+
+          <!--
+          <mat-form-field class="example-full-width">
+          <input [(ngModel)]="observacionA" matInput placeholder="Observacion de Anulacion">
+          </mat-form-field>
+                        <label>Observacion: </label>
+                        <input [(ngModel)]="observacionA">-->
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModalAnularEgreso()">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="anularEgreso()"> Anular </button>
+
+      </div>
+    </div>
+  </div>
+</div>

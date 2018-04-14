@@ -1,0 +1,84 @@
+h1(*ngIf="!isAddConcept", mat-dialog-title) Proveedores
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+.cs-add.theme-treasury(*ngIf="!isAddConcept")
+    button(mat-mini-fab, cdkFocusInitial, (click)="toogleConcept()")
+        mat-icon add
+    p.padding-left Asignar proveedor
+
+div.cs-row.theme-treasury(*ngIf="isAddConcept")
+    button(mat-icon-button, (click)="toogleConcept()")
+        mat-icon arrow_back
+
+    span Crear proveedor
+
+
+div.theme-treasury.no-padding(mat-dialog-content)
+    mat-table(*ngIf="!isAddConcept", #table, [dataSource]="providerSource")
+        ng-container(matColumnDef="service")
+            mat-header-cell(*matHeaderCellDef) Servicio
+            mat-cell(*matCellDef="let element") {{element.service}}
+
+        ng-container(matColumnDef="responsible")
+            mat-header-cell.text-center(*matHeaderCellDef) Responsable
+            mat-cell.text-center(*matCellDef="let element")
+                img([src]="UNKNOWN_USER_IMAGE", [matTooltip]="element.responsible")
+
+        ng-container(matColumnDef="business")
+            mat-header-cell(*matHeaderCellDef) Razon Social
+            mat-cell(*matCellDef="let element") {{element.business}}
+
+        ng-container(matColumnDef="state")
+            mat-header-cell.w-80(*matHeaderCellDef) Estado
+            mat-cell.w-80(*matCellDef="let element")
+                mat-slide-toggle([checked]="element.state")
+
+        ng-container(matColumnDef="action")
+            mat-header-cell.w-40.text-right(*matHeaderCellDef) Accion
+            mat-cell.w-40.text-right(*matCellDef="let element")
+                button(mat-icon-button)
+                    mat-icon more_vert
+
+        mat-header-row(*matHeaderRowDef="displayedColumns")
+        mat-row(*matRowDef="let row; columns: displayedColumns;", (click)="selection.toggle(row)")
+
+    form(*ngIf="isAddConcept", [formGroup]="prividerForm")
+        .cs-profile-image
+            img([src]="UNKNOWN_USER_IMAGE")
+            input#cs-file(type="file")
+            label(for="cs-file")
+                mat-icon photo_camera
+
+        mat-form-field.full-width
+            mat-select(placeholder="Selec. tipo de documento", panelClass="cs-treasury-select", formControlName="document", required)
+                mat-option(*ngFor="let doc of type_docs", [value]="doc.id_combo") {{ doc.desc_combo }}
+            mat-error(*ngIf="prividerForm.controls.document.invalid") Seleccionar un tipo de documento
+
+        mat-form-field.full-width
+            input(type="tel", matInput, placeholder="Nro de documento", formControlName="number")
+            mat-error(*ngIf="prividerForm.controls.number.invalid") Ingresar Nro de documento
+
+        mat-form-field.full-width
+            input(type="text", matInput, placeholder="Nombre", formControlName="name", required)
+            mat-error(*ngIf="prividerForm.controls.name.invalid") Ingresar el Nombre
+
+        mat-form-field.full-width
+            input(type="text", matInput, placeholder="Servicios", formControlName="service", required)
+            mat-error(*ngIf="prividerForm.controls.service.invalid") Ingresar servicios
+
+
+        mat-form-field.full-width
+            input(type="text", matInput, placeholder="Dirección", formControlName="direction")
+            mat-error(*ngIf="prividerForm.controls.direction.invalid") Ingresar dirección
+
+        mat-form-field.full-width
+            input(type="text", matInput, placeholder="Teléfono", formControlName="phone")
+            mat-error(*ngIf="prividerForm.controls.phone.invalid") Ingresar teléfono
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(*ngIf="!isAddConcept", color="accent", mat-button, (click)="onNoClick()") {{ 'cancelar' | uppercase }}
+    button(*ngIf="!isAddConcept", color="accent", mat-button, [mat-dialog-close]="data.animal", disabled="true") CONFIRMAR
+
+    button(*ngIf="isAddConcept", color="accent", mat-button, [disabled]="prividerForm.invalid", (click)="createConcept()") {{ 'crear' | uppercase }}
+

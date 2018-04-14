@@ -1,0 +1,137 @@
+@import '../../../variables';
+.mat-progress-bar {
+    width: 100%;
+    position: absolute;
+    top: -3px;
+    left: 0;
+}
+.button-row {
+    position: absolute;
+    top: 2px;
+    right: 85px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in-out;
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    &.pin-up {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    mat-icon {
+        color: $gray;
+    }
+}
+.mat-icon-button {
+    transition: transform .25s ease;
+    &.isActive {
+        mat-icon{
+            color: $bsc;
+            transform: rotate(20deg);
+        }
+    }
+}
+.accordion-click {
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    height: 50px;
+    position: absolute;
+    left: 0;
+    line-height: 50px;
+    right: 0;
+    margin: auto;
+    bottom: 0;
+    border-radius: 0 0 3px 3px;
+    -webkit-box-shadow: inset 0px -50px 30px -10px rgba($light, 1);
+    -moz-box-shadow: inset 0px -50px 30px -10px rgba($light, 1);
+    box-shadow: inset 0px -50px 30px -10px rgba($light, 1);
+    text-overflow: ellipsis;
+    text-overflow: hidden;
+    &.active {
+        &:before {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+    &:before {
+        content: "";
+        display: block;
+        height: 1px;
+        width: calc(100% - 20px);
+        background: $muted;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        transition: all .3s ease-in-out;
+        z-index: 1;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.accordion-body {
+    overflow: hidden;
+    position: relative;
+    padding: 0px 0px 30px 0px;
+    background-color: $light;
+    box-sizing: border-box;
+    max-height: 230px;
+    display: block;
+    border-radius: 3px;
+    transition: all .3s ease-in-out;
+    margin-bottom: -8px;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 0px 0 rgba(0, 0, 0, 0.12);
+    &.active {
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+        max-height: 100%;
+        padding: 16px 24px 40px 24px;
+        margin: 16px 0;
+        margin-top: 24px;
+        transform: matrix(1.03, 0, 0, 1.03, 0, 0);
+        transition: all .3s ease-in-out;
+        @media screen and (max-width: 768px) {
+            padding: 60px 24px 40px 24px;
+        }
+        @media screen and (max-width: 640px) {
+            max-height: 100%;
+        }
+        @media screen and (max-width: 360px) {
+            padding: 60px 10px 30px 10px;
+        }
+    }
+    @media screen and (max-width: 360px) {
+        padding: 30px 10px 30px 10px;
+    }
+
+    &.pin-up {
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+        max-height: 100% !important;
+        padding: 50px 24px 40px 24px;
+        margin: 16px 0;
+        margin-top: 24px;
+        transform: matrix(1.03, 0, 0, 1.03, 0, 0);
+        @media screen and (max-width: 768px) {
+            padding: 60px 24px 40px 24px;
+        }
+
+        @media screen and (max-width: 640px) {
+            max-height: 260px !important;
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        max-height: 190px;
+    }
+}
+.mat-progress-bar {
+    position: absolute;
+    bottom: -9px;
+    left: -20px;
+    width: calc(100% + 40px);
+}

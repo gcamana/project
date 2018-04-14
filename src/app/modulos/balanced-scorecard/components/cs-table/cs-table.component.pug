@@ -1,0 +1,39 @@
+.cs-mat-row([class.margin-left]="!isArrow")
+    .cs-mat-cell
+        button(mat-icon-button, (click)="onClick($event)", *ngIf="isArrow")
+            mat-icon(aria-label="arrow", *ngIf="active; else elseBlock") keyboard_arrow_up
+            ng-template(#elseBlock)
+                mat-icon(aria-label="arrow") keyboard_arrow_down
+        | {{ description }}
+        .button-row
+            span(matTooltip="{{current}} / {{total}}")
+                button(mat-icon-button)
+                    mat-icon info_outline
+
+    .cs-mat-cell.cs-mat-column-width-150
+        | {{ anterior }}
+        .button-row
+            button(mat-icon-button, (click)="openDialog(entityId, 'anterior')")
+                mat-icon mode_edit
+
+    .cs-mat-cell.cs-mat-column-width-200
+        cs-trend-table([trendFlag]="flg_var", [value]="porcentaje", [variation]="variation", [unidad_med]="unidad_med")
+        .button-row
+            button(mat-icon-button, (click)="openDialog(entityId, 'current')", *ngIf="flgManual=='S' && !isArrow")
+                mat-icon mode_edit
+
+    .cs-mat-cell.cs-mat-column-width-90
+        | {{ goal }}
+        .button-row
+            button(mat-icon-button, (click)="openDialog(entityId, 'goal')")
+                mat-icon mode_edit
+
+    //- .cs-mat-cell.cs-mat-column-width-90
+    //-     .button-row
+    //-         button(mat-icon-button)
+    //-             mat-icon remove_red_eye
+    //-         button(mat-icon-button)
+    //-             mat-icon mode_edit
+
+.cs-mat-row-body([class.active]='active')
+    ng-content

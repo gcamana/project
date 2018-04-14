@@ -1,0 +1,7 @@
+h3 {{ title }}
+
+mat-list(dense)
+    mat-list-item(*ngFor="let item of data")
+        mat-icon(matListIcon) {{ item?.icon }}
+        h3(matLine) {{ item?.title }}
+        mat-icon.cs-rotate(color="primary", svgIcon="pin-up")

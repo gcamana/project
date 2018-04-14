@@ -1,0 +1,33 @@
+h1(mat-dialog-title) Descuentos especiales
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    mat-list.no-padding
+        mat-list-item
+            img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+            p(matLine)
+                strong Giovanni
+                span Camana Infanzon
+
+    p
+        span.cs-red *
+        | Campos obligatorios
+
+    form
+        mat-form-field.full-width(hideRequiredMarker="false", floatLabel="auto")
+            mat-select(panelClass="cs-treasury-select", placeholder="Selec. tipo de descuento*")
+                mat-option(value="option1") option1
+                mat-option(value="option2") option2
+                mat-option(value="option3") option3
+
+        mat-form-field.full-width(hideRequiredMarker="false", floatLabel="auto")
+            span(matPrefix) S/ &nbsp;
+            input(matInput , type="tel", placeholder="Monto", required)
+
+        mat-form-field.full-width
+            textarea(matInput, maxlength="120", #observation, placeholder="Observación", matTextareaAutosize, matAutosizeMinRows="2", matAutosizeMaxRows="4")
+            mat-hint(align="end") {{ observation.value.length }} / 120
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, color="accent", [mat-dialog-close]="data.animal", cdkFocusInitial) ASIGNAR

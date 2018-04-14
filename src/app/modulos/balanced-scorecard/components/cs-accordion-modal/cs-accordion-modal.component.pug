@@ -1,0 +1,38 @@
+mat-toolbar-row
+    button(mat-icon-button, (click)="onNoClick()")
+        mat-icon arrow_back
+    h4.padding-left {{ data.structure.desc_persp | csCapitalize }}
+    span.cs-spacer
+    button(mat-icon-button, (click)="onNoClick()")
+        mat-icon fullscreen_exit
+    button(mat-icon-button, [matMenuTriggerFor]='menuGauge')
+        mat-icon more_vert
+
+    mat-menu(#menuGauge='matMenu', yPosition="below", xPosition="before")
+        button(mat-menu-item, (click)="editGaugeValue()")
+            mat-icon create
+            span Editar Valores
+
+
+section.wrapper
+    .cs-content
+        .cs-panel.width-350
+            .cs-gauge
+                cs-circular-gauge-component.margin-top-minus-80([class.cs-gray-image]="!data.structure.actual", [values]="data.structure.actual", [red]="data.structure.zona_riesgo", [orange]="data.structure.v_amarillo", [borderWidth]="15", [dialBaseWidth]="8", [dialBorderWidth]="2", [dialRadius]="'55%'")
+
+            div.margin-top-minus-120
+                .cs-panel-title
+                    strong {{ data.structure.desc_persp | csCapitalize }}
+                .cs-p.margin-top.margin-bottom
+                    p Rentabilizar la empresa y maximizar las ganancias de todo el grupo educativo.
+
+                cs-user-avatar
+
+                .cs-panel-title.padding-top
+                    strong Objetivos
+
+                cs-goals([objetivos]="data.structure.objetivos", [index]="index", (setIndicadores)="setIndicadores($event)")
+
+        .cs-panel
+            .cs-panel-title Indicadores
+            cs-indicators([indicadores]="data.structure.objetivos[0].indicadores", [truncateText]="false")

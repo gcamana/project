@@ -1,0 +1,8 @@
+
+<div class="cs-trend">
+  <div class="cs-circle">
+    <div class="circle" [ngClass]="stateClass"></div>
+  </div>
+  <mat-icon *ngIf="trendFlag !== 2">{{ trendIcon }}</mat-icon>
+  <mat-icon class="svg" *ngIf="trendFlag === 2" [svgIcon]="trendIcon"></mat-icon>
+</div>

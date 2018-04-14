@@ -1,0 +1,6 @@
+.cs-trend
+    .cs-circle
+        .circle([ngClass]="stateClass")
+
+    mat-icon(*ngIf="trendFlag !== 2") {{ trendIcon }}
+    mat-icon.svg(*ngIf="trendFlag === 2", [svgIcon]="trendIcon")

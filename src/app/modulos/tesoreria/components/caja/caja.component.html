@@ -1,0 +1,211 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+    <mat-card-header>
+        <mat-card-title>Detalle del: {{fechaCaja | date:'dd/MM/yyyy'}}
+            <button mat-icon-button id="prev" (click)="changeDayByType(1)">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <button mat-icon-button id="next" (click)="changeDayByType(2)">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="table responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>Movimiento </td>
+                        <td>Cant. Mov. </td>
+                        <td>Monto (S/.) </td>
+                        <td>Acción </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let datos of caja; let i = index">
+                        <td>{{datos.accion}}</td>
+                        <td>{{datos.cant}}</td>
+                        <td>{{datos.sumatoria}}</td>
+                        <td>
+                            <button mat-icon-button *ngIf="datos.btn_ver" data-toggle="modal" data-target="#myModal" (click)="verDetalleAccion(datos.accion)">
+                                <mat-icon aria-label="VER">remove_red_eye</mat-icon>
+                            </button>
+                            <div *ngIf="!datos.btn_ver">-</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card-content>
+    <div class="mat-right-menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="getVistaPreviaReporteCaja()" data-toggle="modal" data-target="#modalVistaPreviaPDF">
+                <mat-icon>picture_as_pdf</mat-icon>
+                <span>Descargar PDF</span>
+            </button>
+        </mat-menu>
+    </div>
+    <div class="caja-aperturada-cerrada" *ngIf="validateFechaActual()">
+        <button class="caja-aperturada" mat-fab [disabled]="accionAbrir" data-toggle="modal" data-target="#modalAperturarCaja">
+            <mat-icon aria-label="Example icon-button with a heart icon">lock_open</mat-icon>
+        </button>
+        <button class="caja-cerrada" mat-fab [disabled]="accionCerrar" data-toggle="modal" data-target="#modalCerrarCaja">
+            <mat-icon aria-label="Example icon-button with a heart icon">lock_outline</mat-icon>
+        </button>
+        <div class="progress-line"></div>
+    </div>
+</mat-card>
+<div>
+    <button mat-fab color="warn" style="float: right;" (click)="goToDevoluciones()">
+        <mat-icon>strikethrough_s</mat-icon>
+    </button>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{compromisos}} {{fechaCaja | date:'dd/MM/yyyy'}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Cuota</td>
+                                <td>Monto</td>
+                                <td>Hora</td>
+                                <td>Persona</td>
+                                <td *ngIf="compromisos == 'INGRESOS'">Mod. Pago</td>
+                                <td *ngIf="compromisos == 'INGRESOS'">Documento</td>
+                                <td *ngIf="compromisos == 'EGRESOS'">Observaci&oacute;n</td>
+                                <td>Registrado por</td>
+                                <!--<td>Acción</td>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let datos of egresosIngresos; let i = index">
+                                <td>{{datos.desc_concepto}}</td>
+                                <td>{{datos.monto_pagado}}</td>
+                                <td>{{datos.fecha}}</td>
+                                <td>
+                                    <mat-icon matTooltip="{{datos.persona}}">account_circle</mat-icon>
+                                    {{datos.persona}}
+                                </td>
+                                <td *ngIf="compromisos == 'INGRESOS'">
+                                    <mat-icon *ngIf="datos.icon_mod_pago != null" matTooltip="{{datos.tooltip}}">{{datos.icon_mod_pago}}</mat-icon>
+                                </td>
+                                <td *ngIf="compromisos == 'INGRESOS'">{{datos.nro_documento}}</td>
+                                <td *ngIf="compromisos == 'EGRESOS'">{{datos.observacion}}</td>
+                                <td>
+                                    <mat-icon matTooltip="{{datos.pers_regi}}">account_circle</mat-icon>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalAperturarCaja" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Aperturar Caja</h4>
+            </div>
+            <div class="modal-body">
+                <small>Se aperturar&aacute; tu caja con el &uacute;ltimo monto que tuviste. &#191;Est&aacute;s seguro&#63;</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="aperturarCaja()">CONFIRMAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalCerrarCaja" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cerrar Caja</h4>
+            </div>
+            <div class="modal-body">
+                <small>Tu caja se cerrará con el monto que tienes actualmente.</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarCaja()">CONFIRMAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalVistaPreviaPDF" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Vista previa reporte</h4>
+            </div>
+            <div class="modal-body">
+                <div id="reporteCajaPDF">
+                    <div class="table responsive">
+                        <table class="table" border="1" style="width:100%;border: 1px solid black;border-collapse: collapse;color:#959595;">
+                            <thead>
+                                <tr>
+                                    <td style='width:600px'>Descripci&oacute;n</td>
+                                    <td style='width:600px'>Nro. recibo</td>
+                                    <td style='width:600px'>Observaci&oacute;n</td>
+                                    <td style='width:400px'>Hora</td>
+                                    <td style='width:400px'>Persona</td>
+                                    <td style='width:400px'>&iquest;Tarjeta?</td>
+                                    <td style='width:400px'>Monto</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let datos of egresosIngresosReporte; let i = index" [ngStyle]=" {'background-color':datos.background}">
+                                    <td>{{datos.desc_concepto}}</td>
+                                    <td>{{datos.nro_doc}}</td>
+                                    <td>{{datos.observacion}}</td>
+                                    <td>{{datos.fecha}}</td>
+                                    <td>{{datos.persona}}</td>
+                                    <td>{{datos.flg_tarjeta}}</td>
+                                    <td>{{datos.monto_pagado}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table responsive">
+                        <table class="table" border="1" style="width:100%;border: 1px solid black;border-collapse: collapse;color:#959595;">
+                            <thead>
+                                <tr>
+                                    <td>Movimiento </td>
+                                    <td>Cant. Mov. </td>
+                                    <td>Monto (S/.) </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let datos of caja; let i = index">
+                                    <td>{{datos.accion}}</td>
+                                    <td>{{datos.cant}}</td>
+                                    <td>{{datos.sumatoria}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="getReporteCaja()">Descargar PDF</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+h1(mat-dialog-title) ¿Deseas anular el egreso?
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    p Al anular el egreso el monto íntegro volverá a estar en tu caja.
+    .cs-content
+        p.padding-right {{ element_mov.description }}
+        strong S/ {{ element_mov.total - element_mov.monto_pagado | number:'1.2-2'}}
+
+    form.padding-top([formGroup]="cancelForm")
+        mat-form-field.full-width
+            textarea(matInput, maxlength="120", #observation, formControlName="observation", placeholder="Observación", matTextareaAutosize, matAutosizeMinRows="2", matAutosizeMaxRows="4")
+            mat-error(*ngIf="cancelForm.controls.observation.invalid") Debes ingresar una observación
+            mat-hint(align="end") {{ observation.value.length }} / 120
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, color="accent", (click)="onNoClick()") CANCELAR
+    button(mat-button, color="accent", [disabled]="!cancelForm.valid", (click)="saveCancelExpense()", cdkFocusInitial) CONFIRMAR

@@ -1,0 +1,25 @@
+@import './../../../../variables';
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.mat-header-cell,
+.mat-cell {
+    overflow: visible;
+}
+
+h1 {
+    img {
+        max-width: 140px;
+        margin-top: -20px;
+    }
+}
+
+p {
+    margin-bottom: 0;
+}
+.cs-red {
+    color: $red;
+}

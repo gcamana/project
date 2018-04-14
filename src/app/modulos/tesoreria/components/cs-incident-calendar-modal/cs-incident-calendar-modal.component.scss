@@ -1,0 +1,20 @@
+@import './../../../../variables';
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.cs-red {
+    color: $red;
+    .mat-button-wrapper {
+        color: $red;
+    }
+}
+
+.cs-green {
+    color: $green;
+    .mat-button-wrapper {
+        color: $green;
+    }
+}

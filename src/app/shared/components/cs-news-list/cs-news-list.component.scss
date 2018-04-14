@@ -1,0 +1,32 @@
+@import './../../../variables';
+
+mat-toolbar-row {
+    strong {
+        color: $dark;
+        font-size: 16px;
+    }
+    span {
+        color: $dark;
+    }
+}
+
+ul {
+    padding:  0 16px;
+    box-sizing: border-box;
+    p {
+        font-size: 11px;
+        line-height: 1.2;
+        color: $dark;
+        text-align: justify;
+    }
+    .cs-btn-small {
+        display: inline;
+    }
+}
+
+em {
+    font-size: 10px;
+    color: $muted;
+    font-weight: 400;
+    font-style: initial;
+}

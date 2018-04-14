@@ -1,0 +1,301 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'app/variables';
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+$my-app-warn:    mat-palette($mat-deep-orange);
+$theme-app-primary: mat-palette($mat-grey);
+$theme-app-accent:  mat-palette($mat-grey, 700);
+// The warn palette is optional (defaults to red).
+$theme-app-warn:    mat-palette($mat-red);
+$theme-app-theme: mat-light-theme($theme-app-primary, $theme-app-accent, $theme-app-warn);
+
+@include angular-material-theme($theme-app-theme);
+
+
+.theme-bsc {
+    $alternate-primary: mat-palette($mat-blue-grey, 700);
+    $alternate-accent:  mat-palette($mat-yellow, A700);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    // Include the theme styles for only specified components.
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $bsc;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $bsc !important;
+    }
+
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $bsc !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $bsc !important;
+    }
+}
+
+.theme-treasury {
+    $alternate-primary: mat-palette($mat-teal, 800);
+    $alternate-accent:  mat-palette($mat-teal, 500);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $tesoreria;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $tesoreria !important;
+    }
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $tesoreria !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $tesoreria !important;
+    }
+    .cal-month-view {
+        .cal-day-cell {
+            &.cal-today {
+                color: $light;
+                .cal-day-number {
+                    background: #009688 !important;
+                }
+            }
+        }
+    }
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: $tesoreria;
+    }
+}
+.theme-enrollment {
+    $alternate-primary: mat-palette($mat-indigo, 800);
+    $alternate-accent:  mat-palette($mat-indigo, 500);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $enroll;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $enroll !important;
+    }
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $enroll !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $enroll !important;
+    }
+    .cal-month-view {
+        .cal-day-cell {
+            &.cal-today {
+                color: $light;
+                .cal-day-number {
+                    background: $enroll !important;
+                }
+            }
+        }
+    }
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: $enroll;
+    }
+}
+.theme-planning {
+    $alternate-primary: mat-palette($mat-indigo, 500);
+    $alternate-accent:  mat-palette($mat-indigo, 500);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $plan;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $plan !important;
+    }
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $plan !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $plan !important;
+    }
+    .cal-month-view {
+        .cal-day-cell {
+            &.cal-today {
+                color: $light;
+                .cal-day-number {
+                    background: $plan !important;
+                }
+            }
+        }
+    }
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: $plan;
+    }
+}
+.theme-grading {
+    $alternate-primary: mat-palette($mat-indigo, 500);
+    $alternate-accent:  mat-palette($mat-indigo, 800);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $notas;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $notas !important;
+    }
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $notas !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $notas !important;
+    }
+    .cal-month-view {
+        .cal-day-cell {
+            &.cal-today {
+                color: $light;
+                .cal-day-number {
+                    background: $notas !important;
+                }
+            }
+        }
+    }
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: $notas;
+    }
+}
+.theme-prog {
+    $alternate-primary: mat-palette($mat-indigo, 500);
+    $alternate-accent:  mat-palette($mat-indigo, 800);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $prog;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $prog !important;
+    }
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $prog !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $prog !important;
+    }
+    .cal-month-view {
+        .cal-day-cell {
+            &.cal-today {
+                color: $light;
+                .cal-day-number {
+                    background: $prog !important;
+                }
+            }
+        }
+    }
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: $prog;
+    }
+}
+.theme-resources {
+    $alternate-primary: mat-palette($mat-indigo, 500);
+    $alternate-accent:  mat-palette($mat-indigo, 800);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+
+    @include angular-material-theme($alternate-theme);
+    @include mat-core-theme($alternate-theme);
+    @include mat-button-theme($alternate-theme);
+    @include mat-checkbox-theme($alternate-theme);
+    @include mat-select-theme($alternate-theme);
+    @include mat-datepicker-theme($alternate-theme);
+
+    cs-shrinking-header-component {
+        background-color: $rrhh;
+    }
+
+    a,
+    .mat-raised-button {
+        color: $rrhh !important;
+    }
+    .mat-primary .mat-pseudo-checkbox-checked {
+        background: $rrhh !important;
+    }
+
+    .mat-calendar-body-today.mat-calendar-body-selected {
+        box-shadow: none !important;
+        background: $rrhh !important;
+    }
+    .cal-month-view {
+        .cal-day-cell {
+            &.cal-today {
+                color: $light;
+                .cal-day-number {
+                    background: $rrhh !important;
+                }
+            }
+        }
+    }
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: $rrhh;
+    }
+}

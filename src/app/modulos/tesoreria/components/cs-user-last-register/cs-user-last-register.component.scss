@@ -1,0 +1,63 @@
+@import './../../../../variables';
+
+.mat-list {
+    .mat-list-item {
+        &.mat-2-line {
+            height: 42px;
+        }
+        .mat-list-avatar {
+            width: 30px;
+            height: 30px;
+        }
+
+    }
+}
+
+.cs-type-move {
+    &.red {
+        color: $red;
+    }
+    &.green {
+        color: $green;
+    }
+}
+
+img {
+    cursor: pointer;
+}
+
+h3,
+p {
+    font-size: 12px !important;
+    font-weight: bold;
+}
+
+h3 {
+    p {
+        font-size: 10px !important;
+        color: #b0b0b0;
+        line-height: 2;
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+}
+
+h2 {
+    font-size: 16px;
+}
+
+.cs-figure__click {
+    text-align: center;
+}
+
+.cs-figure__list {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    padding: 16px  16px 0  24px;
+    padding-top: 0;
+    @media screen and (min-width: 1024px) {
+        transition: max-height .25s linear;
+    }
+    position: relative;
+}

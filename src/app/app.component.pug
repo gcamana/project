@@ -1,0 +1,37 @@
+mat-sidenav-container((backdropClick)="close(reason)")
+    mat-sidenav(#modenav, (keydown.escape)="close(reason)")
+        cs-user-permission(
+            (onToggleMode)="onToggleMode($event)",
+            [reason]="reason",
+            [user]="user",
+            [modules]="modulesTmp",
+            [color]="collegePage?.color")
+
+    mat-sidenav.pure(#sidenav, [mode]="mobileQuery.matches ? 'over' : 'side'", position="end", (keydown.escape)="close('escape')")
+        mat-toolbar.fixed.pure
+            mat-toolbar-row.box-shadow-bottom
+                span.cs-spacer
+                .button-row
+                    button(mat-icon-button)
+                        mat-icon(aria-label="setting") settings
+                    button(mat-icon-button)
+                        mat-icon(aria-label="more") more_vert
+
+        cs-news-list.margin-top-64(style="display:block")
+
+        cs-chat-list
+
+    mat-sidenav-content(#scrollArea)
+        header-component(
+            [displayTitle]="displayTitle",
+            [ngClass]="sideNavActive ? 'side-nav-active' : ''",
+            [title]="title",
+            (onToggleSide)="onToggleSide($event)",
+            (onToggleMode)="onToggleMode($event)",
+            [color]="collegePage?.color",
+            [themeHeader]="themeHeader",
+            [moduleChange]="moduleChange")
+
+        .cs-content
+            router-outlet
+

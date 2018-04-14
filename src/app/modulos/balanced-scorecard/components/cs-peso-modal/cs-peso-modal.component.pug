@@ -1,0 +1,12 @@
+div.theme-bsc
+    mat-progress-bar(mode="indeterminate", *ngIf="isShowProgress")
+
+h1(mat-dialog-title) Editar peso
+div(mat-dialog-content)
+    .theme-bsc.cs-form
+        mat-form-field.cs-full-width
+            input(matInput, color="primary", placeholder="Peso", [(ngModel)]="data.peso", name="peso")
+
+div(mat-dialog-actions)
+    button(mat-button, (click)="onNoClick()") CERRAR
+    button(mat-button, cdkFocusInitial, (click)="setPeso()") GUARDAR

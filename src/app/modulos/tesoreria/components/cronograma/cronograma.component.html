@@ -1,0 +1,206 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+    <mat-card-header>
+        <mat-card-title>Cronograma</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="table responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">Descripcion</td>
+                        <td class="mdl-data-table__cell--non-numeric">Abreviatura</td>
+                        <td class="mdl-data-table__cell--non-numeric">Dirección</td>
+                        <td class="mdl-data-table__cell--non-numeric">Telefono</td>
+                        <!--<td class="mdl-data-table__cell--non-numeric">Cantidad de Cronogramas</td>-->
+                        <td class="mdl-data-table__cell--non-numeric">Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let _sedes of sedes; let i = index">
+                        <td class="mdl-data-table__cell--non-numeric">{{_sedes.desc_sede}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{_sedes.abvr}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{_sedes.dir_sede}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{_sedes.telf_sede}}</td>
+                        <!--<td class="mdl-data-table__cell--non-numeric">{{_sedes.count_cronograma}}</td>-->
+                        <td>
+                            <button mat-icon-button (click)="ver(_sedes.nid_sede)">
+                                <!--*ngIf="flag_ver==true" -->
+                                <mat-icon aria-label="ver">remove_red_eye</mat-icon>
+                            </button>
+                            <!--<button mat-icon-button type="button" *ngIf="flag_ocultar==true" (click)="ocultarCronograma()"> 
+                                <mat-icon aria-label="Quitar">visibility_off</mat-icon>
+                            </button>-->
+                            <button mat-icon-button (click)="mostrarFormulario(_sedes.nid_sede, _sedes.desc_sede)">
+                                <mat-icon aria-label="agregar">add</mat-icon>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+<!-- MODAL Ingresar nuevo cronograma-->
+<div #ingresarCronograma class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">Nuevo Cronograma ({{sede}})</h4>
+            </div>
+            <div class="modal-body">
+                <mat-tab-group (selectedTabChange)="tabChange()" [(selectedIndex)]="index">
+                    <mat-tab label="Cronograma">
+                        <mat-card-content style="overflow-x: hidden;overflow-y: hidden;">
+                            <div class="row">
+                                <!-- Nombre de la sede -->
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                    <!--  Input de Nombre del cronograma -->
+                                    <mat-form-field class="example-full-width">
+                                        <!-- [formControl]="cronogramaFormControl" -->
+                                        <input maxlength="100" #cronogramaInput [(ngModel)]="cronograma" matInput placeholder="Nombre del Cronograma" [errorStateMatcher]="matcher">
+                                        <mat-error *ngIf="cronogramaFormControl.hasError('required')">
+                                            El Nombre de Cronograma es
+                                            <strong>necesario</strong>
+                                        </mat-error>
+                                        <mat-hint align="end">{{ cronogramaInput.value.length}} / 100 </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                    <!-- Input de año (MAT-ERROR)-->
+                                    <mat-form-field class="example-full-width">
+                                        <!-- [formControl]="yearFormControl" -->
+                                        <input matInput maxlength="4" #anioInput [(ngModel)]="anio" placeholder="Año" [errorStateMatcher]="matcher">
+                                        <mat-error *ngIf="yearFormControl.hasError('pattern') && !yearFormControl.hasError('required')">
+                                            Ingrese un año correcto
+                                        </mat-error>
+                                        <mat-error *ngIf="yearFormControl.hasError('required')">
+                                            El año es
+                                            <strong>necesario</strong>
+                                        </mat-error>
+
+                                    </mat-form-field>
+                                    <!-- Select de tipos de cronograma -->
+                                </div>
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                    <mat-form-field>
+                                        <!-- [formControl]="selectTipoCronogramaFormControl" -->
+                                        <mat-select #listaOpciones placeholder="Tipos de Cronograma" [errorStateMatcher]="matcher">
+                                            <mat-option>Seleccionar</mat-option>
+                                            <mat-option *ngFor="let option of tipoDeCronograma; let i = index" [value]="option.id_tipo_cronograma">
+                                                {{option.desc_tipo_cronograma}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="selectTipoCronogramaFormControl.hasError('required')">Debe seleccionar un tipo de cronograma</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-tab>
+                    <mat-tab label="Plantilla">
+                        <mat-card-content style="overflow-x: hidden;overflow-y: hidden;">
+                            <div class="row">
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                    <!--  Input de Nombre del cronograma -->
+                                    <mat-form-field class="example-full-width">
+                                        <!-- [formControl]="cronogramaFormControl" -->
+                                        <input maxlength="100" [(ngModel)]="cronograma" matInput placeholder="Nombre del Cronograma" [errorStateMatcher]="matcher">
+                                        <mat-error *ngIf="cronogramaFormControl.hasError('required')">
+                                            El Nombre de Cronograma es
+                                            <strong>necesario</strong>
+                                        </mat-error>
+                                        <mat-hint align="end">{{ cronogramaInput.value.length}} / 100 </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                    <!-- Input de año -->
+                                    <mat-form-field class="example-full-width">
+                                        <!-- [formControl]="yearFormControl"-->
+                                        <input maxlength="4" #anioInput2 [(ngModel)]="anio" matInput placeholder="Año" [errorStateMatcher]="matcher">
+                                        <mat-error *ngIf="yearFormControl.hasError('pattern') && !yearFormControl.hasError('required')">
+                                            Ingrese un año correcto
+                                        </mat-error>
+                                        <mat-error *ngIf="yearFormControl.hasError('required')">
+                                            El año es
+                                            <strong>necesario</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                    <!-- Select de plantillas de cronogramas -->
+                                    <mat-form-field>
+                                        <!-- [formControl]="selectPlantillaFormControl" -->
+                                        <mat-select #listaOpciones2 placeholder="plantilla de Cronograma" [errorStateMatcher]="matcher">
+                                            <mat-option>Seleccionar</mat-option>
+                                            <mat-option *ngFor="let option of plantillaCronogramas; let i = index" [value]="option.id_cronograma">
+                                                {{option.desc_cronograma}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="selectPlantillaFormControl.hasError('required')">Debe seleccionar un cronograma como plantilla</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                                </div>
+
+                            </div>
+                        </mat-card-content>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+            <div class="modal-footer">
+                <button mat-button data-dismiss="modal" (click)=" closemodalIngresarCronograma()">Cancelar</button>
+                <button mat-button (click)="insertarCronograma(listaOpciones.value,listaOpciones2.value)" data-dismiss="modal">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<mat-tab label="COLABORADORES">-->
+<!-- MODAL  Cronogramas-->
+<div #modalCronograma class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div style="width:800px;position: relative;" class="modal-content">
+            <mat-card class="p-rl-0">
+                <mat-card-header>
+                    <button type="button" class="close" data-dismiss="modal" (click)="closemodalCronograma()">&times;</button>
+                    <mat-card-title>Cronogramas</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Descripcion</td>
+                                <td class="mdl-data-table__cell--non-numeric">Año</td>
+                                <td class="mdl-data-table__cell--non-numeric">Tipo de Cronograma</td>
+                                <td class="mdl-data-table__cell--non-numeric">Acciones</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let _cronograma of cronogramas; let i = index">
+                                <td class="mdl-data-table__cell--non-numeric">{{_cronograma.desc_cronograma}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{_cronograma.year}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{_cronograma.desc_tipo_cronograma}}</td>
+                                <td>
+                                    <button mat-icon-button (click)="goDetalleCronograma(_cronograma.id_cronograma)">
+                                        <mat-icon aria-label="ver">remove_red_eye</mat-icon>
+                                    </button>
+                                    <button mat-icon-button (click)="eliminarCronograma(_cronograma.id_cronograma,i)">
+                                        <mat-icon aria-label="eliminar">delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card-content>
+                <mat-card-actions class="text-right">
+                    <button mat-button (click)="closemodalCronograma()">CERRAR</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>

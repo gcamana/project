@@ -1,0 +1,25 @@
+div.theme-bsc
+    h1.dialog-header(mat-dialog-title) {{ title }}
+    button(mat-icon-button, style="opacity:0;position:absolute;top:0;right:0;")
+        mat-icon more_vert
+
+div(mat-dialog-content)
+    mat-list.cs-mat-nav-list-modal
+        mat-list-item(*ngFor="let users of users; let i = index")
+            img(matListAvatar, [src]="users.foto_persona || UNKNOWN_USER_IMAGE")
+            h3(matLine) {{users.nombres}}
+            div(*ngIf="type == 'brother'")
+                button(mat-icon-button, (click)="selectUser(users)")
+                    mat-icon exit_to_app
+            div(*ngIf="type != 'brother'")
+                button(mat-icon-button, disabled)
+                    mat-icon call
+
+                button(mat-icon-button, disabled)
+                    mat-icon email
+
+                button(mat-icon-button,(click)="removeResp(users.id_persona, i)")
+                    mat-icon delete
+hr
+div.theme-bsc(mat-dialog-actions)
+    button(mat-button, color="primary", (click)="onNoClick()") CERRAR

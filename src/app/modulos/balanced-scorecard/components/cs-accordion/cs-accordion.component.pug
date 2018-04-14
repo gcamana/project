@@ -1,0 +1,22 @@
+.accordion-body([ngClass]="{ 'active': active, 'pin-up': isPinup }")
+    div.theme-bsc
+        mat-progress-bar(mode="indeterminate", *ngIf="isFinish")
+
+    ng-content
+
+.accordion-click.material-icons(*ngIf="!isPinup", [class.active]='active', (click)='onClick($event)')  {{ active ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+
+.button-row([ngClass]="{ 'active': active, 'pin-up': isPinup }")
+    button(mat-icon-button, [class.isActive]='isPinup', (click)="onClickPinup($event)")
+        mat-icon(svgIcon="pin-up")
+    button(mat-icon-button, (click)="openFullscreen()")
+        mat-icon fullscreen
+    button(mat-icon-button, [matMenuTriggerFor]='menuGauge')
+        mat-icon more_vert
+    mat-menu(#menuGauge='matMenu', yPosition="below", xPosition="before")
+        button(mat-menu-item, (click)="editGaugeValue()")
+            mat-icon create
+            span Editar valores
+        button(mat-menu-item, (click)="editPesoPersp()")
+            mat-icon fitness_center
+            span Editar peso

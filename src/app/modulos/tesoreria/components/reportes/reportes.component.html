@@ -1,0 +1,404 @@
+
+<mat-tab-group class="pagos" (selectedTabChange)="tabChangeMenu()" [(selectedIndex)]="indexMenu">
+
+<!-- PENSIONES VENCIDAS -->
+    <mat-tab label="PENSIONES VENCIDAS">
+        <div *ngIf="flg_empty_ingresos == true" class="img-search" id="cont_img_search_alum">
+            <img src="assets/img/smiledu_faces/filter_fab.png">
+            <p>Primero debemos filtrar</p>
+            <p>para visualizar las pensiones vencidas</p>
+        </div>
+
+        <div *ngIf="flg_empty_pensiones == true" class="img-search" id="cont_img_search_alum">
+            <img src="assets/img/smiledu_faces/not_filter_fab.png">
+            <p>No se encontraron Pensiones</p>
+            <p>vencidas para visualizar</p>
+        </div>
+<!--tabla de filtro por cuota-->
+            <mat-card class="mat-card-main col-sm-12" *ngIf="cabeceraTable == false"  style = "left: 100px">
+                <div class="mdl-content-cards" >
+                        <mat-card-content align="right" >
+                            <div class="table responsive" >  
+                                <table class="table table-hover" >
+                                    <thead>
+                                        <tr >
+                                            <td class="lbl-titulo" align="center">Estudiante</td>
+                                            <td class="lbl-titulo" align="center">Sede/Grado/Nivel/Aula</td>
+                                            <td class="lbl-titulo" align="center">Monto(S/.)</td>
+                                            <td class="lbl-titulo" align="center">Mora(S/.)</td>
+                                            <td class="lbl-titulo" align="center">Monto por cobrar(S/.)</td>
+                                            <td class="lbl-titulo" align="center">Opciones</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let datos of pensiones; let i = index">
+                                            <td align="center">{{datos.nombre_estudiante}}</td>
+                                            <td align="center">{{datos.desc_sede}}/
+                                                               {{datos.desc_grado}}/
+                                                               {{datos.desc_nivel}}/
+                                                               {{datos.desc_aula}}</td>
+                                            <td align="center">S/.{{datos.monto_total}}</td>
+                                            <td align="center">S/.{{datos.mora_acumulada_total}}</td>
+                                            <td align="center">S/.{{datos.monto_final_total}}</td>
+                                            <td align="center">
+                                            <button mat-icon-button data-toggle="modal" data-target="#modal" (click)="openModalDetalleEstudiante();getDetalleEstudiante(datos._id_persona);mostrarIdSesion(datos._id_persona)">
+                                              <i class="material-icons" >remove_red_eye</i>
+                                            </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                    <mat-paginator #paginatorcuota [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">>
+                                    </mat-paginator>
+                            </div>
+                        </mat-card-content>
+                </div>
+            </mat-card>
+            <!--tabla de filtro por fecha-->
+            <mat-card class="mat-card-main col-sm-12" *ngIf="cabeceraTable == false"  style = "left: 100px">
+                <div class="mdl-content-cards" >
+                        <mat-card-content align="right" >
+                            <div class="table responsive" >  
+                                <table class="table table-hover" >
+                                    <thead>
+                                        <tr >
+                                            <td class="lbl-titulo" align="center">Estudiante</td>
+                                            <td class="lbl-titulo" align="center">Monto(S/.)</td>
+                                            <td class="lbl-titulo" align="center">Mora(S/.)</td>
+                                            <td class="lbl-titulo" align="center">Monto por cobrar(S/.)</td>
+                                            <td class="lbl-titulo" align="center">Opciones</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let datos of pensionesFecha; let i = index">
+                                            <td align="center">{{datos.nombre_estudiante}}</td>
+                                            <td align="center">S/.{{datos.monto_total}}</td>
+                                            <td align="center">{{datos.mora_acumulada_total}}</td>
+                                            <td align="center">S/.{{datos.monto_final_total}}</td>
+                                            <td align="center">
+                                            <button mat-icon-button data-toggle="modal">
+                                              <i class="material-icons" >visibility_off</i>
+                                            </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+                                    </mat-paginator>
+                            </div>
+                        </mat-card-content>
+                </div>
+            </mat-card>
+    </mat-tab>   
+<!-- PAGOS PUNTUALES -->
+    <mat-tab label = "PAGOS PUNTUALES" >
+        <div *ngIf="pagosPuntuales.length == 0" class="img-search" id="cont_img_search_alum">
+            <img src="assets/img/smiledu_faces/filter_fab.png">
+            <p>No hay ningun dato en la tabla</p>
+            <p>utilize el boton para filtrar.</p>
+        </div>
+        <mat-card class="mat-card-main">
+            <mat-card-header>
+              <mat-card-title>Pagos Puntuales
+              </mat-card-title>
+              <button mat-icon-button *ngIf="pagosPuntuales.length > 0" (click)="getReportesPagosPuntuales();">
+                <i class="material-icons" >picture_as_pdf</i>
+              </button>
+            </mat-card-header>
+            <mat-card-content>
+                    <div class="table responsive" >
+                        <mat-table #table [dataSource]="dataSourcePagosPuntuales">
+                          <ng-container matColumnDef="nombre_alumno">
+                            <mat-header-cell *matHeaderCellDef> Estudiante </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nombre_alumno}} </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="desc_sede">
+                            <mat-header-cell *matHeaderCellDef> Sede/Grado/Nivel/Aula </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.desc_sede}}
+                            </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="nombre_apoderado">
+                            <mat-header-cell *matHeaderCellDef> Apoderado </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.nombre_apoderado}} </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="email1">
+                            <mat-header-cell *matHeaderCellDef> Correo </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.email1}} </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="fecha_pago">
+                            <mat-header-cell *matHeaderCellDef> Fecha Pago </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.fecha_pago}} </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="lugar_pago">
+                            <mat-header-cell *matHeaderCellDef> Lugar Pago </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.lugar_pago}} </mat-cell>
+                          </ng-container>
+                          <ng-container matColumnDef="descuento_acumulado">
+                            <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.descuento_acumulado}} </mat-cell>
+                          </ng-container>
+                          <mat-header-row *matHeaderRowDef="displayedColumnsPagosPuntuales"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: displayedColumnsPagosPuntuales;"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                      </div>
+
+                      
+                </mat-card-content>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>
+<button mat-fab class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling" color="warn" style="position:absolute;float: right;" (click)="openModalPensionesVencidas()">
+    <mat-icon>filter_list</mat-icon>
+</button>
+
+<!--    MODAL FILTRO PENSIONES VENCIDAS-->
+<div #modalFiltroPensionesVencidas  class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="proggres_ingresos == true"></mat-progress-bar>
+      <div class="modal-header">    
+        <h4 class="modal-title">Filtrar</h4>
+      </div>
+     <div class="modal-body">
+      <mat-tab-group  (selectedTabChange)="tabChange()" [(selectedIndex)]="index">
+        <mat-tab  label="Fecha" [disabled]="indexMenu == 1" >
+            <mat-card-content style="overflow-x: hidden;overflow-y: hidden;" >
+            <br>
+                    <mat-form-field  class="example-full-width col-md-6">
+                             <mat-select #listaOpciones placeholder="Selecciones Sede" [(ngModel)]="filtroSede"
+                            >
+                            <mat-option>Selec. Sede</mat-option>
+                                <mat-option *ngFor="let option of sede; let i = index" [value]="option.nid_sede" (click) = "getIdSede(option.nid_sede)">
+                                {{option.desc_sede}}        
+                                </mat-option>
+                            </mat-select>
+                            
+                    </mat-form-field>
+
+                    <div class="col-xs-6 mdl-input-group mdl-input-group__only ocultar">
+                        <mat-form-field  >
+                            <mat-select #listaOpciones3 placeholder="Selec. Grado" [(ngModel)]="filtroGrado" (ngModelChange) = "getAulasByGradoCronograma($event)">
+                            <mat-option>Selec. Grado</mat-option>
+                                <mat-option *ngFor="let option of grado; let i = index" [value]="option.id_grado_nivel">
+                                 {{option.descrip}}   
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                
+                   <mat-form-field  class="example-full-width col-md-12 ocultar">
+                            <mat-select #listaOpciones4 placeholder="Selec. Aula" [(ngModel)]="filtroAula">
+                            <mat-option>Selec. Aula</mat-option>
+                                <mat-option *ngFor="let option of aulas; let i = index" [value]="option.nid_aula">
+                                 {{option.desc_aula}}   
+                                </mat-option>
+                            </mat-select>
+                    </mat-form-field>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="fecha_inicio" placeholder="Fecha Inicio " disabled>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="fecha_fin" placeholder="Fecha Fin" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #myDatepicker disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                    </div>
+
+                    <div class="col-sm-12 mdl-input-group mdl-input-group__only">
+                        <button mat-icon-button (click)="limpiarFechaDesc()">
+                            LIMPIAR FECHAS
+                          <mat-icon style="font-size: 15px;">backspace</mat-icon>
+                        </button>
+                    </div>
+
+            </mat-card-content>
+        </mat-tab>
+
+
+        <mat-tab label="Cuotas" >
+            <mat-card-content style="overflow-x: hidden;overflow-y: hidden;" >
+            <br>
+                        <mat-form-field  class="example-full-width col-md-12">
+                            <!-- [formControl]="selectCronogramaFormControl" -->
+                            <mat-select #listaOpciones placeholder="Cronograma" [(ngModel)]="filtroTipoCronograma" (ngModelChange)= "getTipoCuotas($event)"
+                             [errorStateMatcher]="matcher">
+                            <mat-option>Selec. Cronograma</mat-option>
+								<mat-option *ngFor="let option of tipoDeCronograma; let i = index" [value]="option.id_cronograma" (click) = "getIdSede(option._id_sede)">
+                                {{option.desc_cronograma}}        
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="selectCronogramaFormControl.hasError('required')">Debe seleccionar un cronograma</mat-error>
+                        </mat-form-field>
+                
+                    <div class="col-xs-6 mdl-input-group mdl-input-group__only">    
+                        <mat-form-field  >
+                            <!-- [formControl]="selectDetalleCronogramaFormControl" -->
+                            <mat-select #listaOpciones2 placeholder="Selec. Cuota" [(ngModel)]="filtroTipoCuota" (ngModelChange)= "getGradoById($event)" 
+                             [errorStateMatcher]="matcher">
+                            <mat-option>Selec. Cuota</mat-option>
+                                <mat-option *ngFor="let option of tipoDeCuota; let i = index" [value]="option.id_detalle_cronograma">
+                                {{option.desc_detalle_crono}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="selectDetalleCronogramaFormControl.hasError('required')">Debe seleccionar un detalle de cronograma</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xs-6 mdl-input-group mdl-input-group__only">
+                        <mat-form-field  >
+                            <mat-select #listaOpciones3 placeholder="Selec. Grado" [(ngModel)]="filtroGrado" (ngModelChange) = "getAulasByGradoCronograma($event)">
+                            <mat-option>Selec. Grado</mat-option>
+                                <mat-option *ngFor="let option of grado; let i = index" [value]="option.id_grado_nivel">
+                                 {{option.descrip}}   
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                
+                   <mat-form-field  class="example-full-width col-md-12">
+                            <mat-select #listaOpciones4 placeholder="Selec. Aula" [(ngModel)]="filtroAula">
+                            <mat-option>Selec. Aula</mat-option>
+                                <mat-option *ngFor="let option of aulas; let i = index" [value]="option.nid_aula">
+                                 {{option.desc_aula}}   
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                
+            </mat-card-content>
+        </mat-tab>
+
+        </mat-tab-group>
+       </div>
+        <div class="modal-footer">
+            <button mat-button  data-dismiss="modal"
+            (click)=" closeModalPensionesV()" >Cancelar</button>
+            <button mat-button (click) = "buscarFiltro(listaOpciones.value,listaOpciones2.value,listaOpciones3.value,listaOpciones4.value)" 
+            data-dismiss="modal">Buscar</button>
+        </div>
+    </div>
+  </div> 
+</div>
+
+<!-- MODAL DETALLE -->
+
+<div #modalDetalleEstudiante  class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="proggres_ingresos == true"></mat-progress-bar>
+      <div class="modal-header">    
+        <h4 class="modal-title">Detalle de estudiante</h4>
+                    <button mat-menu-item style="margin-left: 510px" (click)="getVistaPreviaReporte()" data-toggle="modal" data-target="#modalVistaPreviaPDF">
+                        <mat-icon>picture_as_pdf</mat-icon>
+                    </button>
+      </div>
+     <div class="modal-body">
+      <mat-tab-group  (selectedTabChange)="tabChange()" [(selectedIndex)]="index">
+        <mat-tab  label="Cronograma"  >
+            <mat-card-content style="overflow-x: hidden;overflow-y: hidden;" >
+                <mat-card class="mat-card-main col-sm-12" *ngIf="cabeceraTable == false">
+        <div class="mdl-content-cards">
+                <mat-card-content >
+                    <div class="table responsive">  
+                        <table class="table table-hover">
+                            <thead>
+                                <tr >
+                                    <td class="lbl-titulo" align="center">Cronograma</td>
+                                    <td class="lbl-titulo" align="center">Monto(S/.)</td>
+                                    <td class="lbl-titulo" align="center">Mora(S/.)</td>
+                                    <td class="lbl-titulo" align="center">Monto por cobrar(S/.)</td>
+                                    <td class="lbl-titulo" align="center">Dias de Mora</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let detalle of detalleEstudiante; let i = index">
+                                    <td align="center">{{detalle.desc_detalle_crono}}</td>
+                                    <td align="center">S/.{{detalle.monto}}</td>
+                                    <td align="center">S/.{{detalle.mora_acumulada}}</td>
+                                    <td align="center">S/.{{detalle.monto_final}}</td>
+                                    <td align="center">{{detalle.dias_mora}}-Dias</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+        </div>
+    </mat-card>    
+            </mat-card-content>
+        </mat-tab>
+<!--
+        <mat-tab label="Madre" >
+                 contenido 
+        </mat-tab>
+-->       
+        </mat-tab-group>
+       </div>
+        <div class="modal-footer">
+            <button mat-button  data-dismiss="modal"
+            (click)=" closeModalDetalleEstudiante()" >Cerrar</button>
+        </div>
+    </div>
+  </div> 
+</div>
+
+
+<!-- MODAL VISTA PREVIA PDF-->
+<div #modalVistaPreviaPDF class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Vista Previa de Reportes</h4>
+            </div>    
+            <div class="modal-body">
+                    <div id="reportePDF">
+                            <img  src="assets/img/header/logo_sistema.png" class="center" > 
+                                
+                                    <div class="textTitulo">DETALLE DE PAGOS VENCIDOS</div>
+                                
+                                <br/>                   
+                                <div *ngFor="let datos of detalleEstudianteById; let i = index">
+                                    <td align="center">ESTUDIANTE: {{datos.nombre_estudiante}}</td>
+                                </div>
+                                <br/>   
+                        <table class="table" border="1" style="width:100%;border: 1px solid black;border-collapse: collapse;color:#959595;">
+                            <thead>
+                                <tr>
+                                    <td style='width:600px'>CRONOGRAMA</td>
+                                    <td style='width:600px'>MONTO(S/.)</td>
+                                    <td style='width:400px'>MORA(S/.)</td>
+                                    <td style='width:600px'>MONTO POR COBRAR(S/.)</td>
+                                    <td style='width:600px'>D&Iacute;AS DE MORA</td>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                  <tr *ngFor="let detalle of detalleEstudianteById; let i = index">
+                                    <td align="center">{{detalle.desc_detalle_crono}}</td>
+                                    <td align="center">S/.{{detalle.monto}}</td>
+                                    <td align="center">S/.{{detalle.mora_acumulada}}</td>
+                                    <td align="center">S/.{{detalle.monto_final}}</td>
+                                    <td align="center">{{detalle.dias_mora}}-Dias</td>
+                                  </tr>
+                                </tbody>   
+                        </table>
+                            <div class="textColor" >NO EST&Aacute; AL D&Iacute;A EN SUS PAGOS</div>
+                            <img align="center" src="assets/img/smiledu_faces/empty_state_tendencia.png" class="center">
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button mat-button  data-dismiss="modal"(click)=" closeModalDetalleEstudiante();closeModalReporte()" >Cerrar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="getReporte()">Descargar PDF</button>
+            </div>
+        </div>
+</div>
+
+                  

@@ -1,0 +1,55 @@
+.theme-main
+    cs-shrinking-header-component([headerHeight]="mobileQuery.matches ? 192 : 256", [offset]="mobileQuery.matches ? 45: 64")
+        .wrapper
+            span.font-size-56([class.hideTitle]="displayTitle", (click)="backPage()") Bienvenido
+
+.cs-arrow-img
+    img([src]="SEARCH_MAGIC")
+
+.wrapper.theme-main.margin-minus-top
+    .cs-row-flex
+        .cs-row-column.w-25.text-left
+            .cs-info
+                .cs-avatar
+                    img([src]="UNKNOWN_USER_IMAGE")
+                    h2 Hola, Giovanni Camana
+                .cs-p.margin-top.padding-bottom
+                    p {{ 'Bienvenido al módulo Balance scorecard desde el cual puedes evaluar los resultados de toda tu institución. Accede a un fácil recorrido siempre.' }}
+
+                .button-row.margin-top
+                    button.border-radius-20.cs-btn-custom(mat-raised-button) INICIAR TOUR
+                        mat-icon(color="primary") arrow_forward
+                    button(mat-button, color="primary") OMITIR AYUDA
+                        //- mat-icon(color="primary") arrow_forward
+
+        .cs-row-column.w-75
+            mat-card.cs-card.padding-custom.margin-bottom
+                h2 Todo lo que puedes hacer desde  'Balance Scorecard'
+                //- .cs-img-absolute
+                //-     img([src]="DOODLE")
+                mat-card-content
+                    .cs-p
+                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime doloremque est, quam reiciendis ipsa molestias? Sit velit odit asperiores unde obcaecati! Tempora ab quos totam numquam fugiat tempore sed officia minus et ratione aliquid id libero rem, iure placeat fuga assumenda, doloribus in consequuntur nam sunt. Minima inventore quas, officiis necessitatibus fugiat sequi alias sunt vero quasi voluptatem aut. Reprehenderit quam hic doloremque quaerat minus odio animi aut iste, at explicabo maxime laboriosam ipsa nesciunt cupiditate totam dolores placeat nam magni! Cupiditate quos officia reprehenderit magnam vero? Distinctio fuga ex ea facilis, dolorum, delectus ducimus non autem deserunt alias ratione!
+
+            mat-card.cs-card.padding-custom.margin-bottom
+                h2 Todo lo que puedes hacer desde  'Balance Scorecard'
+                .cs-img-absolute
+                    img([src]="DOODLE")
+
+                mat-card-content
+                    .cs-p
+                        p
+                            | Realiza la planificación estratégica de tu institución y dale seguimiento a los indicadores clave de rendimiento.
+                    ul
+                        li Monitorear el
+
+                            a(routerLink="/bsc/", routerLinkActive="active-link") dashboard
+                            | principal de indicadores
+
+                        li
+                            |
+                            a(routerLink="/tesoreria/caja") Caja
+                            | los indicadores y frecuencias de medición.
+                        li Visualiza los
+                            a(href="") gráficos
+                            | más importantes.

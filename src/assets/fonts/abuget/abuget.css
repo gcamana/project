@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'abugetregular';
+    src: url('abuget-webfont.eot');
+    src: url('abuget-webfont.eot?#iefix') format('embedded-opentype'),
+         url('abuget-webfont.woff2') format('woff2'),
+         url('abuget-webfont.woff') format('woff'),
+         url('abuget-webfont.svg#abugetregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

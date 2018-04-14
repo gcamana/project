@@ -1,0 +1,198 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+    <mat-card-header>
+        <mat-card-title>Conceptos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <div class="table responsive">
+            <mat-table #table [dataSource]="dataSourceConceptos">
+                <ng-container matColumnDef="desc_concepto">
+                    <mat-header-cell *matHeaderCellDef> Descripción</mat-header-cell>
+                    <mat-cell *matCellDef="let concept"> {{concept.desc_concepto}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tipo_movimiento">
+                    <mat-header-cell *matHeaderCellDef> Tipo</mat-header-cell>
+                    <mat-cell *matCellDef="let concept"> {{concept.tipo_movimiento}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_registro">
+                    <mat-header-cell *matHeaderCellDef> Fecha</mat-header-cell>
+                    <mat-cell *matCellDef="let concept"> {{concept.fecha_registro}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="monto_referencia">
+                    <mat-header-cell *matHeaderCellDef> Monto Ref.(S/)</mat-header-cell>
+                    <mat-cell *matCellDef="let concept"> 
+                        {{concept.monto_referencia}}
+                        <h5 *ngIf="concept.monto_referencia==Null">
+                             -
+                        </h5>
+                    </mat-cell>
+                </ng-container>
+                
+                <ng-container matColumnDef="estado">
+                    <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+                    <mat-cell *matCellDef="let concept; let i = index">
+
+                        <mat-slide-toggle [color]="color" 
+                        [checked]="concept.flg" 
+                        [disabled]="disabled">
+                        </mat-slide-toggle>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                    <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>
+                    <mat-cell *matCellDef="let concept; let i = index"> 
+                        <button mat-icon-button data-toggle="modal" data-target="#mdlEditar" 
+                            (click)="editarConceptos(concept.id_concepto, concept.desc_concepto, concept.monto_referencia, i)">
+                            <mat-icon>edit</mat-icon>
+                        </button>  
+                        <button mat-icon-button mat-icon-button data-toggle="modal" data-target="#mdlEliminar" 
+                            (click)="eliminarConcepto(concept.id_concepto, concept.desc_concepto, concept.tipo_movimiento, concept.fecha_registro, concept.monto_referencia, concept.cuenta_movimientos, i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsConceptos"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsConceptos;"></mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+        </div>
+
+    </mat-card-content>
+
+<!--MENU DE LA DERECHA-->
+    <div class="mat-right-menu">
+        Registrar Concepto
+        <button mat-icon-button> 
+            <mat-icon data-toggle="modal" data-target="#mdlRegistrar">add</mat-icon>
+        </button>
+    </div>
+</mat-card>
+
+
+<!-- MODAL REGISTRAR -->
+<div id="mdlRegistrar" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">REGISTRAR CONCEPTO</h4>
+            </div>
+
+            <!--div class="modal-body"> </div-->
+
+                <mat-form-field class="example-full-width col-md-12">
+                    <input matInput placeholder="Descripción del concepto" [(ngModel)]="desc_concepto2"> <!--(change)="getEstudiantes()"-->
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width col-md-12">
+                    <input matInput placeholder="Monto de referencia:" [(ngModel)]="monto_referencia2"> <!--(change)="getEstudiantes()-->
+                </mat-form-field>
+
+                <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                    <mat-form-field>
+                        <mat-select placeholder="Seleccione un tipo" [(ngModel)]="tipo_concepto">
+                            <mat-option *ngFor="let tipo of listaTipos" [value]="tipo.desc_combo">
+                                {{tipo.desc_combo}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="registrarConcepto()">Registrar Concepto</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL EDITAR -->
+<div id="mdlEditar" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">EDITAR CONCEPTO</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>{{desc_concepto}}</p>
+
+                <mat-form-field class="example-full-width col-md-12">
+                    <input matInput placeholder="Monto de referencia:" [(ngModel)]="monto_referencia"> <!--(change)="getEstudiantes()-->
+                </mat-form-field>
+            
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="editarConceptosAux()">Editar Concepto</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ELIMINAR -->
+<div id="mdlEliminar" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">ELIMINAR CONCEPTO</h4>
+            </div>
+
+            <!-- MODAL NORMAL -->
+            <div class="modal-body" >
+                <p>Está seguro que quiere eliminar el siguiente concepto?</p>
+
+            <div class="table responsive">
+                <table class="table table-hover">
+                    <thead> 
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Descripción</td>
+                            <td class="mdl-data-table__cell--non-numeric">Tipo</td>
+                            <td class="mdl-data-table__cell--non-numeric">Fecha</td>
+                            <td class="mdl-data-table__cell--non-numeric">Monto Ref.(S/)</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">{{eliminar_desc_concepto}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{eliminar_tipo_movimiento}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{eliminar_fecha_registro}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{eliminar_monto_referencia}}
+                                <h5 *ngIf="eliminar_monto_referencia==Null">
+                                - 
+                                </h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="eliminarConceptoAux()">Eliminar Concepto</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

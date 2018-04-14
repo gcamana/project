@@ -1,0 +1,16 @@
+
+<hr>
+<mat-toolbar class="pure">
+  <mat-toolbar-row><strong>Chat</strong><span class="cs-spacer"></span>
+    <button mat-icon-button>
+      <mat-icon aria-label="Search">search</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-nav-list>
+  <mat-list-item *ngFor="let user of users" [ngClass]="user.connect ? ' ' : 'disconnect'"><img matListAvatar [src]="user.profileImage" [alt]="user.name">
+    <h3 matLine>{{ user.name }}</h3>
+    <p matLine>{{ user.role }}</p>
+    <div class="cs-circle"></div>
+  </mat-list-item>
+</mat-nav-list>

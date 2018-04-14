@@ -1,0 +1,231 @@
+@import './../../../../variables';
+
+.button-row {
+    button {
+        display: block;
+        margin-bottom: 3rem;
+        @media screen and (max-width: 1024px) {
+            display: inline-block;
+            &:first-child {
+                margin-right: 1rem;
+            }
+        }
+    }
+}
+.cs-btn-custom {
+    box-shadow: 0px 6px 36px -3px rgba(0, 0, 0, 0.05), 0px 10px 24px 1px rgba(0, 0, 0, 0.05), 0px 4px 38px 3px rgba(0, 0, 0, 0.05);
+}
+
+.padding-custom {
+    padding: 45px 45px 210px 45px;
+}
+
+.padding-bottom {
+    padding-bottom: 8px;
+}
+
+.cs-row-column {
+    justify-content: flex-start;
+    &.w-25 {
+        width: 25%;
+        padding-right: 16px;
+    }
+    &.w-75 {
+        width: 75%;
+        padding-left: 16px;
+    }
+    @media screen and (max-width:1024px) {
+        flex-direction: column;
+        &.w-25,
+        &.w-75 {
+            width: 100%;
+            display: block;
+            padding: 0;
+        }
+        &.w-75 {
+            margin-bottom: 50px;
+        }
+    }
+}
+
+.cs-avatar {
+    img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        display: block;
+        border-radius: 50%;
+    }
+}
+
+.cs-card {
+    overflow: hidden;
+    &.padding-45 {
+        padding: 45px !important;
+        @media screen and (max-width: 480px){
+            padding:  20px !important;
+        }
+    }
+    ul {
+        padding-left: 0;
+    }
+
+    h2{
+        position: relative;
+        z-index: 1;
+    }
+
+    .cs-p {
+        position: relative;
+        z-index: 1;
+    }
+
+    li {
+        position: relative;
+        list-style: none;
+        margin-left: 15px;
+        line-height: 1.5;
+        &:before {
+            content: "-";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -15px;
+            margin: auto;
+            display: block;
+        }
+
+        a {
+            padding-left: .35rem;
+            // color: $bsc;
+            font-weight: bold;
+        }
+    }
+}
+
+.margin-minus-top {
+    margin-top: -65px;
+}
+
+.cs-searc-icon {
+    position: absolute;
+    right: 100%;
+    bottom: 15px;
+    margin: auto;
+    font-size: 45px;
+    width: 54px;
+    height: 54px;
+    color: $light;
+}
+
+.mat-button {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+
+
+.mat-card-header-text {
+    display: none;
+}
+
+.cs-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+
+.cs-img-absolute {
+    img {
+        position: absolute;
+        display: block;
+        border-radius: 6px;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+    }
+}
+
+.cs-arrow-img {
+    position: fixed;
+    right: 160px;
+    top: 64px;
+    &.no-arrow_search {
+        display: none;
+    }
+
+    img{
+        display: block;
+        max-width: 100%;
+        margin:  0 0 0 auto;
+    }
+
+    @media screen and (max-width:768px){
+        display: none;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    .cs-row-flex {
+        flex-direction: column;
+    }
+    .cs-info {
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 37px;
+        .cs-p {
+            margin: auto;
+            max-width: 500px;
+        }
+    }
+    .cs-avatar {
+        img {
+            margin: auto;
+        }
+    }
+    .cs-searc-icon {
+        right: initial;
+    }
+    .cs-search {
+        mat-form-field {
+            width: calc(100% - 60px);
+            margin: 0 0 0 auto;
+            padding-left: 60px;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .cs-info {
+        text-align: left;
+    }
+    .margin-minus-top {
+        margin-top: -45px;
+    }
+    .cs-avatar {
+        img {
+            margin: 0;
+            width: 80px;
+            height: 80px;
+        }
+        h2{
+            font-size: 24px;
+        }
+    }
+    .cs-img-absolute {
+        img {
+            top: initial;
+            bottom: 0;
+            max-width: 100%;
+        }
+    }
+    .cs-card {
+        padding: 24px !important;
+        min-height: 100%;
+        padding-right: 24px !important;
+        padding-bottom: 220px !important;
+        h2{
+            font-size: 24px;
+        }
+    }
+}

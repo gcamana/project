@@ -1,0 +1,88 @@
+
+<h1 *ngIf="!isAddConcept" mat-dialog-title>Proveedores
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="cs-add theme-treasury" *ngIf="!isAddConcept">
+  <button mat-mini-fab cdkFocusInitial (click)="toogleConcept()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <p class="padding-left">Asignar proveedor</p>
+</div>
+<div class="cs-row theme-treasury" *ngIf="isAddConcept">
+  <button mat-icon-button (click)="toogleConcept()">
+    <mat-icon>arrow_back</mat-icon>
+  </button><span>Crear proveedor</span>
+</div>
+<div class="theme-treasury no-padding" mat-dialog-content>
+  <mat-table *ngIf="!isAddConcept" #table [dataSource]="providerSource">
+    <ng-container matColumnDef="service">
+      <mat-header-cell *matHeaderCellDef>Servicio</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.service}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="responsible">
+      <mat-header-cell class="text-center" *matHeaderCellDef>Responsable</mat-header-cell>
+      <mat-cell class="text-center" *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE" [matTooltip]="element.responsible"></mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="business">
+      <mat-header-cell *matHeaderCellDef>Razon Social</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.business}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="state">
+      <mat-header-cell class="w-80" *matHeaderCellDef>Estado</mat-header-cell>
+      <mat-cell class="w-80" *matCellDef="let element">
+        <mat-slide-toggle [checked]="element.state"></mat-slide-toggle>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <mat-header-cell class="w-40 text-right" *matHeaderCellDef>Accion</mat-header-cell>
+      <mat-cell class="w-40 text-right" *matCellDef="let element">
+        <button mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+  </mat-table>
+  <form *ngIf="isAddConcept" [formGroup]="prividerForm">
+    <div class="cs-profile-image"><img [src]="UNKNOWN_USER_IMAGE">
+      <input id="cs-file" type="file">
+      <label for="cs-file">
+        <mat-icon>photo_camera</mat-icon>
+      </label>
+    </div>
+    <mat-form-field class="full-width">
+      <mat-select placeholder="Selec. tipo de documento" panelClass="cs-treasury-select" formControlName="document" required>
+        <mat-option *ngFor="let doc of type_docs" [value]="doc.id_combo">{{ doc.desc_combo }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="prividerForm.controls.document.invalid">Seleccionar un tipo de documento</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="tel" matInput placeholder="Nro de documento" formControlName="number">
+      <mat-error *ngIf="prividerForm.controls.number.invalid">Ingresar Nro de documento</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Nombre" formControlName="name" required>
+      <mat-error *ngIf="prividerForm.controls.name.invalid">Ingresar el Nombre</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Servicios" formControlName="service" required>
+      <mat-error *ngIf="prividerForm.controls.service.invalid">Ingresar servicios</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Dirección" formControlName="direction">
+      <mat-error *ngIf="prividerForm.controls.direction.invalid">Ingresar dirección</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Teléfono" formControlName="phone">
+      <mat-error *ngIf="prividerForm.controls.phone.invalid">Ingresar teléfono</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button *ngIf="!isAddConcept" color="accent" mat-button (click)="onNoClick()">{{ 'cancelar' | uppercase }}</button>
+  <button *ngIf="!isAddConcept" color="accent" mat-button [mat-dialog-close]="data.animal" disabled="true">CONFIRMAR</button>
+  <button *ngIf="isAddConcept" color="accent" mat-button [disabled]="prividerForm.invalid" (click)="createConcept()">{{ 'crear' | uppercase }}</button>
+</div>

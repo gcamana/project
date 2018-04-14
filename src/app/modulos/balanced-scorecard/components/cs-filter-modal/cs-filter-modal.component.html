@@ -1,0 +1,37 @@
+
+<div class="theme-bsc">
+  <mat-progress-bar mode="indeterminate" *ngIf="isShowProgress"></mat-progress-bar>
+</div>
+<div *ngIf="data.filtro == 'content'">
+  <h1 mat-dialog-title>Información del indicador</h1>
+  <div class="theme-bsc" mat-dialog-content>
+    <mat-form-field>
+      <mat-select panelClass="cs-bsc-select" placeholder="Año" [(ngModel)]="year_selected" (change)="getSedes()">
+        <mat-option *ngFor="let year of cmb_years" [value]="year.year">{{ year.year }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select panelClass="cs-bsc-select" placeholder="Sedes" multiple [(ngModel)]="sedes">
+        <mat-option *ngFor="let sede of cmb_sedes.list_sedes" [value]="sede.sede">{{ sede.desc_sede }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="theme-bsc" mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">CERRAR</button>
+    <button mat-button [mat-dialog-close]="" (click)="enviarFiltro()" cdkFocusInitial>ACEPTAR</button>
+  </div>
+</div>
+<div *ngIf="data.filtro == 'chart'">
+  <h1 mat-dialog-title>Tendencia anual</h1>
+  <div class="theme-bsc" mat-dialog-content>
+    <mat-form-field>
+      <mat-select panelClass="cs-bsc-select" placeholder="Tipo filtro" [(ngModel)]="tip_med_sel">
+        <mat-option *ngFor="let tipo of cmb_tfiltro" [value]="tipo.valor">{{ tipo.desc_combo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="theme-bsc" mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="">CERRAR</button>
+    <button mat-button [mat-dialog-close]="" cdkFocusInitial (click)="guardarTipoMed()">ACEPTAR</button>
+  </div>
+</div>

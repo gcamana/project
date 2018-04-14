@@ -1,0 +1,47 @@
+.my-btn {
+  height: 3rem;
+  margin-top: 0px;
+  color: #48BF6C;
+  
+}
+.lbl-btn {
+    cursor: pointer;
+    color: #48BF6C;
+    font-family: 'Trocchi', serif; font-size: 14px;
+}
+.lbl-titulo {
+    
+    cursor: pointer;
+    font-family: 'Trocchi', serif; font-size: 14px;
+    background-color: rgb(227, 255, 224);
+    font-weight:bold;
+    text-transform: uppercase;
+     
+}
+.middle-view{
+    background-color: #009688;
+    height: 192px;
+}
+.mat-card-main{
+    max-width: 1150px;
+    margin: auto;
+    padding: 0;
+    margin-top: 5px;
+}
+.mat-card-main mat-card-header{
+    padding: 10px;
+}
+.mat-card-main mat-card-title{
+    font-size: 24px;
+    font-family: 'robotoregular';
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 6px 20px;
+    margin: 0px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

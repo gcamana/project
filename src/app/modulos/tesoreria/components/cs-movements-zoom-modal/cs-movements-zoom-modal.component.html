@@ -1,0 +1,175 @@
+
+<mat-toolbar-row class="mat-toolbar-fixed">
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h4 class="padding-left">{{ 'Tendencia' | csCapitalize }}</h4><span class="cs-spacer"></span>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>fullscreen_exit</mat-icon>
+  </button>
+</mat-toolbar-row>
+<div class="theme-treasury" mat-dialog-content>
+  <div class="cs-content">
+    <div class="cs-panel width-420">
+      <mat-toolbar class="transparent">
+        <mat-toolbar-row>
+          <figure class="cs-figure"><img [src]="data.user_selected.profile_image || UNKNOWN_USER_IMAGE" alt="">
+            <caption><strong>{{ data.user_selected.first_name | csCapitalize }}</strong><span>{{ data.user_selected.last_name | csCapitalize }}</span></caption>
+          </figure>
+          <button mat-icon-button>
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="cs-chart__spline">
+        <cs-chart-spline [move_chart]="data.move_chart" [role]="data.user_selected.role"></cs-chart-spline>
+      </div>
+      <div *ngIf="data.user_selected.role == ESTUDIANTE">
+        <div class="cs-detail__student">
+          <h3>Detalles de {{data.user_selected.role | csCapitalize }}</h3>
+          <ul>
+            <li><strong>Código del estudiante</strong><span>{{ data.dataUser.cod_estu }}</span></li>
+            <li><strong>Sede</strong><span>{{ data.dataUser.sede }}</span></li>
+            <li><strong>Grado</strong><span>{{ data.dataUser.grado }}</span></li>
+            <li><strong>Aula</strong><span>{{ data.dataUser.seccion }}</span></li>
+          </ul>
+          <h3 *ngIf="data.familiares.length &gt; 0">Familiares</h3>
+          <cs-user-avatar [users]="data.familiares" [title]="'Familiares'"></cs-user-avatar>
+          <h3 *ngIf="data.hermanos.length &gt; 0">Hermanos</h3>
+          <cs-user-avatar [users]="data.hermanos" [title]="'Hermanos'"></cs-user-avatar>
+        </div>
+      </div>
+      <div *ngIf="data.user_selected.role == COLABORADOR">
+        <div class="cs-detail__student">
+          <h3>Detalles de {{ data.user_selected.role | csCapitalize }}</h3>
+          <ul>
+            <li><strong>Sede</strong><span>{{ data.dataUser.sede }}</span></li>
+            <li><strong>Nivel</strong><span>{{ data.dataUser.nivel }}</span></li>
+            <li><strong>Área</strong><span>{{ data.dataUser.area }}</span></li>
+            <li><strong>DNI</strong><span>{{ data.dataUser.nro_doc }}</span></li>
+            <li><strong>Teléf.</strong><span>{{ data.dataUser.telefono }}</span></li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="data.user_selected.role == PROVEEDOR">
+        <div class="cs-detail__student">
+          <h3>Detalles de {{ data.user_selected.role | csCapitalize }}</h3>
+          <ul>
+            <li><strong>Responsable</strong><span>{{ data.dataUser.responsable }}</span></li>
+            <li><strong>Teléfono</strong><span>{{ data.dataUser.telefono }}</span></li>
+            <li><strong>Dirección</strong><span>{{ data.dataUser.direccion }}</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="cs-panel">
+      <div class="cs-mat-toolbar">
+        <div class="cs-mat-toolbar-row">
+          <h3>Compromisos</h3><span class="cs-spacer"></span>
+          <button mat-icon-button (click)="openRegisterConcept()">
+            <mat-icon svgIcon="create_more"></mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="data.user_selected.role == ESTUDIANTE">
+            <mat-icon>sort</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+            <button mat-menu-item (click)="getMovimientosPendientes(1)"><span>Todo</span></button>
+            <button mat-menu-item (click)="getMovimientosPendientes(2)"><span>Pendiente</span></button>
+          </mat-menu>
+          <mat-toolbar class="cs-absolute" *ngIf="movementSel.length &gt; 0" color="accent">
+            <p *ngIf="movementSel.length &lt;= 1; else pBlock"> {{ movementSel.length }}  Compromiso Seleccionado. Total 504.86</p>
+            <ng-template #pBlock>
+              <p>{{ movementSel.length }}  Compromisos Seleccionados. Total 504.86</p>
+            </ng-template><span class="cs-spacer"></span>
+            <button mat-button (click)="openPayDialog()">PAGAR
+              <mat-icon class="color-light">monetization_on</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menuMore">
+              <mat-icon class="color-light">more_vert</mat-icon>
+            </button>
+            <mat-menu #menuMore="matMenu" yPosition="below" xPosition="before">
+              <button mat-menu-item>
+                <mat-icon>dialpad</mat-icon><span>Radial</span>
+              </button>
+            </mat-menu>
+          </mat-toolbar>
+        </div>
+      </div>
+      <div class="cs-container__table" *ngIf="isEmptyTable; else tableBlock">
+        <mat-table *ngIf="dataMovemets" #table [dataSource]="dataMovemets">
+          <ng-container matColumnDef="select">
+            <mat-header-cell class="w-50" *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell class="w-50" *matCellDef="let element">
+              <div *ngIf="!element.flg_block">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="checkedMovement($event, element)" [checked]="selection.isSelected(row)"></mat-checkbox>
+              </div>
+              <div *ngIf="element.flg_block">
+                <mat-icon>lock</mat-icon>
+              </div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <div class="cs-text">{{ element.description | csCapitalize }}</div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <mat-header-cell class="w-100" *matHeaderCellDef>Total (S/)</mat-header-cell>
+            <mat-cell class="w-100" *matCellDef="let element">
+              <div class="cs-text">{{element.total }}</div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="date_regi">
+            <mat-header-cell class="w-150" *matHeaderCellDef>Fec. regi</mat-header-cell>
+            <mat-cell class="w-150" *matCellDef="let element">{{element.date_regi }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="debt">
+            <mat-header-cell class="w-100" *matHeaderCellDef>Deuda (S/)</mat-header-cell>
+            <mat-cell class="w-100" *matCellDef="let element">{{element.debt }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="paid">
+            <mat-header-cell class="w-100" *matHeaderCellDef>Pagado (S/)</mat-header-cell>
+            <mat-cell class="w-100" *matCellDef="let element">
+              <div class="cs-text">{{element.paid }}</div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="date_pay">
+            <mat-header-cell class="w-100" *matHeaderCellDef>Fec. pago</mat-header-cell>
+            <mat-cell class="w-100" *matCellDef="let element">
+              <div class="cs-text">{{element.date_pay }}</div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell class="w-100 text-right" *matHeaderCellDef>Acción</mat-header-cell>
+            <mat-cell class="w-100 text-right" *matCellDef="let element">
+              <div [ngSwitch]="element.accion">
+                <div class="cs-color" *ngSwitchCase="PAGADO">{{ element.accion }}</div>
+                <div class="cs-color green" *ngSwitchCase="POR_PAGAR">{{ element.accion }}</div>
+                <div class="cs-color red" *ngSwitchCase="VENCIDO">{{ element.accion }}</div>
+              </div>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="more">
+            <mat-header-cell class="w-40" *matHeaderCellDef></mat-header-cell>
+            <mat-cell class="w-40" *matCellDef="let element">
+              <button class="cs-hover" mat-icon-button [matMenuTriggerFor]="menuTable">
+                <mat-icon class="cs-icon">more_vert</mat-icon>
+              </button>
+              <mat-menu #menuTable="matMenu" yPosition="below" xPosition="before">
+                <button mat-menu-item (click)="anularEgreso(element.id_move)"><span>Anular</span></button>
+                <button mat-menu-item><span>Devolución</span></button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+        </mat-table>
+        <mat-paginator #paginator *ngIf="dataMovemets" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+      </div>
+      <ng-template #tableBlock>
+        <cs-empty [data]="dataMovemets" [message]="'No tiene información pendiente.'" [image]="EMPTY_TESORERIA" [title]="titleTable"></cs-empty>
+      </ng-template>
+    </div>
+  </div>
+</div>

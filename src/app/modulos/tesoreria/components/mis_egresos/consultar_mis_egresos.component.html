@@ -1,0 +1,143 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+    <mat-card-header>
+        <mat-card-title>Mis egresos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+
+        <div class="table responsive">
+            <mat-table #table [dataSource]="dataSourceCME">
+
+                <ng-container matColumnDef="monto">
+                    <mat-header-cell *matHeaderCellDef> Monto</mat-header-cell>
+                    <mat-cell *matCellDef="let egres"> {{egres.monto}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                    <mat-header-cell *matHeaderCellDef> Estado</mat-header-cell>
+                    <mat-cell *matCellDef="let egres"> {{egres.estado}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha">
+                    <mat-header-cell *matHeaderCellDef> Fecha_Estado</mat-header-cell>
+                    <mat-cell *matCellDef="let egres"> {{egres.fecha}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="desc_concepto">
+                    <mat-header-cell *matHeaderCellDef> Concepto</mat-header-cell>
+                    <mat-cell *matCellDef="let egres"> {{egres.desc_concepto}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="observacion">
+                    <mat-header-cell *matHeaderCellDef> Observación</mat-header-cell>
+                    <mat-cell *matCellDef="let egres"> {{egres.observacion}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="opciones">
+                    <mat-header-cell *matHeaderCellDef> Opciones</mat-header-cell>
+                    <mat-cell *matCellDef="let egres">
+                        <button mat-icon-button>
+                                <mat-icon aria-label="Ojito uwu" (click)="verDetalles(egres.desc_concepto, egres.id_movimiento)" data-toggle="modal" data-target="#mdlObservacion">visibility</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                            
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsCME"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsCME;"></mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+        </div>
+
+
+    </mat-card-content>
+
+    <!--MENU DE LA DERECHA -->
+    <div class="mat-right-menu">
+        Buscar por fecha
+        <button mat-icon-button> 
+            <mat-icon data-toggle="modal" data-target="#mdlFecha">search</mat-icon>
+        </button>
+    </div>
+
+</mat-card>
+<!-- Modal -->
+<div id="mdlObservacion" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"></h4>
+        </div>
+    <div class="modal-body">
+        <div class="table responsive"> 
+            <table class="table table-hover"> 
+                <thead>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">Documento</td>
+                        <td class="mdl-data-table__cell--non-numeric">PDF</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">{{m_desc_concepto}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <button mat-icon-button>
+                                <mat-icon aria-label="Descargar uwu" (click)="crearTicket()" data-target="#mdlObservacion">file_download</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="mdlFecha" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Buscar egresos por fecha</h4>
+            </div>
+            
+            <div class="modal-body">
+                <p>Ingrese un rango de fechas:</p>
+                <mat-form-field>
+                        <input matInput [matDatepicker]="pickerInicio" [(ngModel)]="fecha_inicio" placeholder="Fecha Inicio " disabled>
+                        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerInicio disabled="false"></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                        <input matInput [matDatepicker]="pickerFin" [(ngModel)]="fecha_fin" placeholder="Fecha Fin " disabled>
+                        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerFin disabled="false"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="modal-footer">
+                <button mat-button (click)="getFiltro()">Buscar por fecha</button>
+                <button mat-button (click)="reiniciarFiltro()">Borrar filtro</button>
+                <!--button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button-->
+            </div>
+        </div>
+    </div>
+</div>
+
+

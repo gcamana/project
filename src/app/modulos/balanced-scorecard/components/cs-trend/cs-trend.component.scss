@@ -1,0 +1,58 @@
+@import './../../../../variables';
+.cs-trend {
+    display: flex;
+    align-items: center;
+    padding-left: .5rem;
+    box-sizing: border-box;
+}
+
+.circle {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: block;
+    margin-right: .2rem;
+    margin-left: .2rem;
+    &.green {
+        background-color: $green;
+    }
+    &.orange {
+        background-color: $orange;
+    }
+    &.red {
+        background-color: $red;
+    }
+}
+.material-icons {
+    font-size: 1.5rem;
+    margin: 0 2px;
+    padding-right: .2rem;
+    &.green {
+        color: $green;
+    }
+    &.orange {
+        color:$orange;
+    }
+    &.red {
+        color: $red;
+    }
+}
+
+.cs-circle,
+mat-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mat-icon {
+    height: auto;
+    width: auto;
+    color: $gray;
+}
+
+.svg {
+    width: 10px;
+    color: #FFB106;
+    margin-right: .5rem;
+}

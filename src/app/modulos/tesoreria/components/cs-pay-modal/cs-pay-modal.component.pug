@@ -1,0 +1,89 @@
+div(mat-dialog-title)
+    mat-card
+        figure.cs-figure
+            img([src]="UNKNOWN_USER_IMAGE", alt="")
+            caption
+                strong {{ user.first_name | csCapitalize }} #[span {{ user.last_name | csCapitalize }}]
+                span 22 dias
+            .cs-figure__state(*ngIf="user.role == 'ESTUDIANTE'")
+                span([ngClass]="user.is_debtor ? 'deudor' : 'no-deudor'")
+
+        button.cs-position(mat-icon-button, (click)="onNoClick()")
+            mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    mat-card.no-padding
+        mat-tab-group
+            mat-tab(label="EFECTIVO")
+                .cs-wrapper
+                    mat-button-toggle-group(#cash="matButtonToggleGroup")
+                        mat-button-toggle(value="efectivo_completo", checked="true") Completo
+                        mat-button-toggle(value="efectivo_cuenta") A cuenta
+
+                mat-divider(*ngIf="cash.value == 'efectivo_cuenta'")
+                .cs-wrapper(*ngIf="cash.value == 'efectivo_cuenta'")
+                    //-TODO reactive form angular investigar chechitar
+                    form.cs-form
+                        mat-form-field.full-width
+                            input(matInput, placeholder="Monto (S/)*")
+
+
+            mat-tab(label="TARJETA")
+                .cs-wrapper
+                    mat-radio-group
+                        mat-radio-button(value="visa", checked)
+                            img([src]="VISA")
+                        mat-radio-button(value="mastercard")
+                            img([src]="MASTERCARD")
+
+                mat-divider
+                .cs-wrapper
+                    mat-button-toggle-group(#card="matButtonToggleGroup")
+                        mat-button-toggle(value="tarjeta_completo", checked="true") Completo
+                        mat-button-toggle(value="tarjeta_cuenta") A cuenta
+
+                mat-divider
+                .cs-wrapper
+                    //-TODO reactive form angular investigar chechitar
+                    form.cs-form
+                        mat-form-field.full-width(*ngIf="card.value == 'tarjeta_cuenta'")
+                            input(matInput, placeholder="Monto (S/)*")
+                        mat-form-field.full-width
+                            input(matInput, placeholder="Nro. voucher*")
+
+
+
+    mat-card
+        //-TODO: hacer formulario
+        mat-slide-toggle((change)="isChange($event)") ¿Desea factura?
+
+        form.cs-form.padding-top(*ngIf="isFactura")
+            mat-form-field.full-width
+                input(matInput, placeholder="RUC*")
+            mat-form-field.full-width
+                input(matInput, placeholder="Razón social*")
+            mat-form-field.full-width
+                input(matInput, placeholder="Domicilio fiscal*")
+
+
+    mat-card
+        .cs-content(*ngFor="let concep of concepts")
+            .cs-panel
+                p {{ concep.desc | csCapitalize }}
+            .cs-panel.text-right
+                p {{concep.total}}
+
+        mat-divider
+        .cs-content.padding-top
+            .cs-panel
+                p Total a pagar
+            .cs-panel.text-right
+                h2 S/ {{ total }}
+
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    p.text-right Campos obligatorios (*)
+    //-TODO: quitar el disabled si todos los campos requeridos son validos
+    button.cs-full.color-light(mat-raised-button, mat-button, color="accent", cdkFocusInitial)
+        mat-icon.color-light attach_money
+        span.color-light PAGAR

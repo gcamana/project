@@ -1,0 +1,117 @@
+@import './../../../../variables';
+.cs-position {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.cs-full {
+    width: 100%;
+}
+
+.cs-figure__state {
+    position: absolute;
+    left: 40px;
+    top: 35px;
+    min-width: 5px;
+    min-height: 5px;
+    span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color:  transparent;
+        display: block;
+        &.deudor {
+            background-color: $red;
+        }
+
+        &.no-deudor {
+            background-color: $green;
+        }
+    }
+}
+
+.cs-figure {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    height: inherit;
+    img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        cursor: pointer;
+        object-fit: cover;
+    }
+    caption {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        padding: 0;
+        padding-left: 2rem;
+        strong,
+        span {
+            line-height: 100%;
+            display: inline;
+        }
+        strong {
+            font-size: 1.6rem;
+            span {
+                color: inherit;
+                font-weight: 100;
+            }
+        }
+
+        > span {
+            font-size: 1.2rem;
+            margin-top: .5rem;
+            color: $red;
+        }
+    }
+}
+
+.mat-card {
+    padding: 16px;
+    margin-bottom: 1.2rem;
+}
+
+.cs-wrapper {
+    padding: 24px 16px;
+    box-sizing: border-box;
+}
+
+.mat-radio-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cs-content {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+}
+
+.cs-panel {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    h2,
+    p {
+        margin: 0;
+    }
+    p {
+        font-weight: 100;
+    }
+}
+
+.cs-form ,
+.full-width{
+    width: 100%;
+}

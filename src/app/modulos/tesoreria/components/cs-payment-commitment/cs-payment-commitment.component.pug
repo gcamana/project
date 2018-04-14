@@ -1,0 +1,39 @@
+h1.mat-dialog-title(mat-dialog-title) Regular
+div.theme-treasury(mat-dialog-content)
+    mat-list.no-padding
+        mat-list-item
+            img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+            p(matLine)
+                strong {{ first_name | csCapitalize }} 
+                span {{ last_name | csCapitalize }} {{ last_name2 | csCapitalize }}
+
+    h6 (
+        span.cs-red *
+        | ) Campos Obligatorios
+    form([formGroup]="newConceptFrom")
+        //- mat-form-field.full-width
+        //-     mat-select(panelClass="cs-treasury-select", placeholder="Seleccionar Concepto*", formControlName="concepto")
+        //-         mat-option(*ngFor="let concp of conceptos", [value]="concp.id_concepto") {{ concp.desc_concepto }}
+
+        mat-form-field.full-width
+            input(matInput, placeholder="Seleccionar Concepto", [matAutocomplete]="auto", [value]="titleSelect", formControlName="concepto", [readonly]="isReadonly")
+            button(mat-button, *ngIf="titleSelect", matSuffix, mat-icon-button, (click)="close()")
+                mat-icon close
+
+            mat-autocomplete(#auto="matAutocomplete", (optionSelected)="onSelectChange($event)")
+                mat-option(*ngFor="let concp of filteredStates | async", [value]="concp.id_concepto")
+                    span {{ concp.desc_concepto }}
+
+        mat-form-field.full-width
+            span(matPrefix) S/ &nbsp;
+
+            input(matInput, onlyNumber, placeholder="Monto", formControlName="monto", name="monto", required)
+            mat-error(*ngIf="newConceptFrom.controls.monto.invalid") Ingresa un monto
+
+        mat-form-field.full-width(*ngIf="role != ESTUDIANTE")
+            input(matInput, placeholder="Observación*", [(ngModel)]="observacion", name="observacion", formControlName="observacion")
+            mat-error(*ngIf="newConceptFrom.controls.observacion.invalid") Ingresa una observación
+
+div.theme-treasury.mat-dialog-actions(mat-dialog-actions)
+    //- button(mat-button, color="primary", (click)="onNoClick()") CERRAR
+    button(mat-button, [disabled]="newConceptFrom.invalid", color="primary", (click)="saveComp()") PAGAR

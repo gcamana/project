@@ -1,0 +1,113 @@
+
+<div>
+<mat-card class="mat-card-main">
+
+    <mat-card-header>
+        <mat-card-title>Migración de datos  </mat-card-title>
+    </mat-card-header>
+
+
+    <mat-card-content>
+        <div class="table responsive">
+
+        <table class="table table-hover">
+         <thead>
+            <tr>
+            <th>Empresa</th>
+            <th >RUC</th>
+            <th>Razón Social</th>
+            <th >Sede</th>
+            <th >Banco</th>
+            <th >  </th>
+       
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let empresa of empresas; let i = index">
+            <td class="mdl-data-table__cell--non-numeric">{{empresa.em_desc}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{empresa.ruc}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{empresa.rz_soc}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{empresa.sedes}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{empresa.desc_banco}}</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                <button mat-icon-button (click)="setSedesEmpresa(empresas[i].desc_banco,empresas[i].idsedes,empresas[i].id_empresa,empresas[i].em_desc)" class="btn btn-default" style="display: block; margin: auto;" md-raised-button data-toggle="modal" data-target="#myModal">
+                <mat-icon >folder</mat-icon>
+                </button>
+            </td>
+
+    
+        </tr>
+    </tbody>
+    </table>
+     </div>
+
+    </mat-card-content>
+  
+</mat-card>
+
+</div>
+<div> 
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+
+
+  <div class="modal-dialog">
+
+    <div style="width:600px;position: absolute;"class="modal-content" >
+       <mat-card class="mat-card-main">
+    <!-- Modal content-->
+   
+     <mat-card-header>
+       <mat-card-title>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title" style="font-weight:bold">{{nombreEmpresa}}</h4> 
+       </mat-card-title>
+      </mat-card-header>
+
+
+
+          <mat-progress-bar mode="indeterminate" *ngIf="progrres_empresa == true"> </mat-progress-bar>
+       <mat-card-content>
+      
+       
+
+          <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Banco(s)</th>
+            <th>Exportar</th>
+            <th>Importar</th>
+
+
+
+       </tr>
+    </thead>
+   
+    <tbody>
+        <tr *ngFor="let banco of bancos; let i = index">
+            <td class="mdl-data-table__cell--non-numeric">{{bancos[i]}}</td>
+            <td class="mdl-data-table__cell--non-numeric"> <button mat-icon-button (click)="getAllInfoBanco(bancos[i])" style="display: block; margin: auto;"  class="mdl-data-table__cell--non-numeric md-raised-button">
+              <mat-icon>file_upload</mat-icon> </button> </td>
+              <td class="mdl-data-table__cell--non-numeric"> <button mat-icon-button (click)="importarArchivo(bancos[i])" style="display: block; margin: auto;"  class="mdl-data-table__cell--non-numeric md-raised-button">
+              <mat-icon>file_download</mat-icon> </button> </td>
+ 
+
+           </tr>
+         </tbody>
+        </table>
+
+       </mat-card-content>
+
+      <mat-card-actions class="text-right">
+        <button mat-button	type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </mat-card-actions>
+
+
+     </mat-card>
+   </div>
+
+ </div>
+</div>
+

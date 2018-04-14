@@ -1,0 +1,77 @@
+@import './../../../../variables';
+
+.cs-mat-icon {
+    transform: rotate(-90deg);
+}
+
+.mat-expansion-panel-header-title {
+    span {
+        margin-right: 10px;
+    }
+}
+
+cs-setting-table {
+    background-color: $light;
+}
+
+.cs-wrapper {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    p,
+    mat-icon {
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+    }
+}
+
+.cs-list {
+    background-color: $light;
+}
+
+.cs-right-special {
+    margin-right: 10px;
+}
+
+.cs-overload {
+     display: none;
+     &.active {
+         display: block;
+         position: fixed;
+         width: 100%;
+         height: 100%;
+         z-index: 0;
+         top: 0;
+         left: 0;
+         background-color: transparent;
+         z-index: 0;
+     }
+ }
+
+ .cs-content {
+     max-width: 816px;
+     margin: 64px auto auto auto;
+     width: 100%;
+     margin-bottom: 100px;
+     padding: 24px 0;
+     h3 {
+         font-size: 16px;
+         margin-bottom: 20px;
+     }
+ }
+
+ @media screen and (max-width:915px) {
+     .cs-content {
+         padding: 24px 34px;
+         box-sizing: border-box;
+     }
+ }
+
+ @media screen and (max-width:658px) {
+     .cs-content {
+         padding: 24px;
+         box-sizing: border-box;
+     }
+ }

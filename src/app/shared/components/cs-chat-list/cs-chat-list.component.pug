@@ -1,0 +1,14 @@
+hr
+mat-toolbar.pure
+    mat-toolbar-row
+        strong Chat
+        span.cs-spacer
+        button(mat-icon-button)
+            mat-icon(aria-label="Search") search
+
+mat-nav-list
+    mat-list-item(*ngFor="let user of users", [ngClass]="user.connect ? ' ' : 'disconnect'")
+        img(matListAvatar, [src]="user.profileImage", [alt]="user.name")
+        h3(matLine) {{ user.name }}
+        p(matLine) {{ user.role }}
+        .cs-circle

@@ -1,0 +1,104 @@
+mat-toolbar-row
+    button(mat-icon-button, (click)="onNoClick()")
+        mat-icon arrow_back
+
+    span(*ngIf="!data.isFilterTitle") {{ selectDate | date:'fullDate' | csCapitalize }}
+    span(*ngIf="data.isFilterTitle") {{ data.newfilterDate.startDate | date | csCapitalize }} - {{ data.newfilterDate.stopDate | date | csCapitalize }}
+    mat-icon(style="margin-left:1rem;") account_balance_wallet
+    button(*ngIf="!data.isFilterTitle", mat-icon-button, [matMenuTriggerFor]='menuOpenBank', [disabled]="filtro")
+        mat-icon arrow_drop_down
+    mat-menu(#menuOpenBank='matMenu', yPosition="below", xPosition="before")
+        button(mat-menu-item, (click)="openDialogBank(openCash, estado_caja)", [disabled]="openCash")
+            mat-icon lock_open
+            | Aperturar
+
+        button(mat-menu-item, (click)="openDialogBank(openCash, estado_caja)", [disabled]="!openCash")
+            mat-icon lock_outline
+            | Cerrar
+
+    span.cs-spacer
+
+    button(mat-icon-button, (click)="onNoClick()")
+        mat-icon fullscreen_exit
+
+    button(mat-icon-button,[matMenuTriggerFor]='menuDownload')
+        mat-icon more_vert
+    mat-menu(#menuDownload='matMenu', yPosition="below", xPosition="before")
+        button(mat-menu-item, (click)="generarExcel()") Descargar.PDF
+        button(mat-menu-item, (click)="generarExcel()") Descarga.XLS
+
+div.theme-treasury(mat-dialog-content)
+    .cs-content
+        .cs-panel
+            mat-list(*ngIf="!data.isFilterTitle")
+                mat-list-item
+                    img(matListAvatar, [src]="photo_per || UNKNOWN_USER_IMAGE")
+                    h3(matLine) {{ data.name_scr }}
+                        //- strong Giovanni
+                        //- | Camana Infanzon
+                    p(matLine) {{ 'secretaria' }}
+
+                    //- button(mat-icon-button)
+                    //-     mat-icon delete
+                mat-list-item(*ngIf="shared_info != null")
+                    img(matListAvatar, [src]="shared_info.foto")
+                    h3(matLine) {{ data.shared_info.name }}
+                        //- strong Giovanni
+                        //- | Camana Infanzon
+                    p(matLine) {{ data.shared_info.role | csCapitalize }}
+
+                    button(mat-icon-button,(click)="removeShareCash(2)")
+                        mat-icon delete
+
+            .cs-row-line(*ngIf="shared_info == null", [class.display-none]="data.isFilterTitle")
+                button(mat-mini-fab, cdkFocusInitial, [disabled]="!openCash", (click)="openShareCash()")
+                    mat-icon vpn_key
+                p.padding-left Compartir llave
+
+            cs-user-avatar(*ngIf="data.isFilterTitle", [users]="users", [title]="'Cajeros'", [zoom]="35")
+
+        .cs-panel
+            .cs-list(*ngFor="let data_bank of data.detail_data_bank", [class.hover]="data_bank.accion == INGRESOS || data_bank.accion == EGRESOS")
+                .cs-list-item__title {{ data_bank.accion }}
+                .cs-list-item([ngSwitch]="data_bank.accion")
+                    span.cs-green(*ngSwitchCase="INGRESOS") {{ data_bank.sumatoria }}
+                    span.cs-red(*ngSwitchCase="EGRESOS") {{ data_bank.sumatoria }}
+                    span(*ngSwitchDefault) {{ data_bank.sumatoria }}
+        .cs-panel
+            cs-bank-chart([height]="150")
+    .cs-content
+        .cs-panel.no-padding
+            mat-table(#table, [dataSource]="dataSource")
+                ng-container(matColumnDef="description")
+                    mat-header-cell(*matHeaderCellDef) Descripción
+                    mat-cell(*matCellDef="let element") {{ element.description }}
+                ng-container(matColumnDef="amount")
+                    mat-header-cell.w-80.text-center(*matHeaderCellDef) Monto
+                    mat-cell.w-80.text-center(*matCellDef="let element") {{ element.amount }}
+                ng-container(matColumnDef="date")
+                    mat-header-cell.text-center(*matHeaderCellDef) Fecha
+                    mat-cell.text-center(*matCellDef="let element") {{ element.date }}
+                ng-container(matColumnDef="payment_method")
+                    mat-header-cell(*matHeaderCellDef) Modo de pago
+                    mat-cell(*matCellDef="let element") {{ element.payment_method }}
+                ng-container(matColumnDef="students")
+                    mat-header-cell.text-center.w-90(*matHeaderCellDef) Estudiantes
+                    mat-cell.text-center.w-90(*matCellDef="let element")
+                        img([src]="UNKNOWN_USER_IMAGE", matTooltip="Giovanni Camana")
+                ng-container(matColumnDef="record")
+                    mat-header-cell.text-center.w-90(*matHeaderCellDef) Registros
+                    mat-cell.text-center.w-90(*matCellDef="let element")
+                        img([src]="UNKNOWN_USER_IMAGE", matTooltip="Carlos Galvez")
+                ng-container(matColumnDef="action")
+                    mat-header-cell.text-right.w-40(*matHeaderCellDef) Acción
+                    mat-cell.text-right.w-40(*matCellDef="let element")
+                        button(mat-icon-button,[matMenuTriggerFor]='action')
+                            mat-icon more_vert
+                        mat-menu(#action='matMenu', yPosition="below", xPosition="before")
+                            button(mat-menu-item, (click)="generarExcel()") Descargar.PDF
+
+                mat-header-row(*matHeaderRowDef="displayedColumns")
+                mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+            mat-paginator(#paginator, [pageSize]="5", [pageSizeOptions]="[5, 10, 20]", [showFirstLastButtons]="true")
+

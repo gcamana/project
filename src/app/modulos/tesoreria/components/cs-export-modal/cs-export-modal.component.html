@@ -1,0 +1,70 @@
+
+<h1 *ngIf="!isAddField" mat-dialog-title><img [src]="data.card.image">
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="cs-row theme-treasury" *ngIf="isAddField">
+  <button mat-icon-button (click)="toggle()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <p>Agregar campo</p>
+</div>
+<div class="theme-treasury no-padding" mat-dialog-content>
+  <div class="cs-table" *ngIf="!isAddField">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="select">
+        <mat-header-cell class="w-40 text-right" *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="w-40 text-right" *matCellDef="let element; let i = index;">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="selectBussiness($event, i)" [checked]="selection.isSelected(element)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="business">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.razon_social}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="year">
+        <mat-header-cell class="w-140" *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="w-140" *matCellDef="let element; let i = index;">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Desde año" panelClass="cs-treasury-select">
+              <mat-option value="option1">2016</mat-option>
+              <mat-option value="option2">2017</mat-option>
+              <mat-option value="option3">2018</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+  </div>
+  <form *ngIf="isAddField" [formGroup]="newAddForm">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="RUC" formControlName="ruc">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="RUC" formControlName="ruc1">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="RUC" formControlName="ruc2">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="RUC" formControlName="ruc3">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="RUC" formControlName="ruc4">
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury" mat-dialog-actions>
+  <button *ngIf="isAddField" mat-button color="accent" [disabled]="!newAddForm.valid" (click)="exportTxtByBank();">
+    <mat-icon>file_download</mat-icon>EXPORTAR TXT
+  </button>
+  <button *ngIf="!isAddField" mat-button color="accent" [disabled]="selection.selected.length == 0" (click)="toggle()">
+    <mat-icon>file_download</mat-icon>AGREGAR CAMPO
+  </button>
+  <button *ngIf="!isAddField" mat-button color="accent" [disabled]="selection.selected.length == 0" (click)="exportTxtByBank();">
+    <mat-icon>file_download</mat-icon>EXPORTAR TXT
+  </button>
+</div>

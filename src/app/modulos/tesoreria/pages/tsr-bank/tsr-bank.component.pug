@@ -1,0 +1,183 @@
+.theme-treasury
+    cs-shrinking-header-component([headerHeight]="mobileQuery.matches ? 192 : 256", [offset]="mobileQuery.matches ? 45: 64")
+        .wrapper
+            span.font-size-56((click)="backPage()") Caja
+
+mat-sidenav-container.theme-treasury.margin-minus-top
+    mat-sidenav.margin-top-64(#tsrsidenav, [class.mobile-mat-sidenav]="mobileQuery.matches", [mode]="mobileQuerySide.matches ? 'over': 'side'", position="start", [opened]="mobileQuerySide.matches ? false : true")
+
+        .cs-calendar-content
+            mat-toolbar.transparent
+                mat-toolbar-row.cs-mat-toolbar-row([class.no-padding-left]="isFilterMode")
+                    div(*ngIf="!isFilterMode", mwlCalendarToday, [(viewDate)]="viewDate")
+                        span.cs-calendar-today {{ viewDate | calendarDate:(view + 'ViewTitle'):'es' | csCapitalize }}
+                    button(*ngIf="!isFilterMode", mat-icon-button, mwlCalendarPreviousView, [view]="view", [(viewDate)]="viewDate", (viewDateChange)="activeDayIsOpen = false")
+                        mat-icon keyboard_arrow_left
+                    button(*ngIf="!isFilterMode", mat-icon-button, mwlCalendarNextView, [view]="view", [(viewDate)]="viewDate", (viewDateChange)="activeDayIsOpen = false")
+                        mat-icon keyboard_arrow_right
+
+                    span.cs-spacer(*ngIf="!isFilterMode")
+                    button(mat-icon-button, (click)="toggleFilter()")
+                        mat-icon filter_list
+
+                    .cs-filter-text(*ngIf="isFilterMode") Filtrar
+
+                    span.cs-spacer(*ngIf="isFilterMode")
+                    button(mat-icon-button, (click)='mobileQuery.matches ? closeSidenav() : tsrsidenav.close()')
+                        mat-icon(aria-label='Example icon-button with a heart icon') {{ mobileQuerySide.matches ?  "close" : "arrow_back" }}
+
+            mwl-calendar-month-view(
+                *ngIf="!isFilterMode",
+                [viewDate]='viewDate',
+                [locale]="locale",
+                [events]='events',
+                [weekStartsOn]="weekStartsOn",
+                [weekendDays]="weekendDays",
+                (dayClicked)='dayClicked($event.day)',
+                (eventClicked)="handleEvent('Clicked', $event.event)",
+                [refresh]="refresh",
+                (beforeViewRender)="beforeMonthViewRender($event)")
+
+        .cs-filter-content(*ngIf="isFilterMode")
+            form([formGroup]="newDateForm")
+                div.cs-flex
+                    button(mat-icon-button, color="accent", (click)="startDate.open()")
+                        mat-icon date_range
+                    mat-form-field.full-width
+                        input(matInput, #focusStart, [matDatepicker]="startDate", placeholder="Fecha de inicio", formControlName="startDate")
+                        mat-datepicker(#startDate, panelClass="tsr-datapicker")
+
+                div.cs-flex
+                    button(mat-icon-button, color="accent", (click)="stopDate.open()")
+                        mat-icon date_range
+                    mat-form-field.full-width
+                        input(matInput, #focusStop, [matDatepicker]="stopDate", placeholder="Fecha fin", formControlName="stopDate")
+                        mat-datepicker(#stopDate, panelClass="tsr-datapicker")
+
+            .button-row
+                button(mat-button, color="accent", (click)="toggleFilter()") {{ 'cancelar' | uppercase }}
+                button(mat-button, color="accent", [disabled]="!newDateForm.valid", (click)="filterDate()") {{ 'aceptar' | uppercase }}
+
+    mat-sidenav-content
+        mat-toolbar.transparent([class.fixed-mobile]="mobileQuery.matches")
+            mat-toolbar-row
+                button.margin-top-128(mat-icon-button, *ngIf="!tsrsidenav._opened", (click)="mobileQuery.matches ? openSidenav() : tsrsidenav.toggle()")
+                    mat-icon(aria-label='Example icon-button with a heart icon') {{ mobileQuery.matches ?  'keyboard_arrow_up' : 'arrow_forward' }}
+
+        .wrapper.cs-margin-minus-top#tsr-wrapper([class.open]="!this.tsrsidenav._opened")
+            .cs-button-fabs
+                button.cs-button-fab(mat-fab, (click)="toggleMoreFabs(); tooltip.hide()")
+                    mat-icon(aria-label="filter list icon")
+                        mat-icon([class.rotate]="!isOpenFab") close
+
+                .cs-fabs([class.active]="isOpenFab")
+                    button(mat-raised-button, #tooltip="matTooltip", mat-icon-button, matTooltip="Incidencias" , matTooltipPosition="before", (click)="openIncidents()")
+                        mat-icon warning
+
+                    button(mat-raised-button, #tooltip="matTooltip", mat-icon-button, matTooltip="Devoluciones" , matTooltipPosition="before", (click)="openRefundHistorical()")
+                        mat-icon money_off
+
+            .cs-box.mat-elevation-z8
+                mat-toolbar.transparent
+                    mat-toolbar-row
+                        span(*ngIf="!isFilterTitle") {{ selectDate | date:'fullDate' | csCapitalize }}
+                        span(*ngIf="isFilterTitle") {{ newfilterDate.startDate | date | csCapitalize }} - {{ newfilterDate.stopDate | date | csCapitalize }}
+
+                        mat-icon(*ngIf="!isFilterTitle && isDateNow" , style="margin-left:1rem;") account_balance_wallet
+
+                        button(*ngIf="!isFilterTitle && isDateNow", mat-icon-button, [matMenuTriggerFor]='menuOpenBank', [disabled]="filtro")
+                            mat-icon arrow_drop_down
+
+                        mat-menu(#menuOpenBank='matMenu', yPosition="below", xPosition="before")
+                            button(mat-menu-item, (click)="openDialogBank(openCash, estado_caja)", [disabled]="openCash")
+                                mat-icon lock_open
+                                | Aperturar
+
+                            button(mat-menu-item, (click)="openDialogBank(openCash, estado_caja)", [disabled]="!openCash")
+                                mat-icon lock_outline
+                                | Cerrar
+
+                        span.cs-spacer
+                        button(mat-icon-button, (click)="openFullScreen()")
+                            mat-icon fullscreen
+
+                        button(mat-icon-button,[matMenuTriggerFor]='menuDownload')
+                            mat-icon more_vert
+
+                        mat-menu(#menuDownload='matMenu', yPosition="below", xPosition="before")
+                            button(mat-menu-item, (click)="generarPdf()") Descargar.PDF
+                            button(mat-menu-item, (click)="generarExcel()") Descarga.XLS
+
+                .cs-content
+                    .cs-panel
+                        mat-list(*ngIf="!isFilterTitle")
+                            mat-list-item
+                                img(matListAvatar, [src]="photo_per || UNKNOWN_USER_IMAGE")
+                                h3(matLine) {{ name_scr }}
+                                    //- strong Giovanni
+                                    //- | Camana Infanzon
+                                p(matLine) {{ 'secretaria' }}
+
+                                //- button(mat-icon-button)
+                                //-     mat-icon delete
+                            mat-list-item(*ngIf="shared_info != null")
+                                img(matListAvatar, [src]="shared_info.foto")
+                                h3(matLine) {{ shared_info.name }}
+                                    //- strong Giovanni
+                                    //- | Camana Infanzon
+                                p(matLine) {{ shared_info.role | csCapitalize }}
+
+                                button(mat-icon-button,(click)="removeShareCash(2)")
+                                    mat-icon delete
+
+                        .cs-row-line(*ngIf="shared_info == null", [class.display-none]="isFilterTitle")
+                            button(mat-mini-fab, cdkFocusInitial, [disabled]="!openCash && !isDateNow", (click)="openShareCash()")
+                                mat-icon vpn_key
+                            p.padding-left Compartir llave
+
+                        cs-user-avatar(*ngIf="isFilterTitle", [users]="users", [title]="'Cajeros'", [zoom]="35")
+
+                    .cs-panel
+                        .cs-list(*ngFor="let data_bank of detail_data_bank; let i = index", [class.active]="data_bank.active", [class.hover]="data_bank.accion == INGRESOS || data_bank.accion == EGRESOS" ,(click)="showData(data_bank.accion, i)")
+                            .cs-list-item__title {{ data_bank.accion }}
+                            .cs-list-item([ngSwitch]="data_bank.accion")
+                                span.cs-green(*ngSwitchCase="INGRESOS") {{ data_bank.sumatoria }}
+                                span.cs-red(*ngSwitchCase="EGRESOS") {{ data_bank.sumatoria }}
+                                span(*ngSwitchDefault) {{ data_bank.sumatoria }}
+                    .cs-panel
+                        cs-bank-chart([egresos]="serial['ingresos']", [ingresos]="serial['egresos']", [category]="serial['dia']", [height]="150")
+
+                .cs-content
+                    .cs-panel.no-padding
+                        mat-table(#table, [dataSource]="dataSource")
+                            ng-container(matColumnDef="description")
+                                mat-header-cell(*matHeaderCellDef) Descripción
+                                mat-cell(*matCellDef="let element") {{ element.description }}
+                            ng-container(matColumnDef="amount")
+                                mat-header-cell.w-80.text-center(*matHeaderCellDef) Monto
+                                mat-cell.w-80.text-center(*matCellDef="let element") {{ element.amount }}
+                            ng-container(matColumnDef="date")
+                                mat-header-cell.text-center(*matHeaderCellDef) Fecha
+                                mat-cell.text-center(*matCellDef="let element") {{ element.fecha }}
+                            ng-container(matColumnDef="payment_method")
+                                mat-header-cell(*matHeaderCellDef) Modo de pago
+                                mat-cell(*matCellDef="let element") {{ element.payment_method }}
+                            ng-container(matColumnDef="students")
+                                mat-header-cell.text-center.w-90(*matHeaderCellDef) Estudiantes
+                                mat-cell.text-center.w-90(*matCellDef="let element")
+                                    img([src]="UNKNOWN_USER_IMAGE", matTooltip="Giovanni Camana")
+                            ng-container(matColumnDef="record")
+                                mat-header-cell.text-center.w-90(*matHeaderCellDef) Registro
+                                mat-cell.text-center.w-90(*matCellDef="let element")
+                                    img([src]="UNKNOWN_USER_IMAGE", matTooltip="{{ element.audi_nomb_regi }}")
+                            ng-container(matColumnDef="action")
+                                mat-header-cell.text-right.w-40(*matHeaderCellDef) Acción
+                                mat-cell.text-right.w-40(*matCellDef="let element")
+                                    button(mat-icon-button,[matMenuTriggerFor]='action')
+                                        mat-icon more_vert
+                                    mat-menu(#action='matMenu', yPosition="below", xPosition="before")
+                                        button(mat-menu-item, (click)="generarExcel()") Descargar excel
+                            mat-header-row(*matHeaderRowDef="displayedColumns")
+                            mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+                        mat-paginator.cs-tsr-paginator(#paginator, [pageSize]="5", [pageSizeOptions]="[5, 10, 20]", [showFirstLastButtons]="true")

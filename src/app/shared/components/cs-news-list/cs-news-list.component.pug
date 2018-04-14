@@ -1,0 +1,11 @@
+mat-toolbar.pure
+    mat-toolbar-row
+        strong Noticias
+        span.cs-spacer
+        button.cs-btn-small.border-radius-20(mat-button) Ver Más
+
+ul.pure
+    li(*ngFor="let notice of news")
+        em {{ notice.createDate }}
+        p {{ notice.description | truncate:[128, '...'] }}
+            button.cs-btn-small.border-radius-20(mat-button) Ver Más

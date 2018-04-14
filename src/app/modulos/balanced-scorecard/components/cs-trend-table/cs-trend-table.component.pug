@@ -1,0 +1,5 @@
+.cs-trend-table
+    p(matLine) {{ value + unidad_med }}
+    mat-icon(*ngIf="trendFlag !== 2", [ngClass]="textClass") {{ trendIcon }}
+    mat-icon.svg(*ngIf="trendFlag === 2", [svgIcon]="trendIcon", [ngClass]="textClass")
+    p(matLine, [ngClass]="textClass") {{ variation }}%

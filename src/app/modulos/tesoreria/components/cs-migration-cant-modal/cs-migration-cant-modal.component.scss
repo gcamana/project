@@ -1,0 +1,31 @@
+@import './../../../../variables';
+//table
+.caja_table{
+    padding-top: 30px
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+.mat-cell {
+    img {
+        width: 27px;
+        height: 27px;
+        display: inline-flex;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: auto;
+    }
+}
+.table_margin_24{
+    margin-left: -24px;
+    margin-right: -24px;
+}
+// table finish
+
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}

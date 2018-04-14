@@ -1,0 +1,197 @@
+.theme-bsc
+    cs-shrinking-header-component([headerHeight]="mobileQuery1.matches ? 192 : 256", [offset]="mobileQuery1.matches ? 45: 64")
+        .wrapper
+            span.font-size-56([matTooltip]="title.length > 40 ? title : ''", [class.hideTitle]="displayTitle", (click)="backPage()") {{ title }}
+
+.wrapper.margin-minus-top.theme-bsc.wrapper-custom
+    .cs-button-fabs
+        button.cs-button-fab(mat-fab, (click)="toggleFab()")
+            mat-icon(aria-label="filter list icon") filter_list
+
+        button.cs-button-mini-fab(mat-mini-fab, (click)="goToInformatioEdit()")
+            mat-icon(aria-label="filter list icon") info_outline
+
+    .cs-grid-list.cs-inline-block
+        .cs-grid-tile.w-35
+            mat-card
+                .cs-grid-header
+                    .button-row
+                        p(style="margin-bottom:0;padding-right:2.5em;") {{ year }}
+                        cs-user-avatar([users]="responsables", [usersCount]="responsables.length", [onlyCount]="true", [hideName]="true")
+
+                        button(mat-icon-button, [matMenuTriggerFor]='menuGauge')
+                            mat-icon more_vert
+                        mat-menu(#menuGauge='matMenu', yPosition="below", xPosition="before")
+                            button(mat-menu-item, (click)="editGaugeValue()")
+                                mat-icon create
+                                span Editar Valores
+                .cs-gauge
+                    cs-circular-gauge-component.margin-top-minus-80([class.cs-gray-image]="!actual_indicador",[tipo_g]="tipo_indi", [ini]="valor_inicial", [fin]="valor_final", [values]="actual_indicador",[green]="valor_meta", [red]="zona_riesgo", [orange]="valor_amarillo", [borderWidth]="18", [dialBaseWidth]="8", [dialBorderWidth]="2", [dialRadius]="'55%'", [labelsDistance]="-20")
+
+                .cs-grid-title.text-center.margin-top-minus-130
+                    span {{ title | truncate:[65] }}
+
+            mat-card
+                cs-historical-group.padding
+                    cs-historical([title]="'Histórico'")
+                        ul.cs-list.padding-top-10(*ngIf="dataHistoricos")
+                            li.cs-list-item(*ngFor="let data of dataHistoricos")
+                                .cs-avatar
+                                    img([src]="data.img || UNKNOWN_USER_IMAGE")
+                                .cs-p
+                                    p {{ data.desc | truncate:[55]}}
+                                    time {{ data.fecha }}
+
+                        cs-empty([data]="dataHistoricos", [message]="'No existen datos históricos que mostrar'" , [image]="EMPTY_HISTORY")
+
+        .cs-grid-tile.w-65.no-padding
+            mat-card.padding-top-none.padding-left-none.padding-right-none
+                div(*ngIf="!mobileQuery.matches")
+                    .cs-buttom-row(*ngIf="isTrend")
+                        button(mat-icon-button, (click)="openChartZoom()")
+                            mat-icon(aria-label="fullscreen")  fullscreen
+                        button(mat-icon-button, (click)="filtroGeneral()")
+                            mat-icon(aria-label="filter_list")  filter_list
+
+                    //- .cs-buttom-row(*ngIf="isHistory")
+                    //- .cs-buttom-row(*ngIf="isStraighten")
+                    //- .cs-buttom-row(*ngIf="isCompareArrows")
+                    //- .cs-buttom-row(*ngIf="isLockOutline")
+
+                mat-toolbar.cs-table-info(*ngIf="selection.selected.length > 0 && isCompareArrows")
+                    p(style="margin-bottom:0;") {{ selection.selected.length }} seleccionado
+                    span.cs-spacer
+                    button(mat-button, color="primary", (click)="cancelComparativeSelect()") Cancelar
+                    button(mat-button, color="primary", (click)="saveComparativeSelect()") Guardar
+
+
+                mat-tab-group.cs-mat-tab-group-indicator(selectedIndex="0", (selectedIndexChange)="onSelectedIndexChange($event)")
+                    mat-tab(label="TENDENCIA")
+                        ng-template(mat-tab-label, *ngIf="tablebQuery.matches")
+                            mat-icon timeline
+                        .cs-tab-content.padding-left-none.padding-right-none
+                            cs-chart-percentage-area([dataGrafig] ="dataGrafigArea")
+
+                    mat-tab(label="HISTORIAL")
+                        ng-template(mat-tab-label, *ngIf="tablebQuery.matches")
+                            mat-icon history
+                        .cs-tab-content.cs-history-table.padding-left-none.padding-right-none
+                            .example-container(mat-elevation-z8)
+                                mat-table(#history, [dataSource]="dataSource")
+                                    ng-container(matColumnDef="date")
+                                        mat-header-cell(*matHeaderCellDef) Fecha
+                                        mat-cell(*matCellDef="let element") {{ element.date }}
+
+                                    ng-container(matColumnDef="real")
+                                        mat-header-cell(*matHeaderCellDef) Real
+                                        mat-cell(*matCellDef="let element") {{ element.real }}
+
+                                    ng-container(matColumnDef="goal")
+                                        mat-header-cell(*matHeaderCellDef) Meta
+                                        mat-cell(*matCellDef="let element") {{ element.goal }}
+
+                                    ng-container(matColumnDef="green")
+                                        mat-header-cell(*matHeaderCellDef) Zona de Vulnerabilidad
+                                        mat-cell(*matCellDef="let element") {{ element.green }}
+
+                                    ng-container(matColumnDef="red")
+                                        mat-header-cell(*matHeaderCellDef) Zona Riesgo
+                                        mat-cell(*matCellDef="let element") {{ element.red }}
+
+                                    //- ng-container(matColumnDef="edit")
+                                    //-     mat-header-cell.cs-mat-column-width-64(*matHeaderCellDef) Edit
+                                    //-     mat-cell.cs-mat-column-width-64(*matCellDef="let element")
+                                    //-         button(mat-icon-button, (click)="editHistoryTable(element)")
+                                    //-             mat-icon.cs-font-size create
+
+                                    mat-header-row(*matHeaderRowDef="displayedColumns")
+                                    mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+                                mat-paginator([pageSize]="5", [pageSizeOptions]="[5, 10, 20]")
+
+
+                    mat-tab(label="F.MEDICIÓN")
+                        ng-template(mat-tab-label, *ngIf="tablebQuery.matches")
+                            mat-icon straighten
+
+                        .cs-tab-content.mat-tab-straighten.padding-left-none.padding-right-none
+                            .cs-mat-table.theme-bsc
+                                .cs-mat-header-row
+                                    .cs-mat-header-cell Registró
+                                    .cs-mat-header-cell.cs-mat-column-width-150 Fecha Inicio
+                                    .cs-mat-header-cell.cs-mat-column-width-150 Fecha Fin
+
+                                .cs-mat-row(*ngFor="let data of REGISTRO")
+                                    .cs-mat-cell {{ data.name }}
+                                    .cs-mat-cell.cs-mat-column-width-150
+                                        mat-form-field(color="primary", panelClass="cs-mat-datepicker-toggle")
+                                            input(matInput, [matDatepicker]="dp1", disabled, [value]="date.value", color="primary")
+                                            mat-datepicker-toggle(matSuffix, [for]="dp1", color="primary")
+                                            mat-datepicker(#dp1, disabled="false", color="primary")
+
+                                    .cs-mat-cell.cs-mat-column-width-150
+                                        mat-form-field(color="primary", panelClass="cs-mat-datepicker-toggle")
+                                            input(matInput, [matDatepicker]="dp2", disabled, [value]="date.value", color="primary")
+                                            mat-datepicker-toggle(matSuffix, [for]="dp2", color="primary")
+                                            mat-datepicker(#dp2, disabled="false", color="primary")
+
+
+
+                        mat-paginator(*ngIf="REGISTRO.length != 0", [length]="REGISTRO.length", [pageSize]="5", [pageSizeOptions]="[5, 10, 20]", (page)="onPaginatedChange($event)")
+
+                        cs-empty([data]="REGISTRO", [message]="'No exite fecha de medición'")
+
+                    mat-tab(label="COMPARATIVA")
+                        ng-template(mat-tab-label, *ngIf="tablebQuery.matches")
+                            mat-icon compare_arrows
+
+                        .cs-tab-content.cs-compare-table.padding-left-none.padding-right-none.padding-top-none(*ngIf="REGISTRO.length != 0")
+                            div.theme-bsc
+                                mat-progress-bar(mode="indeterminate", *ngIf="isSaveComparative")
+
+                            mat-table(#table, [dataSource]="dataSourceComparation")
+
+                                ng-container(matColumnDef="select")
+                                    mat-header-cell.cs-mat-column-width-90(*matHeaderCellDef)
+                                        mat-checkbox(color="primary", (change)="$event ? masterToggle() : null", [checked]="selection.hasValue() && isAllSelected()", [indeterminate]="selection.hasValue() && !isAllSelected()", align="end")
+
+                                    mat-cell.cs-mat-column-width-90(*matCellDef="let row")
+                                        mat-checkbox(color="primary", (click)="$event.stopPropagation()", (change)="$event ? selection.toggle(row) : null", [checked]="selection.isSelected(row)")
+
+                                ng-container(matColumnDef="id")
+                                    mat-header-cell.cs-mat-column-width-64(*matHeaderCellDef) #
+                                    mat-cell.cs-mat-column-width-64(*matCellDef="let element") {{element.id}}
+                                ng-container(matColumnDef="comparativa")
+                                    mat-header-cell(*matHeaderCellDef) Comparativa
+                                    mat-cell(*matCellDef="let element") {{element.comparativa}}
+                                ng-container(matColumnDef="valor")
+                                    mat-header-cell.cs-mat-column-width-90(*matHeaderCellDef) Valor
+                                    mat-cell.cs-mat-column-width-90(*matCellDef="let element") {{element.valor}}
+
+                                mat-header-row(*matHeaderRowDef="displayedColumnsComparation")
+
+                                mat-row( *matRowDef="let row; columns: displayedColumnsComparation;", (click)="selection.toggle(row)")
+
+
+                            mat-paginator([pageSize]="5", [pageSizeOptions]="[5, 10, 20]", (page)="onPaginatedChange($event)")
+
+                        cs-empty([data]="REGISTRO", [message]="'No Tenemos información para realizar una comparativa.'")
+
+                    mat-tab(label="CIERRE")
+                        ng-template(mat-tab-label, *ngIf="tablebQuery.matches")
+                            mat-icon lock_outline
+                        .cs-tab-content
+                            .cs-empty-image
+                                img([src]="EMPTY_STATE_CIERRE")
+                                button.border-radius-20(mat-raised-button, color="primary")
+                                    mat-icon(aria-label="lock") lock
+                                    | CIERRE DE INDICADOR
+
+                                .cs-p
+                                    p
+                                        | Se verificará que las mediciones se hayan realizado completamente,
+                                        | una vez realizada esta acción se guardarán los datos como históricos
+                                        | y el indicador será actualizado al presente año.
+
+            mat-card.padding-left-none.padding-right-none
+                cs-table-nested-component([dataDetalle]="dataDetalle",[resultsLength]="resultsLength",[tipo_calc]="tipo_calculo",[unidad_med]="info_indi.unidad", [isLoadingResults]="isLoadingResults", (emitSaveCurrent)="setNewCurrentValue($event)", (pagination)="paginationSizeTable($event)")

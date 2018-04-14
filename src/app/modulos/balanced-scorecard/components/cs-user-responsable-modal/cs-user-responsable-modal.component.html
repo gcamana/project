@@ -1,0 +1,23 @@
+
+<div class="theme-bsc">
+  <mat-progress-bar mode="indeterminate" *ngIf="isShowProgress"></mat-progress-bar>
+</div>
+<cs-search-user (keyup)="searchResp($event)" [(ngModel)]="filtro" ngDefaultControl [isSearch]="true"></cs-search-user>
+<div mat-dialog-content>
+  <mat-nav-list class="cs-mat-nav-list-modal theme-bsc">
+    <mat-list-item *ngFor="let resp of responsables"><img matListAvatar [src]="resp.foto_persona || UNKNOWN_USER_IMAGE">
+      <h3 matLine>{{ resp.nombres }}</h3>
+      <p matLine>{{ resp.cargo }}</p>
+      <mat-checkbox color="primary" (change)="checkResp($event, resp.nid_persona)"></mat-checkbox>
+    </mat-list-item>
+    <div [ngSwitch]="emptyValue">
+      <cs-empty *ngSwitchCase="'find'" [data]="responsables" [message]="'Busca y asinga un responsable'" [image]="SEARCH_1"></cs-empty>
+      <cs-empty *ngSwitchCase="'nothing'" [data]="responsables" [message]="'No hemos encontrados al responsable que busca'" [image]="SEARCH_2"></cs-empty>
+    </div>
+  </mat-nav-list>
+</div>
+<hr>
+<div class="theme-bsc" mat-dialog-actions>
+  <button mat-button color="primary" (click)="onNoClick()">CERRAR</button>
+  <button *ngIf="seleccionados.length &gt; 0" mat-button color="primary" (click)="saveResponsables()">ASIGNAR</button>
+</div>

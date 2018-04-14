@@ -1,0 +1,16 @@
+@import './../../../../variables';
+.cs-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.cs-full-width {
+    width: 100%;
+}
+.mat-progress-bar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

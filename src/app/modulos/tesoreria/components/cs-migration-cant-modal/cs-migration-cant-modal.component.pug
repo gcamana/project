@@ -1,0 +1,22 @@
+h2(mat-dialog-title) {{ data.data.business | csCapitalize}}
+    p {{ viewDate | date:'medium' }}
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+mat-dialog-content.no-padding
+    .col-12.padding-top
+        mat-table(#table, [dataSource]="dataSource")
+            ng-container(matColumnDef="coute")
+                mat-header-cell.w-150(*matHeaderCellDef) Cuota
+                mat-cell.w-150(*matCellDef="let element") {{ element.coute }}
+            ng-container(matColumnDef="student")
+                mat-header-cell(*matHeaderCellDef) Estudiante
+                mat-cell(*matCellDef="let element")
+                    img([src]="UNKNOWN_USER_IMAGE")
+                    span {{ ' '+ element.student }}
+            ng-container(matColumnDef="quantity")
+                mat-header-cell.text-center.w-80(*matHeaderCellDef) Cantidad S/.
+                mat-cell.text-center.w-80(*matCellDef="let element") {{ element.quantity }}
+            mat-header-row(*matHeaderRowDef="displayedColumns")
+            mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+        mat-paginator.cs-tsr-paginator(#paginator, [pageSize]="5", [pageSizeOptions]="[5, 10, 20]", [showFirstLastButtons]="true")

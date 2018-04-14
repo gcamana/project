@@ -1,0 +1,215 @@
+<div class="middle-view"></div>
+<mat-card class="mat-card-main">
+  <mat-card-header>
+      <mat-card-title>Becas</mat-card-title> 
+  </mat-card-header>
+  <mat-card-content>
+       <div class="table responsive">
+          <table class="table table-hover">
+    <thead>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">Tipo</td>
+            <td class="mdl-data-table__cell--non-numeric">% Beca</td>
+            <td class="mdl-data-table__cell--non-numeric">A&ntilde;o</td>
+            <td class="mdl-data-table__cell--non-numeric">Acciones</td>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let _beca of beca; let i = index">
+            <td class="mdl-data-table__cell--non-numeric">{{_beca.desc_condicion}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_beca.porcentaje_beca}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{_beca.year_condicion}}</td>
+            <td>
+            <div>
+                <mat-icon matTooltip="Ya est&aacute; en uso">lock</mat-icon>
+            </div>
+
+            </td>
+        </tr>
+    </tbody>
+        </table>
+        </div>
+</mat-card-content>
+
+            <div class="mat-right-menu">
+                <strong>Asignar Beca</strong>
+                <button mat-icon-button (click) = "openModalFiltrarEstudiante()" 
+                data-toggle="modal" data-target="#AnadirBeca">
+                <mat-icon aria-label="agregar">add</mat-icon>
+                </button>
+            
+            </div>
+</mat-card>
+
+
+<!--MODAL FILTRAR ESTUDIANTES PARA ASIGNAR BECAS -->
+<div #modalFiltroEstudiantes class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <mat-progress-bar mode="indeterminate" *ngIf="progress_registrar == true"></mat-progress-bar>
+                <div class="modal-header">
+                    <h4 class="modal-title">Asignar Becas</h4>
+                </div>
+                <mat-card-content>
+            <div class="modal-body">
+
+
+                <mat-form-field class="example-full-width col-md-12">
+                <input matInput placeholder="Estudiantes" [(ngModel)]="searchEstudiantes" (change)="getEstudiantes()">
+                </mat-form-field>
+
+                    <div class="table responsive" *ngIf="flg_estudiantes == true">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <td class="mdl-data-table__cell--non-numeric">Estudiante</td>
+                                    <td class="mdl-data-table__cell--non-numeric">Estado</td>
+                                    <td class="mdl-data-table__cell--non-numeric">Beca</td>
+                                    <td class="mdl-data-table__cell--non-numeric">Acci&oacute;</td>
+                                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let _estudiantes of estudiantes; let i = index">
+                                    <td class="mdl-data-table__cell--non-numeric">{{_estudiantes.nombrecompleto}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{_estudiantes.cuotas_deuda}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{_estudiantes.desc_condicion}}</td>
+                                    <td>
+                                        <!--<div>
+                                        <mat-slide-toggle [checked]="_estudiantes.flg_beca " (click)="mostrarFormularioRegistrarBeca(_estudiantes.nid_persona,_estudiantes.desc_condicion)"></mat-slide-toggle>
+                                        </div>-->
+                                    <div>
+                                        <mat-slide-toggle color="primary" [checked]="_estudiantes.flg_beca == 1" (change)="mostrarFormularioRegistrarBeca(i,_estudiantes.nid_persona,_estudiantes.desc_condicion)"></mat-slide-toggle>
+                                    </div>
+
+                                        <!--<mat-cell *matCellDef="let element; let i = index">
+                                        <mat-slide-toggle color="primary" [disabled]="element.devolucion == 1" [checked]="element.devolucion == 1" (change)="modalDevolucion(i,element.monto_final,element._id_persona,element.id_movimiento)">
+                                        </mat-slide-toggle>
+                                        </mat-cell>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+
+                    <div class="text-right">
+                            <button mat-button (click)="closeModalFiltrarEstudiante()">Cerrar</button>
+                            <button mat-button (click)="getEstudiantes()">Buscar</button>
+                    </div>
+                </mat-card-content>
+            
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL ASIGNAR BECA -->
+<div #modalAsignarBecas class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+    <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="progress_registrar == true"></mat-progress-bar>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" (click)="closeModalRegistrarBeca()">&times;</button>
+            <h4 class="modal-title">Asignar Beca</h4>
+          </div>
+          <div class="modal-body">
+              <div class="row" >
+    
+            <!-- Select tipo de Beca -->
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                <mat-form-field>
+                    <!-- [formControl]="becaFormControl" -->
+                    <mat-select #listaOpciones placeholder="Tipo de Beca"
+                         [errorStateMatcher]="matcher" >
+                        <mat-option><strong>Seleccionar</strong></mat-option>
+                        <mat-option *ngFor="let option of beca; let i = index"  [value]="option.id_condicion">
+                        {{option.desc_condicion}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="becaFormControl.hasError('required')">Debe seleccionar un tipo de Beca</mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Select anhio -->
+            <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                    <mat-form-field>
+                        <!-- [formControl]="anhioFormControl" -->
+                        <mat-select #listaOpciones2 placeholder="Selec. a&ntilde;o"
+                             [errorStateMatcher]="matcher" >
+                            <mat-option><strong>Seleccionar</strong></mat-option>
+                            <mat-option *ngFor="let option of anhio; let i = index"  [value]="option.year">
+                            {{option.year}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="anhioFormControl.hasError('required')">Debe seleccionar un tipo de A&ntilde;o</mat-error>
+                    </mat-form-field>
+            </div>
+          </div>
+         </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "closeModalRegistrarBeca()">Cancelar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "RegistrarBeca(listaOpciones.value,listaOpciones2.value)"  >    Aceptar    </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--MODAL QUITAR BECA -->
+<div #modalQuitarBecas class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+    <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="progress_registrar == true"></mat-progress-bar>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><strong>Estas seguro de quitar la beca?</strong></h4>
+          </div>
+          <div class="modal-body">
+              <div class="row" >
+
+                
+                    <p>
+                              Recuerda. Al quitarle la beca al estudiante   
+                              volvera a pagar como un estudiante normal, sin
+                              descuento a ningun monto que afecte la beca.
+                    </p>
+                
+                
+          </div>
+         </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "closeModalAnularBeca()">Cancelar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "AnularBeca()"  >    Aceptar    </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+<!--MODAL FILTRAR
+PAGOS.CONDICION POR PERSONA
+ID CONDICION: DESPLEGABLE 0
+ID PERSONA: ID DEL ESTUDIANTE
+ESTADO: ACTIVO
+FLG_BECA: 1
+YEAR_USO: DESPLEGABLE 1
+ID PERS REGI: UD SECRETARIA
+AUDI NOMB REGI: SECRETARIA
+
+
+SET TIMEOUT METODO 38-44
+
+
+
+-->

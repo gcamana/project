@@ -1,0 +1,28 @@
+
+<h2 mat-dialog-title>{{ data.data.business | csCapitalize}}
+  <p>{{ viewDate | date:'medium' }}</p>
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content class="no-padding">
+  <div class="col-12 padding-top">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="coute">
+        <mat-header-cell class="w-150" *matHeaderCellDef>Cuota</mat-header-cell>
+        <mat-cell class="w-150" *matCellDef="let element">{{ element.coute }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="student">
+        <mat-header-cell *matHeaderCellDef>Estudiante</mat-header-cell>
+        <mat-cell *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE"><span>{{ ' '+ element.student }}</span></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell class="text-center w-80" *matHeaderCellDef>Cantidad S/.</mat-header-cell>
+        <mat-cell class="text-center w-80" *matCellDef="let element">{{ element.quantity }}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator class="cs-tsr-paginator" #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,50 @@
+.theme-treasury
+    cs-shrinking-header-component([headerHeight]="mobileQuery.matches ? 192 : 256", [offset]="mobileQuery.matches ? 45: 64")
+        .wrapper
+            span.font-size-56( (click)="backPage()") Mis egresos
+.wrapper.theme-treasury.margin-minus-top
+    mat-card
+        mat-card-title  Listado de mis egresos
+            .button-row
+                button(mat-icon-button)
+                    mat-icon search
+                button(mat-icon-button,  [matMenuTriggerFor]='menuGauge')
+                    mat-icon sort
+                mat-menu(#menuGauge='matMenu', yPosition="below", xPosition="before")
+                    button(mat-menu-item, (click)="editGaugeValue()")
+                        mat-icon create
+                        span Descargar.PDF
+                    button(mat-menu-item, (click)="editPesoPersp()")
+                        mat-icon fitness_center
+                        span Descargar.PDF
+        mat-card-content.table_margin_24
+            .col-12.padding-top
+                    mat-table(#table, [dataSource]="dataSource")
+                        ng-container(matColumnDef="concept")
+                            mat-header-cell(*matHeaderCellDef) Concepto
+                            mat-cell(*matCellDef="let element") {{ element.concept }}
+                        ng-container(matColumnDef="register")
+                            mat-header-cell(*matHeaderCellDef) Registro
+                            mat-cell(*matCellDef="let element") 
+                                img([src]="UNKNOWN_USER_IMAGE", matTooltip="Solimarco")
+                                span {{ ' '+ element.register }}
+                        ng-container(matColumnDef="date")
+                            mat-header-cell.text-center(*matHeaderCellDef) Fecha de registro
+                            mat-cell.text-center(*matCellDef="let element") {{ element.date }}
+                        ng-container(matColumnDef="amount")
+                            mat-header-cell.text-center(*matHeaderCellDef) Monto (S/.)
+                            mat-cell.text-center(*matCellDef="let element") {{ element.amount }}
+                        ng-container(matColumnDef="action")
+                            mat-header-cell.text-center.w-90(*matHeaderCellDef) Acción
+                            mat-cell.text-center.w-90(*matCellDef="let element")
+                                button(mat-icon-button, matTooltip="Descargar")
+                                    mat-icon receipt
+                                button(mat-icon-button, [matMenuTriggerFor]='menuGauge')
+                                    mat-icon comment
+                                mat-menu(#menuGauge='matMenu', yPosition="below", xPosition="before")
+                                    .padding 
+                                        p   Observacion
+                        mat-header-row(*matHeaderRowDef="displayedColumns")
+                        mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+                    mat-paginator.cs-tsr-paginator(#paginator, [pageSize]="5", [pageSizeOptions]="[5, 10, 20]", [showFirstLastButtons]="true")

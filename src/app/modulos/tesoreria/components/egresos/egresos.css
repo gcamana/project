@@ -1,0 +1,25 @@
+
+.middle-view{
+    background-color: #009688;
+    height: 200px;
+}
+.mat-card-main{
+    max-width: 1150px;
+    margin: auto;
+    padding: 0;
+    margin-top: -120px;
+}
+.mat-card-main mat-card-header{
+    padding: 10px;
+}
+.mat-card-main mat-card-title{
+    font-size: 24px;
+    font-family: 'robotoregular';
+}
+.mat-card-main .mat-right-menu{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+

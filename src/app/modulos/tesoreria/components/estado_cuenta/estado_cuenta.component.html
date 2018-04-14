@@ -1,0 +1,99 @@
+<div class="ejemplos" style="display:block;">
+
+<div class="mdl-chipset">
+    <mat-chip-list *ngFor="let hijo of hijos; let i = index">
+        <mat-chip (click)="verHijo(hijo.nid_persona, hijo.nombre)">{{hijo.nombre}}</mat-chip>
+    </mat-chip-list>
+</div>
+
+
+<mat-card class="mat-card-main"> 
+        <mat-card-header>
+            <mat-card-title>
+                {{nombre_hijo}}
+            </mat-card-title>
+            <mat-card-subtitle *ngIf="flagMensaje">
+                {{numDeuda}} cuota(s) vencida(s) (Deuda Total: {{cantDeuda}})
+            </mat-card-subtitle>
+        </mat-card-header>
+    
+    <mat-card-title>
+                <button mat-icon-button id="prev" (click) = "cambiarAno(0)">
+                        <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+                Año {{ano}}
+                <button mat-icon-button id="next" (click) = "cambiarAno(1)">
+                        <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+    </mat-card-title>  
+
+
+    <mat-card-content>
+
+        <div class="table responsive">
+            <mat-table #table [dataSource]="dataSourceCuenta">
+
+                <ng-container matColumnDef="desc_cuota">
+                    <mat-header-cell *matHeaderCellDef> Concepto</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.desc_cuota}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="monto">
+                    <mat-header-cell *matHeaderCellDef> Base(S/.)</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.monto}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_descuento">
+                    <mat-header-cell *matHeaderCellDef> Fec. Descuento</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.fecha_descuento}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="descuento_acumulado">
+                    <mat-header-cell *matHeaderCellDef> Descuento(S/.)</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.descuento_acumulado}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fec_vencimiento">
+                    <mat-header-cell *matHeaderCellDef> Fec. Vencimiento</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.fec_vencimiento}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="mora_acumulada">
+                    <mat-header-cell *matHeaderCellDef> Mora(S/.)</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.mora_acumulada}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="monto_final">
+                    <mat-header-cell *matHeaderCellDef> Total(S/.)</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.monto_final}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="monto_adelanto">
+                    <mat-header-cell *matHeaderCellDef> Pagado(S/.)</mat-header-cell>
+                    <mat-cell *matCellDef="let info"> {{info.monto_adelanto}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="l_pago">
+                    <mat-header-cell *matHeaderCellDef> L. Pago</mat-header-cell>
+                    <mat-cell *matCellDef="let info">
+                        <div *ngIf="info.estado == 'PAGADO'">
+                            <mat-icon matTooltip="{{info.tooltip}}">{{info.icon_lugar_pago}}</mat-icon>
+                        </div>
+                        <div *ngIf="info.estado != 'PAGADO'">
+                            -
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsCuenta"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsCuenta;"></mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+        </div>
+
+    </mat-card-content>
+
+    
+</mat-card>

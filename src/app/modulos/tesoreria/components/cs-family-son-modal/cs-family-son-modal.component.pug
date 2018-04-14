@@ -1,0 +1,49 @@
+h1(*ngIf="!isSelect" ,mat-dialog-title) {{ title }}
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.cs-row.theme-treasury(*ngIf="isSelect")
+    button(mat-icon-button, (click)="toggle()")
+        mat-icon arrow_back
+    mat-list
+        mat-list-item
+            img(matListAvatar, [src]="user.foto_persona || UNKNOWN_USER_IMAGE")
+            p(matLine) {{ user?.nombres }}
+
+div.theme-treasury(mat-dialog-content)
+    .padding(*ngIf="!isSelect")
+        mat-radio-group([(ngModel)]="user", (change)="onchange($event)")
+            mat-radio-button([value]="user", *ngFor="let user of users", labelPosition="before")
+                .cs-panel-1
+                    img(matListAvatar, [src]="user.foto_persona || UNKNOWN_USER_IMAGE")
+                    h3(matLine)
+                        | {{ user.nombres }}
+                        p {{ user?.role }}
+
+    div(*ngIf="isSelect")
+        mat-table( #table, [dataSource]="dataSource")
+            ng-container(matColumnDef="description")
+                mat-header-cell(*matHeaderCellDef) Descripción
+                mat-cell(*matCellDef="let element") {{ element.description }}
+
+            ng-container(matColumnDef="amount")
+                mat-header-cell.text-center(*matHeaderCellDef) Monto S/
+                mat-cell.text-center(*matCellDef="let element") {{ element.amount }}
+
+            ng-container(matColumnDef="type")
+                mat-header-cell.text-right.w-150(*matHeaderCellDef) Tipo
+                mat-cell.text-right.w-150(*matCellDef="let element")
+                    mat-form-field.full-width(hideRequiredMarker="auto", [floatLabel]="never")
+                        mat-select(placeholder="Favorite food", panelClass="cs-treasury-select")
+                            mat-option(value="efectivo") Efectivo
+                            mat-option(value="crédito") Tarjeta
+                            mat-option(value="crédito") Tarjeta
+
+            mat-header-row(*matHeaderRowDef="displayedColumns")
+            mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+div.theme-treasury(mat-dialog-actions)
+    button(*ngIf="!isSelect", mat-button, color="accent", cdkFocusInitial, [disabled]="!isActiveButtom", (click)="selectUser()") {{ 'continuar' | uppercase }}
+
+    button(*ngIf="isSelect", color="accent", mat-button, (click)="toggle()") {{ 'cancelar' | uppercase }}
+    button(*ngIf="isSelect", color="accent", mat-button, [mat-dialog-close]="data.animal", disabled="true") CONFIRMAR

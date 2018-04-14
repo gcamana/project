@@ -1,0 +1,13 @@
+
+<mat-toolbar class="pure">
+  <mat-toolbar-row><strong>Noticias</strong><span class="cs-spacer"></span>
+    <button class="cs-btn-small border-radius-20" mat-button>Ver Más</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<ul class="pure">
+  <li *ngFor="let notice of news"><em>{{ notice.createDate }}</em>
+    <p>{{ notice.description | truncate:[128, '...'] }}
+      <button class="cs-btn-small border-radius-20" mat-button>Ver Más</button>
+    </p>
+  </li>
+</ul>

@@ -1,0 +1,107 @@
+
+<mat-toolbar-row>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>arrow_back</mat-icon>
+  </button><span *ngIf="!data.isFilterTitle">{{ selectDate | date:'fullDate' | csCapitalize }}</span><span *ngIf="data.isFilterTitle">{{ data.newfilterDate.startDate | date | csCapitalize }} - {{ data.newfilterDate.stopDate | date | csCapitalize }}</span>
+  <mat-icon style="margin-left:1rem;">account_balance_wallet</mat-icon>
+  <button *ngIf="!data.isFilterTitle" mat-icon-button [matMenuTriggerFor]="menuOpenBank" [disabled]="filtro">
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <mat-menu #menuOpenBank="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item (click)="openDialogBank(openCash, estado_caja)" [disabled]="openCash">
+      <mat-icon>lock_open</mat-icon>Aperturar
+    </button>
+    <button mat-menu-item (click)="openDialogBank(openCash, estado_caja)" [disabled]="!openCash">
+      <mat-icon>lock_outline</mat-icon>Cerrar
+    </button>
+  </mat-menu><span class="cs-spacer"></span>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>fullscreen_exit</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menuDownload">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menuDownload="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item (click)="generarExcel()">Descargar.PDF</button>
+    <button mat-menu-item (click)="generarExcel()">Descarga.XLS</button>
+  </mat-menu>
+</mat-toolbar-row>
+<div class="theme-treasury" mat-dialog-content>
+  <div class="cs-content">
+    <div class="cs-panel">
+      <mat-list *ngIf="!data.isFilterTitle">
+        <mat-list-item><img matListAvatar [src]="photo_per || UNKNOWN_USER_IMAGE">
+          <h3 matLine>{{ data.name_scr }}</h3>
+          <p matLine>{{ 'secretaria' }}</p>
+        </mat-list-item>
+        <mat-list-item *ngIf="shared_info != null"><img matListAvatar [src]="shared_info.foto">
+          <h3 matLine>{{ data.shared_info.name }}</h3>
+          <p matLine>{{ data.shared_info.role | csCapitalize }}</p>
+          <button mat-icon-button (click)="removeShareCash(2)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+      <div class="cs-row-line" *ngIf="shared_info == null" [class.display-none]="data.isFilterTitle">
+        <button mat-mini-fab cdkFocusInitial [disabled]="!openCash" (click)="openShareCash()">
+          <mat-icon>vpn_key</mat-icon>
+        </button>
+        <p class="padding-left">Compartir llave</p>
+      </div>
+      <cs-user-avatar *ngIf="data.isFilterTitle" [users]="users" [title]="'Cajeros'" [zoom]="35"></cs-user-avatar>
+    </div>
+    <div class="cs-panel">
+      <div class="cs-list" *ngFor="let data_bank of data.detail_data_bank" [class.hover]="data_bank.accion == INGRESOS || data_bank.accion == EGRESOS">
+        <div class="cs-list-item__title">{{ data_bank.accion }}</div>
+        <div class="cs-list-item" [ngSwitch]="data_bank.accion"><span class="cs-green" *ngSwitchCase="INGRESOS">{{ data_bank.sumatoria }}</span><span class="cs-red" *ngSwitchCase="EGRESOS">{{ data_bank.sumatoria }}</span><span *ngSwitchDefault>{{ data_bank.sumatoria }}</span></div>
+      </div>
+    </div>
+    <div class="cs-panel">
+      <cs-bank-chart [height]="150"></cs-bank-chart>
+    </div>
+  </div>
+  <div class="cs-content">
+    <div class="cs-panel no-padding">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <mat-header-cell class="w-80 text-center" *matHeaderCellDef>Monto</mat-header-cell>
+          <mat-cell class="w-80 text-center" *matCellDef="let element">{{ element.amount }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <mat-header-cell class="text-center" *matHeaderCellDef>Fecha</mat-header-cell>
+          <mat-cell class="text-center" *matCellDef="let element">{{ element.date }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="payment_method">
+          <mat-header-cell *matHeaderCellDef>Modo de pago</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.payment_method }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="students">
+          <mat-header-cell class="text-center w-90" *matHeaderCellDef>Estudiantes</mat-header-cell>
+          <mat-cell class="text-center w-90" *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE" matTooltip="Giovanni Camana"></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="record">
+          <mat-header-cell class="text-center w-90" *matHeaderCellDef>Registros</mat-header-cell>
+          <mat-cell class="text-center w-90" *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE" matTooltip="Carlos Galvez"></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <mat-header-cell class="text-right w-40" *matHeaderCellDef>Acción</mat-header-cell>
+          <mat-cell class="text-right w-40" *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="action">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #action="matMenu" yPosition="below" xPosition="before">
+              <button mat-menu-item (click)="generarExcel()">Descargar.PDF</button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+    </div>
+  </div>
+</div>

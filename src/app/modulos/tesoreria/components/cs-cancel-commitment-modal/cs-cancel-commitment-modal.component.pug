@@ -1,0 +1,15 @@
+h1(mat-dialog-title) ¿Deseas anular el compromiso?
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    p Si anulas un compromiso de año lectivo, se procederá a retirar al estudiante del aula en caso este matriculado en una.
+    form([formGroup]="cancelForm")
+        mat-form-field.full-width
+            textarea(matInput, maxlength="120", #observation, placeholder="Observación", matTextareaAutosize, matAutosizeMinRows="2", matAutosizeMaxRows="4", formControlName="observation")
+            mat-error Ingresa una observacion
+            mat-hint(align="end") {{ observation.value.length }} / 120
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, color="accent", (click)="onNoClick()") CANCELAR
+    button(mat-button, color="accent", [disabled]="cancelForm.invalid", (click)="saveCancelComp()") CONFIRMAR

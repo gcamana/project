@@ -1,0 +1,59 @@
+@import './../../../../variables';
+
+.mat-dialog-actions {
+    align-items: center;
+    // justify-content: space-between;
+    padding: 12px 24px;
+}
+
+.mat-form-field {
+    width: calc(100% - 24px);
+    box-sizing: border-box;
+}
+
+.mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+}
+
+.mat-list-item {
+    position: relative;
+    &:before {
+        content: "";
+        width: calc(100% - 80px);
+        top: 0;
+        right: 0;
+        height: 1px;
+        background-color: $muted;
+        display: block;
+        position: absolute;
+    }
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+}
+.dialog-header {
+    min-height: 56.56px;
+    padding: 0 24px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    h1 {
+        margin-bottom: 0;
+    }
+
+}
+hr {
+    margin: 0;
+}
+
+.mat-progress-bar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

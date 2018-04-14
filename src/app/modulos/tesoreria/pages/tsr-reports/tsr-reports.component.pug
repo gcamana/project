@@ -1,0 +1,84 @@
+.theme-treasury
+    cs-shrinking-header-component([headerHeight]="mobileQuery.matches ? 128 : 192", [offset]="mobileQuery.matches ? 45 : 64", [margin]="3")
+        .wrapper
+            span.hideTitle((click)="backPage()") Reportes
+
+mat-sidenav-container.theme-treasury.margin-minus-top
+    mat-sidenav.margin-top-64(#tsrsidenav, [class.mobile-mat-sidenav]="mobileQuery.matches", [mode]="mobileQuerySide.matches ? 'over': 'side'", position="start", [opened]="mobileQuerySide.matches ? false : true")
+        .cs-calendar-content
+            mat-toolbar.transparent
+                mat-toolbar-row.cs-mat-toolbar-row([class.no-padding-left]="isFilterMode")
+                    button(mat-icon-button, (click)="toggleFilter()")
+                        mat-icon filter_list
+                    .cs-filter-text Filtrar
+
+                    span.cs-spacer
+                    button(mat-icon-button, (click)="toggleFilter()")
+                        mat-icon more_vert
+
+                    button(mat-icon-button, (click)='mobileQuery.matches ? closeSidenav() : tsrsidenav.close()')
+                        mat-icon(aria-label='Example icon-button with a heart icon') {{ mobileQuerySide.matches ?  "close" : "arrow_back" }}
+
+            .cs-action
+                form([formGroup]="newSelectForm")
+                    mat-form-field.full-width
+                        mat-select(panelClass="cs-treasury-select", placeholder="Selecc. tipo reporte", formControlName="type")
+                            mat-option(*ngFor="let report of typeReports", [value]="report.value")  {{ report.viewValue }}
+
+                .cs-buttons
+                    button(mat-button, color="accent", [disabled]="!newSelectForm.valid") CANCELAR
+                    button(mat-button, color="accent", [disabled]="!newSelectForm.valid") ACEPTAR
+
+
+
+        .cs-filter-content(*ngIf="isFilterMode")
+            form([formGroup]="newDateForm")
+                div.cs-flex
+                    button(mat-icon-button, color="accent", (click)="startDate.open()")
+                        mat-icon date_range
+                    mat-form-field.full-width
+                        input(matInput, #focusStart, [matDatepicker]="startDate", placeholder="Fecha de inicio", formControlName="startDate")
+                        mat-datepicker(#startDate, panelClass="tsr-datapicker")
+
+                div.cs-flex
+                    button(mat-icon-button, color="accent", (click)="stopDate.open()")
+                        mat-icon date_range
+                    mat-form-field.full-width
+                        input(matInput, #focusStop, [matDatepicker]="stopDate", placeholder="Fecha fin", formControlName="stopDate")
+                        mat-datepicker(#stopDate, panelClass="tsr-datapicker")
+
+            .button-row
+                button(mat-button, color="accent", (click)="toggleFilter()") {{ 'cancelar' | uppercase }}
+                button(mat-button, color="accent", [disabled]="!newDateForm.valid", (click)="filterDate()") {{ 'aceptar' | uppercase }}
+
+
+        //-Reportes
+        .cs-action
+            cs-expired-pensions([title]="'Expired'")
+            cs-reports-history([title]="'Selecciones pineadas'", [data]="historicos")
+
+    mat-sidenav-content
+        mat-toolbar.transparent([class.fixed-mobile]="mobileQuery.matches")
+            mat-toolbar-row
+                button.margin-top-128(mat-icon-button, *ngIf="!tsrsidenav._opened", (click)="mobileQuery.matches ? openSidenav() : tsrsidenav.toggle()")
+                    mat-icon(aria-label='Example icon-button with a heart icon') {{ mobileQuery.matches ?  'keyboard_arrow_up' : 'arrow_forward' }}
+
+        .wrapper.cs-margin-minus-top#tsr-wrapper([class.open]="!tsrsidenav._opened")
+            .cs-box.mat-elevation-z8
+                //- mat-toolbar.transparent
+                //-     mat-toolbar-row
+                //-         span Giovanni Camana
+
+                //-         span.cs-spacer
+
+                //-         button(mat-icon-button,[matMenuTriggerFor]='menuDownload')
+                //-             mat-icon more_vert
+
+                //-         mat-menu(#menuDownload='matMenu', yPosition="below", xPosition="before")
+                //-             button(mat-menu-item, (click)="generarPdf()") Descargar.PDF
+                //-             button(mat-menu-item, (click)="generarExcel()") Descarga.XLS
+
+                .cs-content
+                    //- .cs-panel
+                    cs-empty([message]="messageEmpty", [image]="EMPTY_TESORERIA", [title]="'Realiza los pagos o cobranzas'")
+

@@ -1,0 +1,29 @@
+
+<div class="theme-bsc">
+  <mat-progress-bar mode="indeterminate" *ngIf="isShowProgress"></mat-progress-bar>
+</div>
+<h1 mat-dialog-title>Editar valores</h1>
+<div mat-dialog-content>
+  <div class="theme-bsc cs-form">
+    <mat-form-field class="cs-full-width">
+      <input matInput placeholder="Real" [(ngModel)]="dataGauge.real" name="real" [errorStateMatcher]="errReal" (keyup)="resetInput('errReal');" (change)="valideInput();">
+      <mat-error>{{msj}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="cs-full-width">
+      <input matInput placeholder="Meta" [(ngModel)]="dataGauge.goal" name="goal" [errorStateMatcher]="errMeta" (keyup)="resetInput('errMeta');" (change)="valideInput();">
+      <mat-error>{{msj}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="cs-full-width">
+      <input matInput placeholder="Verde" [(ngModel)]="dataGauge.green" name="green" [errorStateMatcher]="errVerde" (keyup)="resetInput('errVerde');" (change)="valideInput();">
+      <mat-error>{{msj}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="cs-full-width">
+      <input matInput placeholder="Rojo" [(ngModel)]="dataGauge.red" name="red" [errorStateMatcher]="errRojo" (keyup)="resetInput('errRojo');" (change)="valideInput();">
+      <mat-error>{{msj}}</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">CERRAR</button>
+  <button mat-button cdkFocusInitial (click)="guardarValuesDash()" [disabled]="btnDisable">ACEPTAR</button>
+</div>

@@ -1,0 +1,35 @@
+h1(mat-dialog-title) ¿Deseas eliminar la mora?
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    mat-list.no-padding
+        mat-list-item
+            img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+            p(matLine)
+                strong Giovanni
+                span.cs-padding-left Camana Infanzon
+
+    .cs-item
+        .cs-inner-item Pensión de Junio
+        .cs-inner-item 1000
+
+    .cs-item
+        .cs-inner-item Pensión de Julio
+        .cs-inner-item 1000
+
+    .cs-item.cs-red
+        .cs-inner-item Mora
+        .cs-inner-item -25
+
+    mat-divider
+
+    .cs-item.cs-paddint-top
+        .cs-inner-item Total a pagar
+        .cs-inner-item
+            h2 S/ 1975
+
+
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, color="accent", [mat-dialog-close]="data.animal", cdkFocusInitial) CONFIRMAR

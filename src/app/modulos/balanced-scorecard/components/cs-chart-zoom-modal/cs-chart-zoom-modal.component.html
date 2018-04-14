@@ -1,0 +1,16 @@
+
+<mat-toolbar-row>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h4 class="padding-left">{{ 'Tendencia' | csCapitalize }}</h4><span class="cs-spacer"></span>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>fullscreen_exit</mat-icon>
+  </button>
+</mat-toolbar-row>
+<div mat-dialog-content>
+  <div class="padding">
+    <cs-chart-percentage-area *ngIf="!isHiddenChart" [dataGrafig]="data"></cs-chart-percentage-area>
+    <cs-empty *ngIf="isHiddenChart" [data]="data" [message]="'No hay tendendias que mostrar'" [image]="EMPTY_CHART"></cs-empty>
+  </div>
+</div>

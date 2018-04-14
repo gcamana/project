@@ -1,0 +1,33 @@
+h1(mat-dialog-title, *ngIf="!isFamiliar") ¿Deseas pasar saldo?
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.cs-row.theme-treasury(*ngIf="isFamiliar")
+    button(mat-icon-button, (click)="toggleFamiliar()")
+        mat-icon arrow_back
+    mat-list
+        mat-list-item
+            img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+            p(matLine) Giovanni Camana
+
+div.theme-treasury(mat-dialog-content)
+    .cs-wrapper([class.none]="hideToggle")
+        mat-button-toggle-group(#type="matButtonToggleGroup", (change)="onChangeToggle($event)")
+            mat-button-toggle(value="PERSONAL", checked="true") Personal
+            mat-button-toggle(value="FAMILIAR") Familiar
+
+    .cs-padding(*ngIf="type.value == 'FAMILIAR'", [class.none]="hideToggle")
+        mat-radio-group([(ngModel)]="user", (change)="onchangeFamiliar($event)")
+            mat-radio-button([value]="user", *ngFor="let user of users", labelPosition="before")
+                .cs-panel-1
+                    img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+                    h3(matLine)
+                        | {{ user.first_name }} {{ user.last_name }}
+                        p {{ user.role }}
+
+    .cs-padding(*ngIf="type.value == 'PERSONAL' || isFamiliar")
+        mat-radio-group((change)="onchangePersonal($event)")
+            mat-radio-button(value="id_pago", labelPosition="before", [checked]="isPersonal") Pensión Marzo
+
+div.theme-treasury(mat-dialog-actions)
+    button(mat-button, color="accent", [mat-dialog-close]="data.animal", cdkFocusInitial, [disabled]="!isActiveButtom") CONFIRMAR

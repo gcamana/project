@@ -1,0 +1,22 @@
+.cs-list([@hideShowAnimator]="hideShowAnimator")
+    .cs-item(*ngFor="let ind of indicadores; let i = index")
+        cs-user-avatar([onlyCount]="ind.responsables.length > 1", [hideName]="true", [usersCount]="ind.responsables.length", [users]="ind.responsables", [metadata]="ind.metadata", [idx_ind]="i", (onRemove)="removeResp($event, i)")
+        //- cs-user-avatar(*ngIf="avatarDetail")
+
+        cs-trend([value]="ind.actual", [red]="ind.rojo", [orange]="ind.amarillo", [trendFlag]="ind.flg_copa", [flgCreasing]="ind.tipo_indi")
+
+        .cs-p
+            p(*ngIf="truncateText; else elseBlock", (click)="goToIndicator(ind.metadata, ind.responsables)", [matTooltip]="ind.desc_indi.length > textTruncateNumber ? ind.desc_indi : ' ' ") {{ ind.desc_indi }}
+            ng-template(#elseBlock)
+                p((click)="goToIndicator(ind.metadata, ind.responsables)") {{ ind.desc_indi }}
+
+            div(*ngIf="ind.flg_disabled != '0'")
+                button(mat-icon-button, [matMenuTriggerFor]='addPerson')
+                    mat-icon more_vert
+                mat-menu(#addPerson='matMenu', yPosition="below", xPosition="before")
+                    button(mat-menu-item, (click)="toAssignResponsable(ind.metadata, ind.id_persp, i)")
+                        mat-icon person_add
+                        span Asignar responsable
+                    button(mat-menu-item, (click)="editPesoInd(ind.peso, ind.rojo, ind.amarillo, i, ind.metadata, ind.id_persp)")
+                        mat-icon fitness_center
+                        span Peso

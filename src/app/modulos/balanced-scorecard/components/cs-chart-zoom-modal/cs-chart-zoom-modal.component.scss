@@ -1,0 +1,19 @@
+@import './../../../../variables';
+.wrapper {
+    position: relative;
+}
+.padding {
+    padding: 30px 24px;
+    box-sizing: border-box;
+}
+.mat-toolbar-row {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    transition: all .2s ease;
+    &.sombra {
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.04), 0 1px 10px 0 rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    }
+}

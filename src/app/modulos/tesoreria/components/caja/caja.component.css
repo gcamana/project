@@ -1,0 +1,48 @@
+.mat-card-main{
+    max-width: 1150px;
+    margin: auto;
+    padding: 0;
+}
+.caja-aperturada-cerrada{
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    min-height: 100px;
+}
+.caja-aperturada{
+    float: left;
+}
+.caja-cerrada{
+    float: right;
+}
+.progress-line{
+    height: 1px;
+    background-color: #D4D4D4;
+    position: absolute;
+    bottom: 47px;
+    left: 0;
+    right: 0;
+    max-width: 445px;
+    margin: auto;
+}
+.middle-view{
+    background-color: #009688;
+    height: 200px;
+}
+.mat-card-main{
+    max-width: 1150px;
+    margin: auto;
+    padding: 0;
+    margin-top: -120px;
+}
+.mat-card-main mat-card-title{
+    padding: 24px;
+    font-size: 24px;
+    font-family: 'robotoregular';
+}
+.mat-card-main .mat-right-menu{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}

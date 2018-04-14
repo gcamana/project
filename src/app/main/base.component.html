@@ -1,0 +1,139 @@
+<mat-sidenav-container class="example-container">
+    <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.open()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span><img src="{{logo_acti}}"></span>
+    </mat-toolbar>
+    <mat-tab-group>
+        <mat-tab label="TODOS">
+            <a href="https://goo.gl/QtvX31" target="_blank"><div class="mdl-header-init"></div></a>
+            <div class="mdl-content-cards">
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_rrhh.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Talento Humano</h1>
+                        <p>Gestiona a tus colaboradores y monitorea sus acciones.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content" (click)="goToModulo(1)">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_pagos.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Tesorer&iacute;a</h1>
+                        <p>Gestiona los compromisos, realiza seguimiento a tus estudiantes y visualiza el flujo de tu empresa.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_matricula.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Matr&iacute;cula</h1>
+                        <p>Administra los datos de los estudiantes y sus familiares. Gestiona las aulas y sus respectivos estudiantes.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_notas.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Calificaciones</h1>
+                        <p>Registra y controla el progreso académico de los estudiantes.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_programacion_curricular.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Planificaci&oacute;n Institucional</h1>
+                        <p>Planifica y establece la estructura de trabajo curricular y actividades de tu institución.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_documento_institucional.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Documentos Institucionales</h1>
+                        <p>Comparte y visualiza archivos de interés para el personal administrativo y de servicio.</p>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="ADMINISTRATIVOS">
+            <a href="https://goo.gl/QtvX31" target="_blank"><div class="mdl-header-init"></div></a>
+            <div class="mdl-content-cards">
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_rrhh.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Talento Humano</h1>
+                        <p>Gestiona a tus colaboradores y monitorea sus acciones.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_pagos.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Tesorer&iacute;a</h1>
+                        <p>Gestiona los compromisos, realiza seguimiento a tus estudiantes y visualiza el flujo de tu empresa.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_matricula.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Matr&iacute;cula</h1>
+                        <p>Administra los datos de los estudiantes y sus familiares. Gestiona las aulas y sus respectivos estudiantes.</p>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="PEDAG&Oacute;GICA Y ACAD&Eacute;MICA">
+            <a href="https://goo.gl/QtvX31" target="_blank"><div class="mdl-header-init"></div></a>
+            <div class="mdl-content-cards">
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_notas.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Calificaciones</h1>
+                        <p>Registra y controla el progreso académico de los estudiantes.</p>
+                    </mat-card-content>
+                </div>
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_programacion_curricular.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Planificaci&oacute;n Institucional</h1>
+                        <p>Planifica y establece la estructura de trabajo curricular y actividades de tu institución.</p>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="INSTITUCIONAL">
+            <a href="https://goo.gl/QtvX31" target="_blank"><div class="mdl-header-init"></div></a>
+            <div class="mdl-content-cards">
+                <div class="mdl-card mdl-app_content">
+                    <mat-card-header>
+                        <img class="mdl-app_imagen" src="assets/img/iconsSistem/icon_documento_institucional.png">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1>Documentos Institucionales</h1>
+                        <p>Comparte y visualiza archivos de interés para el personal administrativo y de servicio.</p>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</mat-sidenav-container>
+

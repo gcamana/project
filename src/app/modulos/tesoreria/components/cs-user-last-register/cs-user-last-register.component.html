@@ -1,0 +1,11 @@
+
+<div class="cs-figure__list">
+  <mat-list>
+    <mat-list-item *ngFor="let user of users"><img matListAvatar [src]="user.profile_image || UNKNOWN_USER_IMAGE">
+      <h3 matLine>{{ user?.nombres }}
+        <p>{{ user?.on_register }}</p>
+      </h3>
+      <p class="cs-type-move" matLine [ngClass]="user?.type_move == EGRESO ? 'red': 'green' ">{{user?.trend}} S/ {{ user?.monto }}</p>
+    </mat-list-item>
+  </mat-list>
+</div>

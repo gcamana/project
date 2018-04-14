@@ -1,0 +1,40 @@
+
+<mat-toolbar-row>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h4 class="padding-left">{{ data.structure.desc_persp | csCapitalize }}</h4><span class="cs-spacer"></span>
+  <button mat-icon-button (click)="onNoClick()">
+    <mat-icon>fullscreen_exit</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menuGauge">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menuGauge="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item (click)="editGaugeValue()">
+      <mat-icon>create</mat-icon><span>Editar Valores</span>
+    </button>
+  </mat-menu>
+</mat-toolbar-row>
+<section class="wrapper">
+  <div class="cs-content">
+    <div class="cs-panel width-350">
+      <div class="cs-gauge">
+        <cs-circular-gauge-component class="margin-top-minus-80" [class.cs-gray-image]="!data.structure.actual" [values]="data.structure.actual" [red]="data.structure.zona_riesgo" [orange]="data.structure.v_amarillo" [borderWidth]="15" [dialBaseWidth]="8" [dialBorderWidth]="2" [dialRadius]="'55%'"></cs-circular-gauge-component>
+      </div>
+      <div class="margin-top-minus-120">
+        <div class="cs-panel-title"><strong>{{ data.structure.desc_persp | csCapitalize }}</strong></div>
+        <div class="cs-p margin-top margin-bottom">
+          <p>Rentabilizar la empresa y maximizar las ganancias de todo el grupo educativo.</p>
+        </div>
+        <cs-user-avatar></cs-user-avatar>
+        <div class="cs-panel-title padding-top"><strong>Objetivos</strong></div>
+        <cs-goals [objetivos]="data.structure.objetivos" [index]="index" (setIndicadores)="setIndicadores($event)"></cs-goals>
+      </div>
+    </div>
+    <div class="cs-panel">
+      <div class="cs-panel-title">Indicadores</div>
+      <cs-indicators [indicadores]="data.structure.objetivos[0].indicadores" [truncateText]="false"></cs-indicators>
+    </div>
+  </div>
+</section>

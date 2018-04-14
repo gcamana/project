@@ -1,0 +1,133 @@
+@import './../../../../variables';
+
+cs-table-component {
+    font-size: 16px;
+}
+
+mat-icon {
+    color: $dark;
+}
+
+.cs-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    width: 100%;
+    position: relative;
+}
+
+.cs-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.cs-rate-limit-reached {
+    color: #980000;
+    max-width: 360px;
+    text-align: center;
+}
+
+cs-table-component ~ cs-table-group {
+    padding-left: 24px;
+}
+
+.cs-table-header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px;
+    position: relative;
+    display: block;
+
+    h3,
+    .button-row {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .button-row {
+        float: right;
+    }
+
+    h3 {
+        margin: 0;
+        line-height: 40px;
+    }
+}
+
+//TABLE CUSTOM
+.cs-mat-table {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    overflow: hidden;
+    width: 100%;
+    max-height: 530px;
+    overflow-y: auto;
+    @media screen and (max-width: 768px){
+        max-height: 100%;
+    }
+}
+
+.cs-mat-header-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 24px;
+    width: 100%;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    @media screen and (max-width: 480px) {
+        padding: 0 16px;
+    }
+}
+
+.cs-mat-header-cell{
+    flex: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 12px;
+    font-weight: 500;
+    &:nth-last-child(1) {
+        text-align: right;
+        padding-right: 15px;
+        box-sizing: border-box;
+    }
+}
+
+//ROW TABLE
+.cs-mat-row {
+    display: flex;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 24px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    position: relative;
+    &:before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.12);
+        height: .55px;
+        width: 100%;
+        position: absolute;
+        right: 100%;
+        bottom: -1px;
+    }
+    // @media screen and (max-width: 480px) {
+    //     padding: 0;
+    // }
+}
+

@@ -1,0 +1,20 @@
+
+<h1 mat-dialog-title>¿Deseas anular el compromiso?
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <p>Si anulas un compromiso de año lectivo, se procederá a retirar al estudiante del aula en caso este matriculado en una.</p>
+  <form [formGroup]="cancelForm">
+    <mat-form-field class="full-width">
+      <textarea matInput maxlength="120" #observation placeholder="Observación" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4" formControlName="observation"></textarea>
+      <mat-error>Ingresa una observacion</mat-error>
+      <mat-hint align="end">{{ observation.value.length }} / 120</mat-hint>
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button mat-button color="accent" (click)="onNoClick()">CANCELAR</button>
+  <button mat-button color="accent" [disabled]="cancelForm.invalid" (click)="saveCancelComp()">CONFIRMAR</button>
+</div>

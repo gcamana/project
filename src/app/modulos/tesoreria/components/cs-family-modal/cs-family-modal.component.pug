@@ -1,0 +1,37 @@
+h1(*ngIf="!isSelect" ,mat-dialog-title) {{ title }}
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.cs-row.theme-treasury(*ngIf="isSelect")
+    button(mat-icon-button, (click)="toggle()")
+        mat-icon arrow_back
+    mat-list
+        mat-list-item
+            img(matListAvatar, [src]="user.foto_persona || UNKNOWN_USER_IMAGE")
+            p(matLine) {{ user?.nombres }}
+
+div.theme-treasury.padding-top.padding-bottom(mat-dialog-content)
+    mat-radio-group(*ngIf="!isSelect", [(ngModel)]="user", (change)="onchange($event)")
+        mat-radio-button([value]="user", *ngFor="let user of users", labelPosition="before")
+            .cs-panel-1
+                img(matListAvatar, [src]="user.foto_persona || UNKNOWN_USER_IMAGE")
+                h3(matLine)
+                    | {{ user.nombres }}
+                    p {{ user?.role }}
+
+    div(*ngIf="isSelect")
+        .cs-row
+            .cs-panel Celular
+            .cs-panel {{ user.telf_celular }}
+        .cs-row
+            .cs-panel Correo
+            .cs-panel {{ user.email }}
+        .cs-row
+            .cs-panel Nro. Casa
+            .cs-panel {{ user.telf_fijo }}
+        .cs-row
+            .cs-panel Usuario
+            .cs-panel {{ user.usuario }}
+
+div.theme-treasury(mat-dialog-actions)
+    button(*ngIf="!isSelect", mat-button, color="accent", cdkFocusInitial, [disabled]="!isActiveButtom", (click)="selectUser()") {{ 'Información' | uppercase }}

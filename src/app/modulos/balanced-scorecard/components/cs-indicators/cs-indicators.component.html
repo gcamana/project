@@ -1,0 +1,26 @@
+
+<div class="cs-list" [@hideShowAnimator]="hideShowAnimator">
+  <div class="cs-item" *ngFor="let ind of indicadores; let i = index">
+    <cs-user-avatar [onlyCount]="ind.responsables.length &gt; 1" [hideName]="true" [usersCount]="ind.responsables.length" [users]="ind.responsables" [metadata]="ind.metadata" [idx_ind]="i" (onRemove)="removeResp($event, i)"></cs-user-avatar>
+    <cs-trend [value]="ind.actual" [red]="ind.rojo" [orange]="ind.amarillo" [trendFlag]="ind.flg_copa" [flgCreasing]="ind.tipo_indi"></cs-trend>
+    <div class="cs-p">
+      <p *ngIf="truncateText; else elseBlock" (click)="goToIndicator(ind.metadata, ind.responsables)" [matTooltip]="ind.desc_indi.length &gt; textTruncateNumber ? ind.desc_indi : ' ' ">{{ ind.desc_indi }}</p>
+      <ng-template #elseBlock>
+        <p (click)="goToIndicator(ind.metadata, ind.responsables)">{{ ind.desc_indi }}</p>
+      </ng-template>
+      <div *ngIf="ind.flg_disabled != '0'">
+        <button mat-icon-button [matMenuTriggerFor]="addPerson">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #addPerson="matMenu" yPosition="below" xPosition="before">
+          <button mat-menu-item (click)="toAssignResponsable(ind.metadata, ind.id_persp, i)">
+            <mat-icon>person_add</mat-icon><span>Asignar responsable</span>
+          </button>
+          <button mat-menu-item (click)="editPesoInd(ind.peso, ind.rojo, ind.amarillo, i, ind.metadata, ind.id_persp)">
+            <mat-icon>fitness_center</mat-icon><span>Peso</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</div>

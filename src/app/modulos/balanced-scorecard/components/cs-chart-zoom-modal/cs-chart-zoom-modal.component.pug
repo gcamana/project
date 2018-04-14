@@ -1,0 +1,19 @@
+mat-toolbar-row
+    button(mat-icon-button, (click)="onNoClick()")
+        mat-icon arrow_back
+
+    h4.padding-left {{ 'Tendencia' | csCapitalize }}
+
+    span.cs-spacer
+    button(mat-icon-button, (click)="onNoClick()")
+        mat-icon fullscreen_exit
+    //- button(mat-icon-button, [matMenuTriggerFor]='menuTrend')
+    //-     mat-icon more_vert
+    //- mat-menu(#menuTrend='matMenu', yPosition="below", xPosition="before")
+    //-     button(mat-menu-item) Edit Trend
+    //-     button(mat-menu-item) More Trend
+
+div(mat-dialog-content)
+    .padding
+        cs-chart-percentage-area(*ngIf="!isHiddenChart", [dataGrafig] ="data")
+        cs-empty(*ngIf="isHiddenChart", [data]="data", [message]="'No hay tendendias que mostrar'", [image]="EMPTY_CHART")

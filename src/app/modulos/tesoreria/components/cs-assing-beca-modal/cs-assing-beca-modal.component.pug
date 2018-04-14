@@ -1,0 +1,35 @@
+h1(mat-dialog-title) {{ title }}
+
+div.theme-treasury(mat-dialog-content)
+    mat-list.no-padding
+        mat-list-item
+            img(matListAvatar, [src]="element.profile_image || UNKNOWN_USER_IMAGE")
+            p(matLine)
+                strong {{ element.first_name | csCapitalize }}
+                span {{ element.last_name | csCapitalize }} {{ element.last_name2 | csCapitalize }}
+    div(*ngIf="!element.has_prom")
+        form([formGroup]="formBeca")
+            mat-form-field
+                mat-select(panelClass="cs-treasury-select", placeholder="Tipo de beca", formControlName="beca")
+                    mat-option(*ngFor="let beca of dataCombo.becas", [value]="beca.id_beca") {{ beca.beca }}
+                mat-error(*ngIf="formBeca.controls.beca.invalid") Selecciona una beca
+
+            mat-form-field
+                mat-select(panelClass="cs-treasury-select", placeholder="Año", formControlName="year")
+                    mat-option(*ngFor="let year of dataCombo.years", [value]="year.year") {{ year.desc_year }}
+                mat-error(*ngIf="formBeca.controls.year.invalid") Selecciona una beca
+
+    div(*ngIf="element.has_prom")
+        .cs-content
+            p.padding-right Beca
+            strong {{ element.beca.desc_condicion }}
+
+            p.padding-right Año
+            strong {{ element.beca.year_condicion }}
+
+            p.padding-right Persona registro
+            strong {{ element.beca.pers_assing }}
+
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, (click)="acceptProm()", [disabled]="formBeca.invalid") {{ info_button }}

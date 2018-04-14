@@ -1,0 +1,41 @@
+@import './../../../../variables';
+.cs-red {
+    color: $red;
+    padding-right: .5rem;
+}
+
+.mat-card {
+    padding: 0 16px;
+    position: absolute;
+    width: 100%;
+    top: -10px;
+    left: 0;
+}
+
+.none {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+p {
+    margin-bottom: 0;
+}
+.cs-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.cs-panel {
+    display: flex;
+    align-items: center;
+}
+.cs-padding {
+    padding: 10px 0;
+}
+
+.cs-close {
+    position: absolute;
+    top: 0;
+    right: -20px;
+}

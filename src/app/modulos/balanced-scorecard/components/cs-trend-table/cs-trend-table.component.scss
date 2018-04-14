@@ -1,0 +1,68 @@
+@import './../../../../variables';
+mat-icon {
+    color: $dark;
+}
+.cs-trend-table {
+    // display: flex;
+    // align-items: center;
+    padding-left: .5rem;
+    box-sizing: border-box;
+    // justify-content: center;
+    p,
+    mat-icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+}
+
+p {
+    font-size: 13px;
+    color: $dark;
+    margin-bottom: 0;
+
+    &.red {
+        color: $red;
+    }
+    &.green {
+        color: $green;
+    }
+    &.orange {
+        color:$orange;
+    }
+    &.cup {
+        color: #FFB106;
+    }
+}
+
+.material-icons {
+    font-size: 1.5rem;
+    margin: 0 2px;
+    padding-right: .2rem;
+    &.green {
+        color: $green;
+    }
+    &.orange {
+        color:$orange;
+    }
+    &.red {
+        color: $red;
+    }
+}
+
+mat-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mat-icon {
+    height: auto;
+    width: auto;
+    color: $gray;
+}
+
+.svg {
+    width: 10px;
+    color: #FFB106;
+    margin-right: .5rem;
+}

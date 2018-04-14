@@ -1,0 +1,28 @@
+
+<mat-sidenav-container (backdropClick)="close(reason)">
+  <mat-sidenav #modenav (keydown.escape)="close(reason)">
+    <cs-user-permission (onToggleMode)="onToggleMode($event)" [reason]="reason" [user]="user" [modules]="modulesTmp" [color]="collegePage?.color"></cs-user-permission>
+  </mat-sidenav>
+  <mat-sidenav class="pure" #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" position="end" (keydown.escape)="close('escape')">
+    <mat-toolbar class="fixed pure">
+      <mat-toolbar-row class="box-shadow-bottom"><span class="cs-spacer"></span>
+        <div class="button-row">
+          <button mat-icon-button>
+            <mat-icon aria-label="setting">settings</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon aria-label="more">more_vert</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <cs-news-list class="margin-top-64" style="display:block;"></cs-news-list>
+    <cs-chat-list></cs-chat-list>
+  </mat-sidenav>
+  <mat-sidenav-content #scrollArea>
+    <header-component [displayTitle]="displayTitle" [ngClass]="sideNavActive ? 'side-nav-active' : ''" [title]="title" (onToggleSide)="onToggleSide($event)" (onToggleMode)="onToggleMode($event)" [color]="collegePage?.color" [themeHeader]="themeHeader" [moduleChange]="moduleChange"></header-component>
+    <div class="cs-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

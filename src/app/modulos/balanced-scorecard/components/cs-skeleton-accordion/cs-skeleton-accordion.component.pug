@@ -1,0 +1,28 @@
+span(*ngIf="!active")
+    .cs-accordion-group(*ngIf="!isEmpty")
+        .cs-accordion(*ngFor="let est of [1,2,3,4]; let i = index")
+            .cs-content
+                .cs-panel.width-180
+                    cs-circular-gauge-component.padding.margin-top-minus-110([class.cs-gray-image]="!data", [values]="30", [red]="30", [orange]="40", [borderWidth]="12", [dialBaseWidth]="8", [dialBorderWidth]="1", [dialRadius]="'50%'")
+                .cs-panel.width-180
+                    .cs-panel-title
+                    .cs-p
+                    .cs-p
+                    .cs-p
+
+                    .cs-foto
+
+                .cs-panel.width-300
+                    .cs-panel-title
+                    .cs-goals
+                        .cs-foto
+                        .cs-p.margin-left
+
+                .cs-panel.margin-right-none
+                    .cs-panel-title
+                    .cs-indicators(*ngFor="let ind of [1,2,3,4]")
+                        .cs-foto
+                        .cs-p.margin-left
+
+    .cs-empty(*ngIf="isEmpty")
+        cs-empty.padding-top-50([data]="data", [image]="EMPTY_CHART", [message]="'Tu filtro no ha sido encontrado'")

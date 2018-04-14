@@ -1,0 +1,177 @@
+<mat-tab-group class="pagos">
+    <mat-tab label="INGRESOS">
+        <div *ngIf="flg_empty_ingresos == true" class="img-search" id="cont_img_search_alum">
+            <img src="assets/img/smiledu_faces/filter_fab.png">
+            <p>Primero debemos filtrar</p>
+            <p>para visualizar a tus estudiantes</p>
+        </div>
+        <div class="mdl-content-cards">
+            <mat-card class="mdl-card mdl-card-estudiantes {{estu.class}} mat-card" *ngFor="let estu of estudiantes">
+                <mat-card-header>
+                    <img src="assets/img/profile/nouser.svg">
+                    <div *ngIf="estu.flg_beca" class="state becado" id="state-2" tabindex="0" matTooltip="{{estu.desc_condicion}}">
+                    </div>
+                </mat-card-header>
+                <mat-card-content style="margin-top: 15px">
+                        <div class="col-xs-12 student-name">{{estu.apellidos}}</div>
+                        <div class="col-xs-12 student-name">{{estu.nombres}}</div>
+                        <div class="col-xs-12 student-state">{{estu.info_deuda}}</div>
+                        <div class="col-xs-12 student-head"><strong>Detalles del Estudiante</strong></div>
+                        <div class="col-xs-7  student-item">Cod. Banco</div>
+                        <div class="col-xs-5  student-value">{{estu.cod_banco}}</div>
+                        <div class="col-xs-7  student-item">Nro. Documento</div>
+                        <div class="col-xs-5  student-value">{{estu.nro_documento}}</div>
+                        <div class="col-xs-3  student-item">Sede</div>
+                        <div class="col-xs-9  student-value">{{estu.desc_sede}}</div>
+                        <div class="col-xs-3  student-item">Nivel</div>
+                        <div class="col-xs-9  student-value">{{estu.desc_nivel}}</div>
+                        <div class="col-xs-3  student-item">Grado</div>
+                        <div class="col-xs-9  student-value">{{estu.desc_grado}}</div>
+                        <div class="col-xs-3  student-item">Aula</div>
+                        <div class="col-xs-9  student-value">{{estu.desc_aula}}</div>
+                </mat-card-content>
+                <mat-card-actions class="col-xs-12">
+                    <button mat-button (click)="goToDetalleIngresos(estu.nid_persona)">INGRESAR</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        <button mat-fab class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling" color="warn" style="float: right;" (click)="openModalIngresos()">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+    </mat-tab>
+    <mat-tab label="EGRESOS">
+        <div *ngIf="flg_empty_egresos == true" class="img-search" id="cont_img_search_colab ">
+            <img src="assets/img/smiledu_faces/filter_fab.png">
+            <p>Primero debemos filtrar</p>
+            <p>para visualizar a tus colaboradores</p>
+        </div>
+        <div class="mdl-content-cards">
+            <mat-card class="mdl-card mdl-card-estudiantes pagos" *ngFor="let colab of colaboradores">
+                <mat-card-header>
+                    
+                </mat-card-header>
+                <mat-card-content>
+                        <div class="col-xs-12 student-name">{{colab.apellidos}}</div>
+                        <div class="col-xs-12 student-name">{{colab.nombres}}</div>
+                        <div class="col-xs-12 student-state">{{colab.desc_rol}}</div>
+                        <div class="col-xs-12 student-head"><strong>Detalles del Colaborador</strong></div>
+                        <div class="col-xs-3  student-item">&Aacute;rea</div>
+                        <div class="col-xs-9  student-value">{{colab.desc_area}}</div>
+                        <div class="col-xs-3  student-item">Nivel</div>
+                        <div class="col-xs-9  student-value">{{colab.desc_nivel}}</div>
+                        <div class="col-xs-7  student-item">Nro. Documento</div>
+                        <div class="col-xs-5  student-value">{{colab.nro_documento}}</div>
+                        <div class="col-xs-3  student-item">Sede</div>
+                        <div class="col-xs-9  student-value">{{colab.desc_sede}}</div>
+                        <div class="col-xs-5  student-item">Telefono</div>
+                        <div class="col-xs-7  student-value">{{colab.telf_pers}}</div>
+                </mat-card-content>
+                <mat-card-actions class="col-xs-12 student-name" >
+                    <button mat-button (click) = "goToDetalleEgresos(colab.nid_persona)">RETIRO</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        <button mat-fab class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling" color="warn" style="float: right;" (click)="openModalEgresos()">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+    </mat-tab>
+</mat-tab-group>
+
+
+
+
+
+<div #modalFiltroEgresos class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="proggres_egresos == true"></mat-progress-bar>
+                <div class="modal-header">
+                    <h4 class="modal-title">Buscar Colaboradores</h4>
+                </div>
+                <mat-card-content>
+                    <div class="modal-body">
+
+
+                        <mat-form-field class="example-full-width col-md-12">
+             <input matInput placeholder="Nombres" [(ngModel)]="searchEgresos" (change)="getColaboradores()">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="text-right">
+                            <button mat-button (click)="closeModalEgresos()">Cerrar</button>
+                            <button mat-button (click)="getColaboradores()">Buscar</button>
+                    </div>
+                </mat-card-content>
+            
+        </div>
+    </div>
+</div>
+
+<div #modalFiltroIngresos class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="proggres_ingresos == true"></mat-progress-bar>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Buscar estudiantes</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="row">
+                        <mat-form-field class="example-full-width col-md-12">
+                            <input matInput placeholder="Nombres" [(ngModel)]="searchIngresos" (change)="getEstudiantes()">
+                        </mat-form-field>
+                        <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                            <mat-form-field>
+                                <mat-select placeholder="Selec. A&ntilde;os" [(ngModel)]="filtroYear">
+                                    <mat-option *ngFor="let year of listYears" [value]="year.year">
+                                        {{year.year}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                            <mat-form-field>
+                                <mat-select placeholder="Selec. sede" [(ngModel)]="filtroSede">
+                                    <mat-option>
+                                        
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 mdl-input-group mdl-input-group__only"> 
+                            <mat-form-field>
+                                <mat-select placeholder="Selec. programa" [(ngModel)]="filtroPrograma">
+                                    <mat-option>
+                                        
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 mdl-input-group mdl-input-group__only ">
+                            <mat-form-field>
+                                <mat-select placeholder="Selec. grado" [(ngModel)]="filtroGrado">
+                                    <mat-option>
+                                        
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-6 mdl-input-group mdl-input-group__only">
+                            <mat-form-field>
+                                <mat-select placeholder="Selec. aula" [(ngModel)]="filtroAula">
+                                    <mat-option>
+                                        
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button mat-button (click)="closeModalIngresos()">Cerrar</button>
+                        <button mat-button (click)="getEstudiantes()">Buscar</button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

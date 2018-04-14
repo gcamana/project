@@ -1,0 +1,40 @@
+
+<div class="cs-table-header">
+  <h3>Detalles</h3>
+  <div class="button-row">
+    <button mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="cs-mat-table" matSort matSortActive="created" matSortDisableClear matSortDirection="asc">
+  <div class="cs-mat-header-row">
+    <div class="cs-mat-header-cell" [mat-sort-header]="isShort">Descripción</div>
+    <div class="cs-mat-header-cell cs-mat-column-width-150">Anterior</div>
+    <div class="cs-mat-header-cell cs-mat-column-width-200">Actual</div>
+    <div class="cs-mat-header-cell cs-mat-column-width-90">Meta</div>
+  </div>
+  <div class="cs-container" *ngIf="isLoadingResults || isRateLimitReached">
+    <div class="cs-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+  </div>
+  <div *ngIf="!isLoadingResults">
+    <cs-table-group *ngFor="let data of dataDetalle">
+      <cs-table-component [description]="data.descripcion" [unidad_med]="unidad_med" [isArrow]="data.sub_nivel==undefined ? false : true" [tipo_calc]="tipo_calc" [anterior]="data.valor_anterior" [flgManual]="data.flg_manual" [porcentaje]="data.porcentaje" [current]="data.actual" [total]="data.total" [goal]="data.valor_meta" [entityId]="data.id" [levelJson]="data.nivel_json" [variation]="data.variacion" [flg_var]="data.flg_var" (onclickSave)="sendDataSaveIndi($event)">
+        <cs-table-group *ngFor="let item of data.sub_nivel">
+          <cs-table-component [description]="item.descripcion" [unidad_med]="unidad_med" [isArrow]="item.sub_sub_nivel==undefined ? false : true" [tipo_calc]="tipo_calc" [anterior]="item.valor_anterior" [flgManual]="data.flg_manual" [porcentaje]="item.porcentaje" [current]="item.actual" [total]="item.total" [goal]="item.valor_meta" [entityId]="item.id" [levelJson]="item.nivel_json" [variation]="item.variacion" [flg_var]="item.flg_var" (onclickSave)="sendDataSaveIndi($event)">
+            <cs-table-group *ngFor="let in of item.sub_sub_nivel">
+              <cs-table-component [description]="in.descripcion" [unidad_med]="unidad_med" [isArrow]="in.sub_sub_sub_nivel==undefined ? false : true" [tipo_calc]="tipo_calc" [anterior]="in.valor_anterior" [flgManual]="data.flg_manual" [porcentaje]="in.porcentaje" [current]="in.actual" [total]="in.total" [goal]="in.valor_meta" [entityId]="in.id" [levelJson]="in.nivel_json" [variation]="in.variacion" [flg_var]="in.flg_var" (onclickSave)="sendDataSaveIndi($event)">
+                <cs-table-group *ngFor="let aux of in.sub_sub_sub_nivel">
+                  <cs-table-component [description]="aux.descripcion" [unidad_med]="unidad_med" [isArrow]="false" [flgManual]="data.flg_manual" [tipo_calc]="tipo_calc" [anterior]="aux.valor_anterior" [porcentaje]="aux.porcentaje" [current]="aux.actual" [total]="aux.total" [goal]="aux.valor_meta" [entityId]="aux.id" [levelJson]="aux.nivel_json" [variation]="aux.variacion" [flg_var]="aux.flg_var" (onclickSave)="sendDataSaveIndi($event)"></cs-table-component>
+                </cs-table-group>
+              </cs-table-component>
+            </cs-table-group>
+          </cs-table-component>
+        </cs-table-group>
+      </cs-table-component>
+    </cs-table-group>
+  </div>
+</div>
+<mat-paginator [length]="resultsLength" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPaginatedChange($event)"></mat-paginator>

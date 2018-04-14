@@ -1,0 +1,139 @@
+
+<div class="theme-treasury">
+  <cs-shrinking-header-component [headerHeight]="mobileQuery.matches ? 192 : 256" [offset]="mobileQuery.matches ? 45: 64">
+    <div class="wrapper"><span class="font-size-56" (click)="backPage()">Cajas</span></div>
+  </cs-shrinking-header-component>
+</div>
+<div class="wrapper theme-treasury margin-minus-top">
+  <cs-acordion-global-group *ngFor="let data_bank_sede of data_bank_general; let i = index">
+    <cs-acordion-global (toggleAccordion)="hideButton($event)">
+      <mat-toolbar class="transparent mat-toolbar mat-toolbar-multiple-rows">
+        <mat-toolbar-row class="mat-toolbar-row"><span>{{data_bank_sede.metadata.desc_sede}}</span><span class="cs-spacer"></span>
+          <div class="button-row display_none" id="ocultar">
+            <button mat-icon-button (click)="openModalbanks()">
+              <mat-icon>fullscreen</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menuDownload">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menuDownload="matMenu" yPosition="below" xPosition="before">
+              <button mat-menu-item (click)="generarExcel()">Descargar.PDF</button>
+              <button mat-menu-item (click)="generarExcel()">Descargass.XLS</button>
+              <button mat-menu-item (click)="generarExcel()">Incidencias</button>
+              <button mat-menu-item (click)="generarExcel()">Devoluciones</button>
+            </mat-menu>
+          </div>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="cs-row-column-no-direction">
+        <div class="col-3 min_width">
+          <div class="calendar-container columns-accor">
+            <mat-toolbar class="transparent">
+              <mat-toolbar-row class="cs-mat-toolbar-row" [class.no-padding-left]="isFilterMode">
+                <div *ngIf="!isFilterMode" mwlCalendarToday><span class="cs-calendar-today">{{ viewDate |  calendarDate:(view + 'ViewTitle'):'es' | csCapitalize}}</span></div>
+                <button *ngIf="!isFilterMode" mat-icon-button mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+                  <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+                <button *ngIf="!isFilterMode" mat-icon-button mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+                  <mat-icon>keyboard_arrow_right</mat-icon>
+                </button><span class="cs-spacer" *ngIf="!isFilterMode"></span>
+                <button mat-icon-button (click)="toggleFilter()">
+                  <mat-icon>filter_list</mat-icon>
+                </button>
+                <div class="cs-filter-text" *ngIf="isFilterMode">Filtrar</div><span class="cs-spacer" *ngIf="isFilterMode"></span>
+              </mat-toolbar-row>
+            </mat-toolbar>
+            <mwl-calendar-month-view *ngIf="!isFilterMode" [viewDate]="viewDate" [locale]="locale" [events]="events" [weekStartsOn]="weekStartsOn" [weekendDays]="weekendDays" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" [refresh]="refresh" (beforeViewRender)="beforeMonthViewRender($event)"></mwl-calendar-month-view>
+          </div>
+          <div class="cs-filter-content" *ngIf="isFilterMode">
+            <form [formGroup]="newDateForm">
+              <div class="cs-flex">
+                <button mat-icon-button color="accent" (click)="startDate.open()">
+                  <mat-icon>date_range</mat-icon>
+                </button>
+                <mat-form-field class="full-width">
+                  <input matInput #focusStart [matDatepicker]="startDate" placeholder="Fecha de inicio" formControlName="startDate">
+                  <mat-datepicker #startDate panelClass="tsr-datapicker"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="cs-flex">
+                <button mat-icon-button color="accent" (click)="stopDate.open()">
+                  <mat-icon>date_range</mat-icon>
+                </button>
+                <mat-form-field class="full-width">
+                  <input matInput #focusStop [matDatepicker]="stopDate" placeholder="Fecha fin" formControlName="stopDate">
+                  <mat-datepicker #stopDate panelClass="tsr-datapicker"></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </form>
+            <div class="button-row">
+              <button mat-button color="accent" (click)="toggleFilter()">{{ 'cancelar' | uppercase }}</button>
+              <button mat-button color="accent" [disabled]="!newDateForm.valid" (click)="filterDate()">{{ 'aceptar' | uppercase }}</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 min_width">
+          <div class="calendar-container columns-accor">
+            <mat-list>
+              <mat-list-item><img matListAvatar [src]="data_bank_sede.metadata.foto || UNKNOWN_USER_IMAGE" alt="">
+                <h3 matLine>{{ data_bank_sede.metadata.user }}</h3>
+                <p matLine><span>{{ data_bank_sede.metadata.desc_cargo}}</span></p>
+              </mat-list-item>
+            </mat-list>
+            <div class="cs-list" *ngFor="let data of data_bank_sede.__json_caja; let c = index" [class.active]="data.active" [class.hover]="data.accion == INGRESOS || data.accion == EGRESOS" (click)="showData(data.accion,i,c)">
+              <div class="cs-list-item__title">{{ data.accion }}</div>
+              <div class="cs-list-item" [ngSwitch]="data.accion"><span class="cs-green" *ngSwitchCase="INGRESOS">{{ data.sumatoria }}</span><span class="cs-red" *ngSwitchCase="EGRESOS">{{ data.sumatoria }}</span><span *ngSwitchDefault>{{ data.sumatoria }}</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="padding">
+            <cs-bank-chart [egresos]="data_bank_sede.__json_graphics['ingresos']" [ingresos]="data_bank_sede.__json_graphics['egresos']" [category]="data_bank_sede.__json_graphics['dia']" [height]="150"></cs-bank-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 padding-top">
+        <mat-table #table [dataSource]="dataSource[i]">
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <mat-header-cell class="w-80 text-center" *matHeaderCellDef>Monto</mat-header-cell>
+            <mat-cell class="w-80 text-center" *matCellDef="let element">{{ element.amount }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <mat-header-cell class="text-center" *matHeaderCellDef>Fecha</mat-header-cell>
+            <mat-cell class="text-center" *matCellDef="let element">{{ element.date }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="payment_method">
+            <mat-header-cell class="text-center" *matHeaderCellDef>Modo de pago</mat-header-cell>
+            <mat-cell class="text-center" *matCellDef="let element">{{ element.payment_method }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="students">
+            <mat-header-cell class="text-center w-90" *matHeaderCellDef>Estudiantes</mat-header-cell>
+            <mat-cell class="text-center w-90" *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE" matTooltip="Solimarco"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="record">
+            <mat-header-cell class="text-center w-90" *matHeaderCellDef>Registro</mat-header-cell>
+            <mat-cell class="text-center w-90" *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE" matTooltip="Carlos Galvez"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell class="text-right w-40" *matHeaderCellDef>Acción</mat-header-cell>
+            <mat-cell class="text-right w-40" *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="action">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #action="matMenu" yPosition="below" xPosition="before">
+                <button mat-menu-item (click)="generarExcel()">Boleta.PDF</button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator class="cs-tsr-paginator" #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+      </div>
+    </cs-acordion-global>
+  </cs-acordion-global-group>
+</div>

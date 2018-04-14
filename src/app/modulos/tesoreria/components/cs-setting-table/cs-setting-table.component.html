@@ -1,0 +1,17 @@
+
+<div class="cs-mat-row" [class.active-line]="!active">
+  <div class="cs-mat-cell"><span>{{ title }}
+      <button *ngIf="isInfo" mat-icon-button>
+        <mat-icon>help_outline</mat-icon>
+      </button></span>
+    <div class="cs-buttons">
+      <mat-slide-toggle *ngIf="isToggle" (change)="onChange($event)"></mat-slide-toggle>
+      <button mat-icon-button (click)="onClick($event)">
+        <mat-icon aria-label="arrow">{{ active ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cs-mat-row-body" [ngClass]="active ? &quot;active&quot; : &quot;&quot;" [@slideInOut]="active ? 'in': 'out'">
+  <ng-content></ng-content>
+</div>

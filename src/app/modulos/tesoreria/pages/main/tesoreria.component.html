@@ -1,0 +1,45 @@
+
+<div class="theme-treasury">
+  <cs-shrinking-header-component [headerHeight]="mobileQuery.matches ? 192 : 256" [offset]="mobileQuery.matches ? 45: 64">
+    <div class="wrapper"><span class="font-size-56" [class.hideTitle]="displayTitle" (click)="backPage()">{{ title }}</span></div>
+  </cs-shrinking-header-component>
+</div>
+<div class="cs-arrow-img"><img [src]="ARROW_MAGIC"></div>
+<div class="wrapper theme-treasury margin-minus-top">
+  <div class="cs-row-flex">
+    <div class="cs-row-column w-25 text-left">
+      <div class="cs-info">
+        <div class="cs-avatar"><img [src]="UNKNOWN_USER_IMAGE">
+          <h2>Hola, Carlos</h2>
+        </div>
+        <div class="cs-p margin-top padding-bottom">
+          <p>{{ 'Bienvenido al módulo Tesoreria desde el cual puedes evaluar los resultados de toda tu institución. Accede a un fácil recorrido siempre.' }}</p>
+        </div>
+        <div class="button-row margin-top">
+          <button class="border-radius-20 cs-btn-custom" mat-raised-button>INICIAR TOUR
+            <mat-icon color="primary">arrow_forward</mat-icon>
+          </button>
+          <button mat-button color="primary">OMITIR AYUDA</button>
+        </div>
+      </div>
+    </div>
+    <div class="cs-row-column w-75">
+      <mat-card class="cs-card padding-custom margin-bottom">
+        <h2>Todo lo que puedes hacer desde  'Tesoreria'</h2>
+        <div class="cs-img-absolute"><img [src]="DOODLE"></div>
+        <mat-card-content>
+          <div class="cs-p">
+            <p>Realiza la planificación estratégica de tu institución y dale seguimiento a los indicadores clave de rendimiento.</p>
+          </div>
+          <ul>
+            <li>Monitorear el<a routerLink="/tesoreria/movimientos" routerLinkActive="active-link">Movimientos</a> principal de indicadores</li>
+            <li><a routerLink="/tesoreria/migracion">Migración</a> los indicadores y frecuencias de medición.</li>
+            <li>Visualiza de la<a routerLink="/tesoreria/caja">Caja</a> más importantes.</li>
+            <li>Visualiza de la<a routerLink="/tesoreria/configuracion">configuración</a> más importantes.</li>
+            <li>Visualiza de la<a routerLink="/tesoreria/reportes">reportes</a> más importantes.</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

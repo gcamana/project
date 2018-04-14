@@ -1,0 +1,25 @@
+.accordion-head
+    div(*ngIf="!isSearch")
+        h3(mat-dialog-title) {{ title }}
+
+        .button-row
+            button(mat-icon-button, (click)="toggleSearch()")
+                mat-icon search
+
+            button(mat-icon-button, (click)='onClick($event)')
+                mat-icon(*ngIf="active; else elseBlock") keyboard_arrow_up
+                ng-template(#elseBlock)
+                    mat-icon keyboard_arrow_down
+
+    div.dialog-header.theme-bsc(*ngIf="isSearch")
+        mat-form-field
+            span(matPrefix)
+                button(mat-icon-button, (click)="toggleSearch()")
+                    mat-icon arrow_back
+            input(matInput, type="text", placeholder="Buscar...", [(ngModel)]="value", #searchResp)
+            button(mat-button, *ngIf="value", matSuffix, mat-icon-button, aria-label="Clear", (click)="value=''")
+                mat-icon close
+
+
+.accordion-body([class.active]='active')
+    ng-content

@@ -1,0 +1,22 @@
+
+<h1 mat-dialog-title>¿Deseas proceder con la devolución?
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <p><span class="cs-red">*</span>Campos obligatorios</p>
+  <form [formGroup]="amountForm">
+    <mat-form-field class="full-width"><span matPrefix>S/ &nbsp;</span>
+      <input matInput onlyNumber type="tel" formControlName="amount" placeholder="Monto" required>
+      <mat-error *ngIf="amountForm.controls.amount.invalid"></mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput type="text" formControlName="observation" placeholder="Observaci�n" required>
+      <mat-error *ngIf="amountForm.controls.observation.invalid"></mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button mat-button color="accent" (click)="actionSaveReturn()" [disabled]="!amountForm.valid" cdkFocusInitial>{{ 'confirmar' | uppercase }}</button>
+</div>

@@ -1,0 +1,51 @@
+
+<div class="cs-profile">
+  <div class="cs-bg" [ngStyle]="setBackground()"></div>
+  <div class="cs-avatar" (click)="goToProfile()"><img [src]="user?.foto_usuario || UNKNOWN_USER_IMAGE"></div>
+  <div class="cs-actions">
+    <div class="cs-text" (click)="goToProfile()">
+      <h2>{{ user?.nombre_completo }}</h2>
+      <p>{{ 'Administrador' }}</p>
+    </div>
+    <div class="cs-button">
+      <button mat-icon-button (click)="togglePermission()">
+        <mat-icon aria-label="arrow">{{ isSetting ? 'arrow_drop_down' : 'arrow_drop_up' }}</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<mat-nav-list><span *ngIf="isSetting; else elseBlock">
+    <div class="cs-mat-list-item" *ngFor="let module of modules">
+      <mat-list-item (click)="selectModule(module.id)" [ngClass]="{active: isActiveModule(module.id)}">
+        <h4 mat-line>{{ module?.moduleName }}</h4>
+      </mat-list-item>
+      <div class="cs-body-item" #menuItem [@slideInOut]="isActiveModule(module.id) ? 'in': 'out'">
+        <mat-list-item *ngFor="let item of module.modules" (click)="selectPage(item.uri)" [routerLink]="[item.uri]">
+          <h4 mat-line [ngStyle]="isActivePage(item.uri) ? { 'color': color } : {}">{{ item?.name }}</h4>
+        </mat-list-item>
+      </div>
+    </div></span>
+  <ng-template #elseBlock>
+    <h3 mat-subheader>Roles</h3>
+    <mat-list-item *ngFor="let module of modules" (click)="gotoPage()">
+      <h4 mat-line>{{ module?.desc_sist }}</h4>
+    </mat-list-item>
+  </ng-template>
+</mat-nav-list>
+<mat-nav-list>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <mat-icon mat-list-icon>announcement</mat-icon>
+    <h4 mat-line>Smiledu<strong>store</strong></h4>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <mat-icon mat-list-icon>announcement</mat-icon>
+    <h4 mat-line>Sugerencias</h4>
+  </mat-list-item>
+  <mat-list-item (click)="getFullscreenElement()">
+    <mat-icon mat-list-icon>{{ isZoom ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
+    <h4 mat-line highlight>Pantalla completa</h4>
+  </mat-list-item>
+</mat-nav-list>
+<div class="cs-copyright"><span>Perú</span><a>Políticas de privacidad</a><a>Terminos y condiciones</a><a>smiledu &#x00AE;</a></div>

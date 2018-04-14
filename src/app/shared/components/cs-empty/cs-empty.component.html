@@ -1,0 +1,8 @@
+
+<div class="theme-bsc" *ngIf="!active">
+  <div class="cs-card"><img [src]="image">
+    <h1>{{ title | csCapitalize }}</h1>
+    <h2>{{ fullMessage }}</h2>
+    <button *ngIf="invite" mat-raised-button color="primary">{{ inviteMessage }}</button>
+  </div>
+</div>

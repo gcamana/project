@@ -1,0 +1,21 @@
+.cs-content
+    div(*ngFor="let obj of objetivos; let i = index",(click)="selectObjetivo(obj.indicadores,i)")
+        .cs-card(*ngIf="i != 0", [class.active]="obj.active == 'active'")
+            cs-user-avatar([onlyCount]="obj.responsables.length > 1", [hideName]="true", [usersCount]="obj.responsables.length", [users]="obj.responsables", [metadata]="obj.metadata",(onRemove)="removeResp($event, i)")
+            div(*ngIf="obj.actual != undefined")
+                cs-trend([value]="obj.actual", [red]="obj.zona_riesgo", [orange]="obj.v_amarillo", [trendFlag]="1", [flgCreasing]="'C'")
+            .cs-p
+                p([matTooltip]="mobileQuery.matches ? obj.desc_obj : '' ") {{ obj.desc_obj }}
+            div(*ngIf="obj.actual != undefined")
+                button(mat-icon-button, [matMenuTriggerFor]='menu')
+                    mat-icon more_vert
+                mat-menu(#menu='matMenu', yPosition="below", xPosition="before")
+                    button(mat-menu-item,(click)="editValues(i, obj.id_obj)")
+                        mat-icon create
+                        span Editar valores
+                    button(mat-menu-item, (click)="toAssignResponsable(obj.id_bsc, obj.id_persp, obj.id_obj, i)")
+                        mat-icon person_add
+                        span Asignar responsable
+                    button(mat-menu-item, (click)="editPesoObj(obj.peso, obj.id_bsc, obj.id_persp, obj.id_obj, i)")
+                        mat-icon fitness_center
+                        span Peso

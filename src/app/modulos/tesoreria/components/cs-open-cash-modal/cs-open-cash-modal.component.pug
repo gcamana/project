@@ -1,0 +1,13 @@
+h1(mat-dialog-title)
+    | {{ title }}
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    p {{ content }}
+
+div.theme-treasury(mat-dialog-actions)
+    button(mat-button, color="accent", routerLink="/tesoreria/caja") IR A CAJA
+    div
+        button(mat-button, (click)="onNoClick()", color="accent") CANCELAR
+        button(mat-button, color="accent", cdkFocusInitial, (click)="confirmCash()") CONFIRMAR

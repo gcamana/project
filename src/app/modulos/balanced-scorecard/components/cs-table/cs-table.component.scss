@@ -1,0 +1,72 @@
+@import './../../../../variables';
+
+mat-icon {
+    color: $dark;
+}
+
+.cs-mat-row-body {
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+    transition: all .3s linear;
+    padding-left: 24px;
+    width: 100%;
+    box-sizing: border-box;
+    &.active {
+        height: 100%;
+        opacity: 1;
+        visibility: visible;
+        display: block;
+    }
+}
+.button-row ,
+cs-trend-table {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.button-row  {
+    mat-icon {
+        font-size: 16px;
+    }
+}
+
+//TABLE
+
+.cs-mat-row {
+    display: flex;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 24px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    position: relative;
+    &:before {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.12);
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        right: 100%;
+        bottom: -1px;
+    }
+    @media screen and (max-width: 480px){
+        padding: 0;
+    }
+}
+
+.cs-mat-cell {
+    flex: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.87);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:nth-last-child(1) {
+        text-align: right;
+    }
+}

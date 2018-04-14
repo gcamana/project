@@ -1,0 +1,34 @@
+<span *ngIf="!active">
+  <div class="cs-accordion-group" *ngIf="!isEmpty">
+    <div class="cs-accordion" *ngFor="let est of [1,2,3,4]; let i = index">
+      <div class="cs-content">
+        <div class="cs-panel width-180">
+          <cs-circular-gauge-component class="padding margin-top-minus-110" [class.cs-gray-image]="!data" [values]="30" [red]="30" [orange]="40" [borderWidth]="12" [dialBaseWidth]="8" [dialBorderWidth]="1" [dialRadius]="'50%'"></cs-circular-gauge-component>
+        </div>
+        <div class="cs-panel width-180">
+          <div class="cs-panel-title"></div>
+          <div class="cs-p"></div>
+          <div class="cs-p"></div>
+          <div class="cs-p"></div>
+          <div class="cs-foto"></div>
+        </div>
+        <div class="cs-panel width-300">
+          <div class="cs-panel-title"></div>
+          <div class="cs-goals">
+            <div class="cs-foto"></div>
+            <div class="cs-p margin-left"></div>
+          </div>
+        </div>
+        <div class="cs-panel margin-right-none">
+          <div class="cs-panel-title"></div>
+          <div class="cs-indicators" *ngFor="let ind of [1,2,3,4]">
+            <div class="cs-foto"></div>
+            <div class="cs-p margin-left"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cs-empty" *ngIf="isEmpty">
+    <cs-empty class="padding-top-50" [data]="data" [image]="EMPTY_CHART" [message]="'Tu filtro no ha sido encontrado'"></cs-empty>
+  </div></span>

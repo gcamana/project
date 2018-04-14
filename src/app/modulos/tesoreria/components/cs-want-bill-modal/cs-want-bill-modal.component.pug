@@ -1,0 +1,27 @@
+h1(mat-dialog-title) ¿Desea factura?
+
+div.theme-treasury(mat-dialog-content)
+    p No se generará ningún documento para los compromisos a partir de la fecha de hoy.
+    mat-list.no-padding
+        mat-list-item
+            img(matListAvatar, [src]="data_user.profile_image || UNKNOWN_USER_IMAGE")
+            p(matLine)
+                strong {{ data_user.first_name | csCapitalize }}
+                span {{ data_user.last_name | csCapitalize }} {{ data_user.last_name2 | csCapitalize }}
+
+    form.full-width([formGroup]="facturaForm")
+        mat-form-field.full-width
+            input(matInput, placeholder="RUC", formControlName="ruc", onlyNumbers)
+            mat-error(*ngIf="facturaForm.controls.ruc.invalid") Ingresa un RUC válido
+
+        mat-form-field.full-width(*ngIf="document == 'TICKET'")
+            input(matInput, placeholder="Razón social", formControlName ="razonSocial")
+            mat-error(*ngIf="facturaForm.controls.razonSocial.invalid") Ingresa una razon social válida
+
+        mat-form-field.full-width(*ngIf="document == 'TICKET'")
+            input(matInput, placeholder="Dirección", formControlName="direction")
+            mat-error(*ngIf="facturaForm.controls.direction.invalid") Ingresa una dirección válida
+        
+div.theme-treasury(mat-dialog-actions)
+    button(mat-button, color="accent", (click)="onNoClick()") CANCELAR
+    button(mat-button, color="accent", (click)="saveBillEstu()", [disabled]="facturaForm.invalid ") CONFIRMAR

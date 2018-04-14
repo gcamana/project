@@ -1,0 +1,137 @@
+
+<div class="theme-treasury"><span class="cs-header-title" (click)="backPage()">Configuración</span></div>
+<div class="theme-treasury">
+  <div class="cs-overload" [class.active]="isOpenInfo" (click)="closeAction()"></div>
+  <div class="cs-content">
+    <h3>Cronograma de pago</h3>
+    <cs-setting-table-group class="mat-elevation-z2">
+      <cs-setting-table *ngFor="let year of ['2018', '2017', '2016', '2015']" [title]="year">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Lectivo</p>
+            <mat-icon class="cs-mat-icon">arrow_drop_down</mat-icon>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Verano</p>
+            <mat-icon class="cs-mat-icon">arrow_drop_down</mat-icon>
+          </mat-list-item>
+        </mat-nav-list>
+      </cs-setting-table>
+    </cs-setting-table-group>
+    <h3>Documentos de pagos</h3>
+    <cs-setting-table-group class="mat-elevation-z2">
+      <cs-setting-table [isInfo]="true" [title]="'Tipo de documento'">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Boleta</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Stickers</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+        </mat-nav-list>
+      </cs-setting-table>
+      <cs-setting-table [isInfo]="true" [title]="'Deseas recibos'" [isToggle]="true">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Cuotas de cronograma</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Otros</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+        </mat-nav-list>
+      </cs-setting-table>
+    </cs-setting-table-group>
+    <h3>Métodos de pago</h3>
+    <cs-setting-table-group class="mat-elevation-z2">
+      <cs-setting-table [title]="'Efectivo'">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Pago parcial</p>
+            <mat-slide-toggle (change)="changeStatePartialPayment($event,1)"></mat-slide-toggle>
+          </mat-list-item>
+        </mat-nav-list>
+      </cs-setting-table>
+      <cs-setting-table [title]="'Tarjeta'">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Visa</p>
+            <mat-slide-toggle (change)="changeStateCreditCard($event,1)"></mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Mastercard</p>
+            <mat-slide-toggle (change)="changeStateCreditCard($event,2)"></mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Pago parcial</p>
+            <mat-slide-toggle (change)="changeStatePartialPayment($event,2)" [disabled]="isPartialCard" [checked]="isCheckedPartialCard"></mat-slide-toggle>
+          </mat-list-item>
+        </mat-nav-list>
+      </cs-setting-table>
+    </cs-setting-table-group>
+    <h3>Descuentos</h3>
+    <div class="cs-list mat-elevation-z2">
+      <mat-nav-list>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <p matLine>Becas</p>
+          <mat-icon class="cs-mat-icon">arrow_drop_down</mat-icon>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <p matLine>Promociones</p>
+          <mat-icon class="cs-mat-icon">arrow_drop_down</mat-icon>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+    <h3>Bancos</h3>
+    <cs-setting-table-group class="mat-elevation-z2">
+      <cs-setting-table [title]="'Empresas'">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Bcp</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Comercio</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <p matLine>Financiero</p>
+            <mat-slide-toggle></mat-slide-toggle>
+          </mat-list-item>
+        </mat-nav-list>
+      </cs-setting-table>
+    </cs-setting-table-group>
+    <h3>Cajas</h3>
+    <cs-setting-table-group class="mat-elevation-z2">
+      <cs-setting-table [title]="'Alertas'" [isToggle]="true" (toggleAction)="onToggleAction($event)">
+        <mat-divider></mat-divider>
+        <div class="cs-wrapper">
+          <p>Monto de alerta
+            <mat-icon>help_outline</mat-icon>
+          </p>
+          <mat-form-field><span matPrefix>S/ &nbsp;</span>
+            <input matInput placeholder="Escribe el Monto" [disabled]="!activeAlert">
+          </mat-form-field>
+        </div>
+      </cs-setting-table>
+    </cs-setting-table-group>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+@import './../../../../variables';
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.mat-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mat-header-cell {
+    mat-icon,
+    span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    span {
+        padding-left: .5rem;
+    }
+}

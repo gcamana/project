@@ -1,0 +1,54 @@
+.theme-treasury
+    cs-shrinking-header-component([headerHeight]="mobileQuery.matches ? 192 : 256", [offset]="mobileQuery.matches ? 45: 64")
+        .wrapper
+            span.font-size-56([class.hideTitle]="displayTitle", (click)="backPage()") Migración
+
+.theme-treasury.margin-minus-top
+    .cs-overload([class.active]="isOpenInfo", (click)="closeAction()")
+    .cs-content
+        mat-radio-group([(ngModel)]="card", labelPosition="before", (change)="onChangeBank($event)")
+            mat-radio-button([value]="card", *ngFor="let card of cards", [disabled]="card.disabled", [class.disabled]="card.disabled")
+                figure
+                    img([src]="card.image")
+
+    .wrapper.z-index
+        .cs-content-action([ngClass]="isOpenToolbar ? 'activeToolbar':'hide'")
+            mat-toolbar.transparent
+                mat-toolbar-row
+                    img([src]="cardTmp?.image")
+                    span.cs-spacer
+                    .cs-text-action(*ngIf="isSiscont", (click)="openImporModal(idBank)")
+                        mat-icon file_upload
+                        strong {{ 'important txt' | uppercase }}
+                    .cs-text-action.margin-left((click)="openExportToggle(idBank)")
+                        mat-icon file_download
+                        strong {{ 'EXPORTAR TXT' | uppercase }}
+                    .cs-text-action.margin-left((click)="toggle()")
+                        mat-icon info_outline
+                        strong {{ 'INFORMACIÓN' | uppercase }}
+
+            .cs-toolbar-content([ngClass]="isOpenInfo ? 'activeInfo':'hide'")
+                mat-table(#table, [dataSource]="dataSource")
+                    ng-container(matColumnDef="business")
+                        mat-header-cell(*matHeaderCellDef) Empresa
+                        mat-cell(*matCellDef="let element") {{ element.business }}
+                    ng-container(matColumnDef="last_import")
+                        mat-header-cell(*matHeaderCellDef) última importación
+                        mat-cell(*matCellDef="let element") {{ element.last_import }}
+                            img([src]="element.photo_import", matTooltip="{{ element.name_pers_import }}")
+                    ng-container(matColumnDef="quantity_import")
+                        mat-header-cell.text-center(*matHeaderCellDef) Cantidad
+                        mat-cell.text-center(*matCellDef="let element") 
+                            a.subrayado( (click)="openModalMigrationCant(element)") {{ element.quantity_import }}
+                    ng-container(matColumnDef="last_export")
+                        mat-header-cell(*matHeaderCellDef) Última exportación
+                        mat-cell(*matCellDef="let element") {{ element.last_export }}
+                            img([src]="element.photo_export", matTooltip="{{ element.name_pers_export }}")
+                    ng-container(matColumnDef="quantity_export")
+                        mat-header-cell.w-80.text-center(*matHeaderCellDef) Cantidad
+                        mat-cell.w-80.text-center(*matCellDef="let element")
+                         a.subrayado( (click)="openModalMigrationCant(element)") {{ element.quantity_export }}
+                        
+
+                    mat-header-row(*matHeaderRowDef="displayedColumns")
+                    mat-row(*matRowDef="let row; columns: displayedColumns;")

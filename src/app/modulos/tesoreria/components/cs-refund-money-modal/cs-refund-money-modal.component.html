@@ -1,0 +1,18 @@
+
+<h1 mat-dialog-title>¿Deseas proceder con la devolución?
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <p>Se retendrá el monto de S/
+    <Strong>100</Strong>
+  </p>
+  <mat-form-field class="full-width">
+    <textarea matInput maxlength="120" #observation placeholder="Observación" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"></textarea>
+    <mat-hint align="end">{{ observation.value.length }} / 120</mat-hint>
+  </mat-form-field>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button mat-button color="accent" [mat-dialog-close]="data.animal" cdkFocusInitial>CONFIRMAR</button>
+</div>

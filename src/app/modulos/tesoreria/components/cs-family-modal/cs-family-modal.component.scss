@@ -1,0 +1,66 @@
+@import './../../../../variables';
+
+mat-list-item {
+    mat-icon {
+        color: rgba(0, 0, 0, .5);
+    }
+}
+
+.mat-form-field {
+    width: calc(100% - 40px);
+}
+
+h1 {
+    margin: 0;
+    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+}
+
+p {
+    margin-bottom: 0;
+    white-space: unset;
+    line-height: 100%;
+    &.active {
+        opacity: .5;
+    }
+}
+
+.mat-list {
+    padding-top: 0;
+}
+
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.cs-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cs-panel {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.cs-panel-1 {
+    display: flex;
+    align-items: center;
+    h3 {
+        margin: 10px 0;
+        margin-left: 5px;
+        font-size: 14px !important;
+        p {
+            font-size: 12px !important;
+        }
+    }
+    img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}

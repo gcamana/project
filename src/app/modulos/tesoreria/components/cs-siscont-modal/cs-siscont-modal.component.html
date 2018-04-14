@@ -1,0 +1,39 @@
+
+<h1 mat-dialog-title><img [src]="data.card.image">
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <p><span class="cs-red">* </span> Campos obligatorios</p>
+  <form [formGroup]="newExportForm">
+    <mat-form-field class="full-width">
+      <mat-select panelClass="cs-treasury-select" placeholder="Selecc. tipo*" formControlName="type">
+        <mat-option *ngFor="let combo of data.combo_siscont" [value]="combo.valor" name="combo.name">{{ combo.desc_combo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-select panelClass="cs-treasury-select" placeholder="Selecc. año*" formControlName="year" (change)="getMonthByYear($event.value)">
+        <mat-option *ngFor="let year of data.year_opt" [value]="year.year_id">{{ year.year }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-select panelClass="cs-treasury-select" placeholder="Selecc. mes*" formControlName="month" (change)="getEmpresasByMonth($event.value)">
+        <mat-option *ngFor="let month of month_opt" [value]="month.valor">{{ month.mes }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-select panelClass="cs-treasury-select" placeholder="Selecc. empresa*" formControlName="company" multiple>
+        <mat-option *ngFor="let company of company_opt" [value]="company.id_empresa" name="company.name">{{ company.desc_empresa }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Tipo de cambio*" formControlName="change">
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury" mat-dialog-actions>
+  <button mat-button color="accent" [disabled]="!newExportForm.valid" (click)="exportTXT()">
+    <mat-icon>file_download</mat-icon>EXPORTAR TXT
+  </button>
+</div>

@@ -1,0 +1,41 @@
+.cs-row-flex
+    .cs-row-column.w-25.text-left
+        .cs-info
+            .cs-avatar
+                img([src]="metadata.foto_usuario || UNKNOWN_USER_IMAGE")
+                h2 Hola, {{ metadata.first_name }}
+            .cs-p.margin-top.padding-bottom
+                p {{ 'Bienvenido al módulo Balance scorecard desde el cual puedes evaluar los resultados de toda tu institución. Accede a un fácil recorrido siempre.' }}
+
+            .button-row.margin-top
+                button.border-radius-20.cs-btn-custom(mat-raised-button) INICIAR TOUR
+                    mat-icon(color="primary") arrow_forward
+                button(mat-button, color="primary") OMITIR AYUDA
+                    //- mat-icon(color="primary") arrow_forward
+
+    .cs-row-column.w-75
+        mat-card.cs-card.padding-custom.margin-bottom
+            h2 Todo lo que puedes hacer desde  'Balance Scorecard'
+            .cs-img-absolute
+                img([src]="DOODLE")
+
+            mat-card-content
+                .cs-p
+                    p
+                        | Realiza la planificación estratégica de tu institución y dale seguimiento a los indicadores clave de rendimiento.
+                ul
+                    li Monitorear el
+                        //- a((click)="goToDashboard()") dashboard
+                        a(routerLink="/bsc/dashboard", routerLinkActive="active-link") dashboard
+                        | principal de indicadores
+
+                    li
+                        |
+                        a(href="") Configura
+                        | los indicadores y frecuencias de medición.
+                    li Visualiza los
+                        a(href="") gráficos
+                        | más importantes.
+                    //- li Self Indicator
+                    //-     a(routerLink="/bsc/self-indicator") Self Indicator
+                    //-     | más importantes.

@@ -1,0 +1,35 @@
+
+<div class="cs-row-flex">
+  <div class="cs-row-column w-25 text-left">
+    <div class="cs-info">
+      <div class="cs-avatar"><img [src]="metadata.foto_usuario || UNKNOWN_USER_IMAGE">
+        <h2>Hola, {{ metadata.first_name }}</h2>
+      </div>
+      <div class="cs-p margin-top padding-bottom">
+        <p>{{ 'Bienvenido al módulo Balance scorecard desde el cual puedes evaluar los resultados de toda tu institución. Accede a un fácil recorrido siempre.' }}</p>
+      </div>
+      <div class="button-row margin-top">
+        <button class="border-radius-20 cs-btn-custom" mat-raised-button>INICIAR TOUR
+          <mat-icon color="primary">arrow_forward</mat-icon>
+        </button>
+        <button mat-button color="primary">OMITIR AYUDA</button>
+      </div>
+    </div>
+  </div>
+  <div class="cs-row-column w-75">
+    <mat-card class="cs-card padding-custom margin-bottom">
+      <h2>Todo lo que puedes hacer desde  'Balance Scorecard'</h2>
+      <div class="cs-img-absolute"><img [src]="DOODLE"></div>
+      <mat-card-content>
+        <div class="cs-p">
+          <p>Realiza la planificación estratégica de tu institución y dale seguimiento a los indicadores clave de rendimiento.</p>
+        </div>
+        <ul>
+          <li>Monitorear el<a routerLink="/bsc/dashboard" routerLinkActive="active-link">dashboard</a> principal de indicadores</li>
+          <li><a href="">Configura</a> los indicadores y frecuencias de medición.</li>
+          <li>Visualiza los<a href="">gráficos</a> más importantes.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

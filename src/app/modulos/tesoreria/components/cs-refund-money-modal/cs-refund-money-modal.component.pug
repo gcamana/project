@@ -1,0 +1,14 @@
+h1(mat-dialog-title) ¿Deseas proceder con la devolución?
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    p Se retendrá el monto de S/
+        Strong 100
+
+    mat-form-field.full-width
+        textarea(matInput, maxlength="120", #observation, placeholder="Observación", matTextareaAutosize, matAutosizeMinRows="2", matAutosizeMaxRows="4")
+        mat-hint(align="end") {{ observation.value.length }} / 120
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, color="accent", [mat-dialog-close]="data.animal", cdkFocusInitial) CONFIRMAR

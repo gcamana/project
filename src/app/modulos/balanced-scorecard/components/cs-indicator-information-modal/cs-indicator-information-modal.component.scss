@@ -1,0 +1,37 @@
+@import './../../../../variables';
+.mat-progress-bar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.w-2 {
+    display: flex;
+    .mat-form-field {
+        margin-left: 2em;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        display: block;
+        .mat-form-field {
+            margin-left: 0;
+        }
+    }
+}
+
+.cs-resp {
+    display: flex;
+    padding: 24px 0;
+    align-items: center;
+    p {
+        margin-bottom: 0;
+        margin-right: 1em;
+    }
+}

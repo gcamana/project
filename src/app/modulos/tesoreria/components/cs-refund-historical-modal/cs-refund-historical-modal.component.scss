@@ -1,0 +1,32 @@
+@import './../../../../variables';
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}
+
+.mat-cell {
+    img {
+        width: 27px;
+        height: 27px;
+        display: block;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: auto;
+    }
+}
+
+.mat-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.w-90 {
+    max-width: 90px;
+}
+.w-100 {
+    max-width: 100px;
+}
+.w-150 {
+    max-width: 150px;
+}

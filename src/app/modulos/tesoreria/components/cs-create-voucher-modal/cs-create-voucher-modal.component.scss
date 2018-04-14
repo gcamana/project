@@ -1,0 +1,24 @@
+@import './../../../../variables';
+.cs-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+.cs-add {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    p {
+        margin-bottom: 0;
+    }
+}
+.mat-cell {
+    img {
+        width: 27px;
+        height: 27px;
+        display: inline-flex;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: auto;
+    }
+}

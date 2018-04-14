@@ -1,0 +1,22 @@
+div.theme-bsc
+    mat-progress-bar(mode="indeterminate", *ngIf="isShowProgress")
+
+h1(mat-dialog-title) Editar valores
+div(mat-dialog-content)
+    .theme-bsc.cs-form
+        mat-form-field.cs-full-width
+            input(matInput, placeholder="Real", [(ngModel)]="dataGauge.real", name="real", [errorStateMatcher]="errReal", (keyup)="resetInput('errReal');", (change) ="valideInput();")
+            mat-error() {{msj}}
+        mat-form-field.cs-full-width
+            input(matInput, placeholder="Meta", [(ngModel)]="dataGauge.goal", name="goal", [errorStateMatcher]="errMeta", (keyup)="resetInput('errMeta');", (change) ="valideInput();")
+            mat-error() {{msj}}
+        mat-form-field.cs-full-width
+            input(matInput, placeholder="Verde", [(ngModel)]="dataGauge.green", name="green", [errorStateMatcher]="errVerde", (keyup)="resetInput('errVerde');", (change) ="valideInput();")
+            mat-error() {{msj}}
+        mat-form-field.cs-full-width
+            input(matInput, placeholder="Rojo", [(ngModel)]="dataGauge.red", name="red", [errorStateMatcher]="errRojo", (keyup)="resetInput('errRojo');", (change) ="valideInput();")
+            mat-error() {{msj}}
+
+div(mat-dialog-actions)
+    button(mat-button, (click)="onNoClick()") CERRAR
+    button(mat-button, cdkFocusInitial, (click)="guardarValuesDash()", [disabled]="btnDisable") ACEPTAR

@@ -1,0 +1,50 @@
+
+<h1 *ngIf="!isFileSelected" mat-dialog-title><img [src]="data.card.image">
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="cs-row theme-treasury" *ngIf="isFileSelected">
+  <button mat-icon-button (click)="toggle()">
+    <mat-icon>arrow_back</mat-icon>
+  </button><img [src]="data.card.image">
+</div>
+<div class="theme-treasury no-padding" mat-dialog-content>
+  <mat-list *ngIf="!isFileSelected">
+    <div *ngFor="let company of data.company">
+      <mat-divider></mat-divider>
+      <mat-list-item> 
+        <h4 mat-line>{{ company.razon_social }}</h4>
+        <button mat-icon-button (click)="openFile(company.id_empresa)">
+          <mat-icon color="accent">file_upload</mat-icon>
+        </button>
+      </mat-list-item>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-list>
+  <div class="cs-table" *ngIf="isFileSelected">
+    <p>Empresa de servicios Privados</p>
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="fee">
+        <mat-header-cell *matHeaderCellDef>Cuota</mat-header-cell>
+        <mat-cell *matCellDef="let element"><span>{{element.fee}}</span>
+          <mat-icon *ngIf="element.icon" [ngClass]="element.icon == 'warning' ? 'cs-red': 'cs-yellow'">{{ element.icon }}</mat-icon>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="student">
+        <mat-header-cell *matHeaderCellDef>Estudiante</mat-header-cell>
+        <mat-cell *matCellDef="let element"><img [src]="UNKNOWN_USER_IMAGE"><span>{{element.student}}</span></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell class="w-100 text-right" *matHeaderCellDef>Cantidad S/</mat-header-cell>
+        <mat-cell class="w-100 text-right" *matCellDef="let element">{{element.quantity}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
+<input type="file" style="display:none;" #fileTxt (change)="fileChangeEvent($event)">
+<div class="theme-treasury" *ngIf="isFileSelected" mat-dialog-actions>
+  <button mat-button color="accent" [mat-dialog-close]="data.animal" cdkFocusInitial (click)="uploadPayments()">CONFIRMAR</button>
+</div>

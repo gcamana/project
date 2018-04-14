@@ -1,0 +1,40 @@
+h1(mat-dialog-title, *ngIf="!isSearch")
+    | Compartir caja
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.cs-row.theme-treasury(*ngIf="isSearch")
+    button(mat-icon-button, (click)="openSearch()")
+        mat-icon arrow_back
+    mat-form-field(floatLabel="never")
+        input(matInput, placeholder="Buscar", [(ngModel)]="value", (keyup)="usersShareCash($event)")
+        button(*ngIf="value", matSuffix, mat-icon-button, (click)="value=''")
+            mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    mat-list(*ngIf="isAdd")
+        mat-list-item
+            img(matListAvatar, [src]="user_selected?.foto")
+            h3(matLine) {{ user_selected?.name }}
+            p(matLine) {{ user_selected?.role }}
+            button(mat-icon-button, (click)="shareCashUser(2)")
+                mat-icon delete
+
+    .cs-panel(*ngIf="!isSearch || isAdd")
+        button(mat-mini-fab, [disabled]="isAdd", cdkFocusInitial, (click)="openSearch()")
+            mat-icon add
+
+        p.padding-left Asignar persona
+
+    mat-radio-group(*ngIf="isSearch", (change)="onchange($event)")
+        mat-radio-button([value]="user", *ngFor="let user of users", labelPosition="after")
+            .cs-panel-1
+                img(matListAvatar, [src]="UNKNOWN_USER_IMAGE")
+                h3(matLine)
+                    | {{ user.name }}
+                    p {{ user.role }}
+
+div.theme-treasury(mat-dialog-actions, *ngIf="isSearch")
+    button(mat-button, color="accent", cdkFocusInitial, [disabled]="!isActiveButtom", (click)="shareCashUser(1)") ASIGNAR
+
+

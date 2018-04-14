@@ -1,0 +1,78 @@
+mat-toolbar([ngStyle]="{ 'background-color': primary }")
+    mat-toolbar-row
+        span.cs-spacer
+        a(href="#", [ngStyle]="{ 'color': light }") Ayuda
+        figure.cs-logo
+            img(src="http://localhost/smiledu/public/general/img/header/smiledu-ico.png")
+
+.cs-wrapper
+    .cs-content__top
+        .cs-row.cs-flex-end(*ngIf="!mobileQuery.matches")
+            .cs-content__inner
+                figure.cs-doodle
+                    img(src="http://localhost/smiledu/public/general/img/header/love-school.png")
+
+
+    .cs-content__bottom([ngStyle]="{ 'background-color': secondary }")
+        .cs-row(*ngIf="!mobileQuery.matches")
+            .cs-content__inner
+                .cs-text
+                    h3 Descarga ‘Smiledu app’ gratis para Android y IOS
+                    p La educación es el proceso de facilitar el aprendizaje. Los conocimientos, habilidades, valores, creencias y hábitos de un grupo de personas…
+
+                    .cs-button-row
+                        button(mat-raised-button)
+                            span([ngStyle]="{ 'color': primary }") ENTÉRATE MÁS
+                            mat-icon([ngStyle]="{ 'color': primary }") open_in_new
+
+                        button.margin-left(mat-button)
+                            span([ngStyle]="{ 'color': primary }")  COMPARTIR
+
+
+    .cs-content.cs-wancho
+        .cs-panel
+            mat-card.cs-width.no-padding
+                mat-toolbar.transparent
+                    mat-toolbar-row
+                        button(mat-icon-button)
+                            mat-icon keyboard_arrow_down
+
+                        img.cs-form-logo(src="http://localhost/smiledu/public/general/img/header/logo_sistema.png")
+
+                        span.cs-spacer
+
+                        button(mat-icon-button)
+                            mat-icon more_vert
+
+                form
+                    mat-form-field.full-width(#formColor)
+                        input(matInput, placeholder="Usuario o correo")
+
+                    mat-form-field.full-width(#formColor)
+                        input(matInput, placeholder="Contraseña")
+
+                    a(href="") ¿Has olvidado tu usuario?
+
+                .cs-action
+                    button.full-width(mat-raised-button) SIGUIENTE
+
+                    .cs-line O conectar con
+
+                .cs-connect
+                    button(mat-icon-button)
+                        img([src]="ICON_FACEBOOK")
+                    button(mat-icon-button)
+                        img([src]="ICON_GOOGLE")
+                    button(mat-icon-button)
+                        img([src]="ICON_OUTLOOK")
+
+            .cs-p.cs-width
+                p Haciendo clic en ‘Ingresar’, estoy de acuerdo con
+                    a Términos y condiciones
+                    | de Smiledu, y
+                    a Política de privacidad
+
+        .cs-panel(*ngIf="!mobileQuery.matches")
+            mat-card.cs-width.no-padding.transparent
+
+footer-component([color]="primary")

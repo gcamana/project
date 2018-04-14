@@ -1,0 +1,45 @@
+@import './../../../../variables';
+
+mat-icon {
+    color: $dark;
+}
+
+.cs-mat-row-body {
+    &.active {
+        border-bottom: 1px solid rgba(0,0,0, 0.12);
+    }
+}
+
+//TABLE
+.cs-mat-row {
+    display: flex;
+    border-bottom-style: solid;
+    align-items: center;
+    padding:0 8px 0 24px;
+    position: relative;
+    border: 0;
+    transition: all .25s ease;
+    min-height: 64px;
+    &.active-line {
+        min-height: 48px;
+        transition: all .25s ease;
+        border-bottom: 1px solid rgba(0,0,0,.12);
+    }
+}
+.cs-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.cs-mat-cell {
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.87);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    justify-content: space-between;
+}

@@ -1,0 +1,15 @@
+div(*ngIf="!hideHeader", [ngClass]="themeHeader")
+    mat-toolbar(color='primary', *ngIf="!hideHeader", [ngStyle]="moduleChange.length == 0 ? {'background-color' : color} : {}")
+        mat-toolbar-row
+            button(mat-icon-button, (click)='toggleMode()')
+                mat-icon(aria-label='Example icon-button with a heart icon') menu
+            span.cs-title([class.showTitle]="displayTitle") {{ title }}
+            span.cs-spacer
+            button(mat-icon-button)
+                mat-icon.cs-icon(svgIcon="magic_search")
+            button(mat-icon-button)
+                mat-icon.cs-icon apps
+            button(mat-icon-button)
+                mat-icon.cs-icon notifications
+            button(mat-icon-button, (click)="toggleSide()")
+                mat-icon.cs-icon {{ isToggleSide ? 'arrow_forward' : 'more_vert' }}

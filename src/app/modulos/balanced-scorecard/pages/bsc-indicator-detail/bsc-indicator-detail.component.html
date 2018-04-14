@@ -1,0 +1,210 @@
+
+<div class="theme-bsc">
+  <cs-shrinking-header-component [headerHeight]="mobileQuery1.matches ? 192 : 256" [offset]="mobileQuery1.matches ? 45: 64">
+    <div class="wrapper"><span class="font-size-56" [matTooltip]="title.length &gt; 40 ? title : ''" [class.hideTitle]="displayTitle" (click)="backPage()">{{ title }}</span></div>
+  </cs-shrinking-header-component>
+</div>
+<div class="wrapper margin-minus-top theme-bsc wrapper-custom">
+  <div class="cs-button-fabs">
+    <button class="cs-button-fab" mat-fab (click)="toggleFab()">
+      <mat-icon aria-label="filter list icon">filter_list</mat-icon>
+    </button>
+    <button class="cs-button-mini-fab" mat-mini-fab (click)="goToInformatioEdit()">
+      <mat-icon aria-label="filter list icon">info_outline</mat-icon>
+    </button>
+  </div>
+  <div class="cs-grid-list cs-inline-block">
+    <div class="cs-grid-tile w-35">
+      <mat-card>
+        <div class="cs-grid-header">
+          <div class="button-row">
+            <p style="margin-bottom:0;padding-right:2.5em;">{{ year }}</p>
+            <cs-user-avatar [users]="responsables" [usersCount]="responsables.length" [onlyCount]="true" [hideName]="true"></cs-user-avatar>
+            <button mat-icon-button [matMenuTriggerFor]="menuGauge">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menuGauge="matMenu" yPosition="below" xPosition="before">
+              <button mat-menu-item (click)="editGaugeValue()">
+                <mat-icon>create</mat-icon><span>Editar Valores</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        <div class="cs-gauge">
+          <cs-circular-gauge-component class="margin-top-minus-80" [class.cs-gray-image]="!actual_indicador" [tipo_g]="tipo_indi" [ini]="valor_inicial" [fin]="valor_final" [values]="actual_indicador" [green]="valor_meta" [red]="zona_riesgo" [orange]="valor_amarillo" [borderWidth]="18" [dialBaseWidth]="8" [dialBorderWidth]="2" [dialRadius]="'55%'" [labelsDistance]="-20"></cs-circular-gauge-component>
+        </div>
+        <div class="cs-grid-title text-center margin-top-minus-130"><span>{{ title | truncate:[65] }}</span></div>
+      </mat-card>
+      <mat-card>
+        <cs-historical-group class="padding">
+          <cs-historical [title]="'Histórico'">
+            <ul class="cs-list padding-top-10" *ngIf="dataHistoricos">
+              <li class="cs-list-item" *ngFor="let data of dataHistoricos">
+                <div class="cs-avatar"><img [src]="data.img || UNKNOWN_USER_IMAGE"></div>
+                <div class="cs-p">
+                  <p>{{ data.desc | truncate:[55]}}</p>
+                  <time>{{ data.fecha }}</time>
+                </div>
+              </li>
+            </ul>
+            <cs-empty [data]="dataHistoricos" [message]="'No existen datos históricos que mostrar'" [image]="EMPTY_HISTORY"></cs-empty>
+          </cs-historical>
+        </cs-historical-group>
+      </mat-card>
+    </div>
+    <div class="cs-grid-tile w-65 no-padding">
+      <mat-card class="padding-top-none padding-left-none padding-right-none">
+        <div *ngIf="!mobileQuery.matches">
+          <div class="cs-buttom-row" *ngIf="isTrend">
+            <button mat-icon-button (click)="openChartZoom()">
+              <mat-icon aria-label="fullscreen"> fullscreen</mat-icon>
+            </button>
+            <button mat-icon-button (click)="filtroGeneral()">
+              <mat-icon aria-label="filter_list"> filter_list</mat-icon>
+            </button>
+          </div>
+        </div>
+        <mat-toolbar class="cs-table-info" *ngIf="selection.selected.length &gt; 0 &amp;&amp; isCompareArrows">
+          <p style="margin-bottom:0;">{{ selection.selected.length }} seleccionado</p><span class="cs-spacer"></span>
+          <button mat-button color="primary" (click)="cancelComparativeSelect()">Cancelar</button>
+          <button mat-button color="primary" (click)="saveComparativeSelect()">Guardar</button>
+        </mat-toolbar>
+        <mat-tab-group class="cs-mat-tab-group-indicator" selectedIndex="0" (selectedIndexChange)="onSelectedIndexChange($event)">
+          <mat-tab label="TENDENCIA">
+            <ng-template mat-tab-label *ngIf="tablebQuery.matches">
+              <mat-icon>timeline</mat-icon>
+            </ng-template>
+            <div class="cs-tab-content padding-left-none padding-right-none">
+              <cs-chart-percentage-area [dataGrafig]="dataGrafigArea"></cs-chart-percentage-area>
+            </div>
+          </mat-tab>
+          <mat-tab label="HISTORIAL">
+            <ng-template mat-tab-label *ngIf="tablebQuery.matches">
+              <mat-icon>history</mat-icon>
+            </ng-template>
+            <div class="cs-tab-content cs-history-table padding-left-none padding-right-none">
+              <div class="example-container" mat-elevation-z8>
+                <mat-table #history [dataSource]="dataSource">
+                  <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.date }}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="real">
+                    <mat-header-cell *matHeaderCellDef>Real</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.real }}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="goal">
+                    <mat-header-cell *matHeaderCellDef>Meta</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.goal }}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="green">
+                    <mat-header-cell *matHeaderCellDef>Zona de Vulnerabilidad</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.green }}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="red">
+                    <mat-header-cell *matHeaderCellDef>Zona Riesgo</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.red }}</mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="F.MEDICIÓN">
+            <ng-template mat-tab-label *ngIf="tablebQuery.matches">
+              <mat-icon>straighten</mat-icon>
+            </ng-template>
+            <div class="cs-tab-content mat-tab-straighten padding-left-none padding-right-none">
+              <div class="cs-mat-table theme-bsc">
+                <div class="cs-mat-header-row">
+                  <div class="cs-mat-header-cell">Registró</div>
+                  <div class="cs-mat-header-cell cs-mat-column-width-150">Fecha Inicio</div>
+                  <div class="cs-mat-header-cell cs-mat-column-width-150">Fecha Fin</div>
+                </div>
+                <div class="cs-mat-row" *ngFor="let data of REGISTRO">
+                  <div class="cs-mat-cell">{{ data.name }}</div>
+                  <div class="cs-mat-cell cs-mat-column-width-150">
+                    <mat-form-field color="primary" panelClass="cs-mat-datepicker-toggle">
+                      <input matInput [matDatepicker]="dp1" disabled [value]="date.value" color="primary">
+                      <mat-datepicker-toggle matSuffix [for]="dp1" color="primary"></mat-datepicker-toggle>
+                      <mat-datepicker #dp1 disabled="false" color="primary"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="cs-mat-cell cs-mat-column-width-150">
+                    <mat-form-field color="primary" panelClass="cs-mat-datepicker-toggle">
+                      <input matInput [matDatepicker]="dp2" disabled [value]="date.value" color="primary">
+                      <mat-datepicker-toggle matSuffix [for]="dp2" color="primary"></mat-datepicker-toggle>
+                      <mat-datepicker #dp2 disabled="false" color="primary"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-paginator *ngIf="REGISTRO.length != 0" [length]="REGISTRO.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" (page)="onPaginatedChange($event)"></mat-paginator>
+            <cs-empty [data]="REGISTRO" [message]="'No exite fecha de medición'"></cs-empty>
+          </mat-tab>
+          <mat-tab label="COMPARATIVA">
+            <ng-template mat-tab-label *ngIf="tablebQuery.matches">
+              <mat-icon>compare_arrows</mat-icon>
+            </ng-template>
+            <div class="cs-tab-content cs-compare-table padding-left-none padding-right-none padding-top-none" *ngIf="REGISTRO.length != 0">
+              <div class="theme-bsc">
+                <mat-progress-bar mode="indeterminate" *ngIf="isSaveComparative"></mat-progress-bar>
+              </div>
+              <mat-table #table [dataSource]="dataSourceComparation">
+                <ng-container matColumnDef="select">
+                  <mat-header-cell class="cs-mat-column-width-90" *matHeaderCellDef>
+                    <mat-checkbox color="primary" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() &amp;&amp; isAllSelected()" [indeterminate]="selection.hasValue() &amp;&amp; !isAllSelected()" align="end"></mat-checkbox>
+                  </mat-header-cell>
+                  <mat-cell class="cs-mat-column-width-90" *matCellDef="let row">
+                    <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"></mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="id">
+                  <mat-header-cell class="cs-mat-column-width-64" *matHeaderCellDef>#</mat-header-cell>
+                  <mat-cell class="cs-mat-column-width-64" *matCellDef="let element">{{element.id}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="comparativa">
+                  <mat-header-cell *matHeaderCellDef>Comparativa</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.comparativa}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="valor">
+                  <mat-header-cell class="cs-mat-column-width-90" *matHeaderCellDef>Valor</mat-header-cell>
+                  <mat-cell class="cs-mat-column-width-90" *matCellDef="let element">{{element.valor}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumnsComparation"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsComparation;" (click)="selection.toggle(row)"></mat-row>
+              </mat-table>
+              <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" (page)="onPaginatedChange($event)"></mat-paginator>
+            </div>
+            <cs-empty [data]="REGISTRO" [message]="'No Tenemos información para realizar una comparativa.'"></cs-empty>
+          </mat-tab>
+          <mat-tab label="CIERRE">
+            <ng-template mat-tab-label *ngIf="tablebQuery.matches">
+              <mat-icon>lock_outline</mat-icon>
+            </ng-template>
+            <div class="cs-tab-content">
+              <div class="cs-empty-image"><img [src]="EMPTY_STATE_CIERRE">
+                <button class="border-radius-20" mat-raised-button color="primary">
+                  <mat-icon aria-label="lock">lock</mat-icon>CIERRE DE INDICADOR
+                </button>
+                <div class="cs-p">
+                  <p>
+                    Se verificará que las mediciones se hayan realizado completamente,
+                    una vez realizada esta acción se guardarán los datos como históricos
+                    y el indicador será actualizado al presente año.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
+      <mat-card class="padding-left-none padding-right-none">
+        <cs-table-nested-component [dataDetalle]="dataDetalle" [resultsLength]="resultsLength" [tipo_calc]="tipo_calculo" [unidad_med]="info_indi.unidad" [isLoadingResults]="isLoadingResults" (emitSaveCurrent)="setNewCurrentValue($event)" (pagination)="paginationSizeTable($event)"></cs-table-nested-component>
+      </mat-card>
+    </div>
+  </div>
+</div>

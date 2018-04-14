@@ -1,0 +1,36 @@
+h1(mat-dialog-title) Devoluciones
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+            mat-icon close
+
+div.no-padding(mat-dialog-content)
+    mat-table(#table, [dataSource]="dataSource")
+        ng-container(matColumnDef="description")
+            mat-header-cell(*matHeaderCellDef) Descripción
+            mat-cell(*matCellDef="let element") {{element.description}}
+
+        ng-container(matColumnDef="assigned_to")
+            mat-header-cell.text-center.w-90(*matHeaderCellDef) Asignado a
+            mat-cell.text-center.w-90(*matCellDef="let element")
+                img([src]="UNKNOWN_USER_IMAGE")
+
+        ng-container(matColumnDef="register_to")
+            mat-header-cell.text-center.w-90(*matHeaderCellDef) Registrado por
+            mat-cell.text-center.w-90(*matCellDef="let element")
+                img([src]="UNKNOWN_USER_IMAGE")
+
+        ng-container(matColumnDef="date")
+            mat-header-cell.w-150.text-center(*matHeaderCellDef) Fecha
+            mat-cell.w-150.text-center(*matCellDef="let element") {{element.date}}
+
+        ng-container(matColumnDef="amount_pres")
+            mat-header-cell.w-100.text-right(*matHeaderCellDef) Monto pres.
+            mat-cell.w-100.text-right(*matCellDef="let element") {{element.amount_pres}}
+
+        ng-container(matColumnDef="amount_dev")
+            mat-header-cell.w-100.text-right(*matHeaderCellDef) Monto dev.
+            mat-cell.w-100.text-right(*matCellDef="let element") {{element.amount_dev}}
+
+        mat-header-row(*matHeaderRowDef="displayedColumns")
+        mat-row(*matRowDef="let row; columns: displayedColumns;")
+
+div(mat-dialog-actions)

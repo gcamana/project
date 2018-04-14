@@ -1,0 +1,27 @@
+
+<div class="accordion-body" [ngClass]="{ 'active': active, 'pin-up': isPinup }">
+  <div class="theme-bsc">
+    <mat-progress-bar mode="indeterminate" *ngIf="isFinish"></mat-progress-bar>
+  </div>
+  <ng-content></ng-content>
+</div>
+<div class="accordion-click material-icons" *ngIf="!isPinup" [class.active]="active" (click)="onClick($event)"> {{ active ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</div>
+<div class="button-row" [ngClass]="{ 'active': active, 'pin-up': isPinup }">
+  <button mat-icon-button [class.isActive]="isPinup" (click)="onClickPinup($event)">
+    <mat-icon svgIcon="pin-up"></mat-icon>
+  </button>
+  <button mat-icon-button (click)="openFullscreen()">
+    <mat-icon>fullscreen</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menuGauge">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menuGauge="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item (click)="editGaugeValue()">
+      <mat-icon>create</mat-icon><span>Editar valores</span>
+    </button>
+    <button mat-menu-item (click)="editPesoPersp()">
+      <mat-icon>fitness_center</mat-icon><span>Editar peso</span>
+    </button>
+  </mat-menu>
+</div>

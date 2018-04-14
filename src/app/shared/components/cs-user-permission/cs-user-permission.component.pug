@@ -1,0 +1,49 @@
+.cs-profile
+    .cs-bg([ngStyle]="setBackground()")
+    .cs-avatar((click)="goToProfile()")
+        img([src]="user?.foto_usuario || UNKNOWN_USER_IMAGE")
+    .cs-actions
+        .cs-text((click)="goToProfile()")
+            h2 {{ user?.nombre_completo }}
+            p {{ 'Administrador' }}
+
+        .cs-button
+            button(mat-icon-button, (click)="togglePermission()")
+                mat-icon(aria-label="arrow") {{ isSetting ? 'arrow_drop_down' : 'arrow_drop_up' }}
+
+mat-nav-list
+    //-TODO: active class set mat-list-item[ngClass="active"]
+    span(*ngIf="isSetting; else elseBlock")
+        .cs-mat-list-item(*ngFor="let module of modules")
+            mat-list-item((click)="selectModule(module.id)", [ngClass]="{active: isActiveModule(module.id)}")
+                h4(mat-line) {{ module?.moduleName }}
+
+            .cs-body-item(#menuItem,[@slideInOut]="isActiveModule(module.id) ? 'in': 'out'")
+                mat-list-item(*ngFor="let item of module.modules", (click)="selectPage(item.uri)", [routerLink]="[item.uri]")
+                    h4(mat-line, [ngStyle]="isActivePage(item.uri) ? { 'color': color } : {}") {{ item?.name }}
+
+    ng-template(#elseBlock)
+        h3(mat-subheader) Roles
+        mat-list-item(*ngFor="let module of modules", (click)="gotoPage()")
+            h4( mat-line) {{ module?.desc_sist }}
+
+mat-nav-list
+    mat-divider
+    mat-list-item
+        mat-icon(mat-list-icon) announcement
+        h4(mat-line) Smiledu
+            strong store
+    mat-divider
+    mat-list-item
+        mat-icon(mat-list-icon) announcement
+        h4(mat-line) Sugerencias
+
+    mat-list-item((click)="getFullscreenElement()")
+        mat-icon(mat-list-icon) {{ isZoom ? 'fullscreen' : 'fullscreen_exit' }}
+        h4(mat-line highlight) Pantalla completa
+
+.cs-copyright
+    span Perú
+    a Políticas de privacidad
+    a Terminos y condiciones
+    a smiledu &#x00AE;

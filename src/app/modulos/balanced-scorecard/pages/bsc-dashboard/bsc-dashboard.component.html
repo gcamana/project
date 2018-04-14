@@ -1,0 +1,122 @@
+
+<div class="theme-bsc">
+  <cs-shrinking-header-component *ngIf="!hideHeader" [headerHeight]="mobileQuery1.matches ? 192 : 256" [offset]="mobileQuery1.matches ? 45: 64">
+    <div class="wrapper"><span class="font-size-56" (click)="backPage()">{{ title }}</span></div>
+  </cs-shrinking-header-component>
+</div>
+<mat-sidenav-container class="theme-bsc cs-margin-minus-top">
+  <mat-sidenav class="margin-top-64" #bscsidenav [class.mobile-mat-sidenav]="mobileQuery.matches" [mode]="mobileQuerySide.matches ? 'over': 'side'" position="start" [opened]="mobileQuerySide.matches ? false : true">
+    <mat-toolbar class="fixed-sideNav gray">
+      <mat-toolbar-row><span class="cs-spacer"></span>
+        <button *ngIf="!mobileQuery1.matches" mat-icon-button>
+          <mat-icon class="cs-icon">fullscreen</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="cs-icon">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" yPosition="below" xPosition="before">
+          <button mat-menu-item (click)="editGaugeValue()">
+            <mat-icon>create</mat-icon><span>Editar valores</span>
+          </button>
+        </mat-menu>
+        <button mat-icon-button (click)="mobileQuery.matches ? closeSidenav() : bscsidenav.close()">
+          <mat-icon aria-label="Example icon-button with a heart icon">{{ mobileQuerySide.matches ?  "close" : "arrow_back" }}</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="cs-gauge">
+      <cs-circular-gauge-component class="margin-top-minus-40" [class.cs-gray-image]="!bsc_data.actual" [values]="bsc_data.actual" [red]="bsc_data.valores_bsc.zona_riesgo" [orange]="bsc_data.valores_bsc.valor_amarillo" [borderWidth]="15" [dialBaseWidth]="8" [dialBorderWidth]="2" [dialRadius]="'55%'"></cs-circular-gauge-component>
+    </div>
+    <div class="cs-info">
+      <h2>{{ desc_bsc }}</h2>
+      <div class="cs-p">
+        <p><strong>Visión :</strong>Consolidarnos como una institución referente en propuestas de vanguardia y servicios educativos de calidad a nivel nacional.</p>
+      </div>
+      <cs-user-avatar class="custom-user-avatar" [users]="resp_bsc" [usersCount]="resp_bsc.length"></cs-user-avatar>
+      <div class="cs-select padding-top theme-bsc">
+        <mat-form-field color="primary">
+          <mat-select panelClass="cs-bsc-select" placeholder="PEI" [(ngModel)]="pei_selected" (change)="changePEI()">
+            <mat-option *ngFor="let pei of list_pei" [value]="pei.pei">{{ pei.desc_pei }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field color="primary">
+          <mat-select panelClass="cs-bsc-select" placeholder="Año" [(ngModel)]="year_selected" (change)="getTiposBSC()">
+            <mat-option *ngFor="let year of list_years" [value]="year.year">{{ year.year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field color="primary">
+          <mat-select panelClass="cs-bsc-select" placeholder="Tipo" [(ngModel)]="tipo_selected" (change)="getComboByTipoBSC()">
+            <mat-option *ngFor="let tipo of list_tipo" [value]="tipo.valor">{{ tipo.desc_combo }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field color="primary" *ngIf="flg_cmb_area">
+          <mat-select panelClass="cs-bsc-select" placeholder="Área" [(ngModel)]="area_selected" (change)="getSedesArea()">
+            <mat-option *ngFor="let area of list_areas" [value]="area.id_area">{{ area.desc_area }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field color="primary" *ngIf="flg_multi">
+          <mat-select panelClass="cs-bsc-select" placeholder="Sedes" [(ngModel)]="sede_selected" multiple>
+            <mat-option *ngFor="let sede of list_sedes" [value]="sede.sede">{{ sede.desc_sede }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field color="primary" *ngIf="!flg_multi">
+          <mat-select panelClass="cs-bsc-select" placeholder="Sedes" [(ngModel)]="sede_selected">
+            <mat-option *ngFor="let sede of list_sedes" [value]="sede.sede">{{ sede.desc_sede }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="cs-button text-right">
+        <button class="border-radius-20" mat-button color="primary" (click)="getEstructuraFiltro()">ACEPTAR</button>
+      </div>
+      <div class="cs-legend padding-top">
+        <p>Leyenda:</p>
+        <ul>
+          <li>{{ ZONA_CRITICIDAD }}</li>
+          <li>{{ COLOR_AMARILLO }}</li>
+          <li>{{ COLOR_VERDE }}</li>
+          <li>
+            <mat-icon svgIcon="cup"></mat-icon>{{ META }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="transparent" [class.fixed-mobile]="mobileQuery.matches">
+      <mat-toolbar-row>
+        <cs-circular-gauge-component *ngIf="mobileQuery.matches" [values]="bsc_data.actual" [red]="bsc_data.valores_bsc.zona_riesgo" [orange]="bsc_data.valores_bsc.valor_amarillo" [borderWidth]="20" [dialBaseWidth]="8" [dialBorderWidth]="2" [dialRadius]="'55%'" [state]="false" size="100px"></cs-circular-gauge-component>
+        <p *ngIf="mobileQuery.matches">Grupo Educativo Avantgard</p><span class="cs-spacer" *ngIf="mobileQuery.matches"></span>
+        <button class="margin-top-128" mat-icon-button *ngIf="!bscsidenav._opened" (click)="mobileQuery.matches ? openSidenav() : this.bscsidenav.toggle()">
+          <mat-icon aria-label="Example icon-button with a heart icon">{{ mobileQuery.matches ?  'keyboard_arrow_up' : 'arrow_forward' }}</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="wrapper cs-margin-minus-top" id="bsc-wrapper" [class.open]="!this.bscsidenav._opened">
+      <cs-accordion-group>
+        <cs-accordion *ngFor="let est of estructura; let i = index" [index]="i" [data]="est" [zona_riesgo]="est.zona_riesgo" [peso]="est.peso" [valor_amarillo]="est.v_amarillo" [bsc]="est.id_bsc" [persp]="est.id_persp" (changeValues)="changeValuesPerspectiva($event)" (savePesoPersp)="savePesoPersp($event)">
+          <div class="cs-content">
+            <div class="cs-panel width-180">
+              <cs-circular-gauge-component class="padding margin-top-minus-110" [values]="est.actual" [red]="est.zona_riesgo" [orange]="est.v_amarillo" [borderWidth]="12" [dialBaseWidth]="8" [dialBorderWidth]="1" [dialRadius]="'50%'"></cs-circular-gauge-component>
+            </div>
+            <div class="cs-panel width-180">
+              <div class="cs-panel-title"><strong>{{ est.desc_persp | csCapitalize }}</strong></div>
+              <div class="cs-p">
+                <p>{{ est.info }}</p>
+              </div>
+              <cs-user-avatar [onlyCount]="est.responsables == undefined ? false : (est.responsables.length &gt; 1)" [hideName]="true" [usersCount]="est.responsables != undefined ? est.responsables.length : 0" [users]="est.responsables"></cs-user-avatar>
+            </div>
+            <div class="cs-panel width-300">
+              <div class="cs-panel-title">Objetivos</div>
+              <cs-goals [objetivos]="est.objetivos" [index]="i" (setIndicadores)="setIndicadores($event)" (saveValuesObj)="changeValuesObj($event)" (realoadResp)="realoadResp($event, i)" (savePesoObj)="savePesoObj($event)" (onRemoveResp)="onRemoveResp($event)"></cs-goals>
+            </div>
+            <div class="cs-panel margin-right-none">
+              <div class="cs-panel-title margin-right-none">Indicadores</div>
+              <cs-indicators [indicadores]="est.objetivos[0].indicadores" (respIndi)="buscarResponsables($event, est.id_persp)" [responsables]="responsables" (savePesoInd)="savePesoInd($event)"></cs-indicators>
+            </div>
+          </div>
+        </cs-accordion>
+      </cs-accordion-group>
+      <cs-skeleton-accordion [data]="estructura"></cs-skeleton-accordion>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

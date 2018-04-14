@@ -1,0 +1,59 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav class="example-sidenav mdl-navigation mdl-nav">
+        <mat-list class="mdl-nav">
+            <mat-list-item><img style="width: 50px; height: 50px" src="assets/img/iconsSistem/icon_pagos.png"><strong>Tesorer&iacute;a</strong></mat-list-item>
+            <hr>
+            <mat-list-item *ngIf="id_cargo == 21" [ngClass]="{'active' : selectedItem == 'movimientos'}">
+                <mat-icon>monetization_on</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('movimientos')">Movimientos</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 37" [ngClass]="{'active' : selectedItem == 'cronograma'}">
+                <mat-icon>date_range</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('cronograma')">Cronograma</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 21" [ngClass]="{'active' : selectedItem == 'caja'}">
+                <mat-icon>account_balance_wallet</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('caja')">Caja</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 37" [ngClass]="{'active' : selectedItem == 'empresa'}">
+                <mat-icon>import_export</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('empresa')">Migración</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo != 41" [ngClass]="{'active' : selectedItem == 'consultar_mis_egresos'}">
+                <mat-icon>money_off</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('consultar_mis_egresos')">Consultar Egresos</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 37" [ngClass]="{'active' : selectedItem == 'pensiones'}">
+                <mat-icon>attach_money</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('pensiones')">Pensiones</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 41" [ngClass]="{'active' : selectedItem == 'estado_cuenta'}">
+                <mat-icon>account_box</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('estado_cuenta')">Estado de cuenta</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 1 || id_cargo == 1" [ngClass]="{'active' : selectedItem == 'cuadro_mando'}">
+                <mat-icon>dashboard</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('cuadro_mando')">Cuadro de mando</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 21 || id_cargo == 1 || id_cargo == 37" [ngClass]="{'active' : selectedItem == 'gestionar_conceptos'}">
+                <mat-icon>build</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('reportes')">Reportes</a></mat-list-item>
+            <mat-list-item *ngIf="id_cargo == 21" [ngClass]="{'active' : selectedItem == 'gestionar_conceptos'}">
+                <mat-icon>build</mat-icon><a style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="changePermiso('gestionar_conceptos')">Conceptos</a></mat-list-item>
+            </mat-list>
+    </mat-sidenav>
+    <mat-sidenav position="end" id="profile" #profile class="mdl-layout__drawer--right is-open__layout is-visible">
+        <div class="mdl-layout-title">
+	   	    <div class="f_perfil">
+                <a><img name="foto_user_menu" src="assets/img/profile/nouser.svg"
+                    style="height:55px; width: 55px; border-radius: 50%;">
+                </a>
+                <p class="mdl-name__user">
+                    <span>{{nom_abvr}}</span>
+                    <label>{{desc_rol}}</label>
+                </p>
+	   	    </div>
+        </div>
+        <nav class="mdl-navigation" style="z-index:4">
+            <mat-list class="mdl-nav">
+                <mat-list-item>
+                    <mat-icon>exit_to_app</mat-icon><a (click)="logout()" style="width: 243px" class="mdl-button mdl-js-button mdl-js-ripple-effect">Cerrar sesi&oacute;n</a>
+                </mat-list-item>
+            </mat-list>
+        </nav>
+    </mat-sidenav>
+    <mat-toolbar style="background-color:#009688">
+        <button mat-icon-button (click)="sidenav.open()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span style="color: white"><img style="width: 50px; height: 50px" src="assets/img/iconsSistem/icon_pagos.png">Tesoreria</span>
+        <span class="example-fill-remaining-space"></span>
+        <img src="assets/img/profile/nouser.svg" class="img-responsive" (click)="profile.open()">
+    </mat-toolbar>
+    <!--<mat-tab-group>-->
+    <router-outlet name="mod"></router-outlet>
+    <!--</mat-tab-group>-->
+</mat-sidenav-container>

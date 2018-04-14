@@ -1,0 +1,32 @@
+
+<h1 class="mat-dialog-title" mat-dialog-title>Regular</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <mat-list class="no-padding">
+    <mat-list-item><img matListAvatar [src]="UNKNOWN_USER_IMAGE">
+      <p matLine><strong>{{ first_name | csCapitalize }} </strong><span>{{ last_name | csCapitalize }} {{ last_name2 | csCapitalize }}</span></p>
+    </mat-list-item>
+  </mat-list>
+  <h6>(<span class="cs-red">*</span>) Campos Obligatorios</h6>
+  <form [formGroup]="newConceptFrom">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Seleccionar Concepto" [matAutocomplete]="auto" [value]="titleSelect" formControlName="concepto" [readonly]="isReadonly">
+      <button mat-button *ngIf="titleSelect" matSuffix mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectChange($event)">
+        <mat-option *ngFor="let concp of filteredStates | async" [value]="concp.id_concepto"><span>{{ concp.desc_concepto }}</span></mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="full-width"><span matPrefix>S/ &nbsp;</span>
+      <input matInput onlyNumber placeholder="Monto" formControlName="monto" name="monto" required>
+      <mat-error *ngIf="newConceptFrom.controls.monto.invalid">Ingresa un monto</mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="role != ESTUDIANTE">
+      <input matInput placeholder="Observación*" [(ngModel)]="observacion" name="observacion" formControlName="observacion">
+      <mat-error *ngIf="newConceptFrom.controls.observacion.invalid">Ingresa una observación</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="theme-treasury mat-dialog-actions" mat-dialog-actions>
+  <button mat-button [disabled]="newConceptFrom.invalid" color="primary" (click)="saveComp()">PAGAR</button>
+</div>

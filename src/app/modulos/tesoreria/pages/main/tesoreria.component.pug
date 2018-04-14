@@ -1,0 +1,54 @@
+.theme-treasury
+    cs-shrinking-header-component([headerHeight]="mobileQuery.matches ? 192 : 256", [offset]="mobileQuery.matches ? 45: 64")
+        .wrapper
+            span.font-size-56([class.hideTitle]="displayTitle", (click)="backPage()") {{ title }}
+
+.cs-arrow-img
+    img([src]="ARROW_MAGIC")
+
+.wrapper.theme-treasury.margin-minus-top
+    .cs-row-flex
+        .cs-row-column.w-25.text-left
+            .cs-info
+                .cs-avatar
+                    img([src]="UNKNOWN_USER_IMAGE")
+                    h2 Hola, Carlos
+                .cs-p.margin-top.padding-bottom
+                    p {{ 'Bienvenido al módulo Tesoreria desde el cual puedes evaluar los resultados de toda tu institución. Accede a un fácil recorrido siempre.' }}
+
+                .button-row.margin-top
+                    button.border-radius-20.cs-btn-custom(mat-raised-button) INICIAR TOUR
+                        mat-icon(color="primary") arrow_forward
+                    button(mat-button, color="primary") OMITIR AYUDA
+
+        .cs-row-column.w-75
+            mat-card.cs-card.padding-custom.margin-bottom
+                h2 Todo lo que puedes hacer desde  'Tesoreria'
+                .cs-img-absolute
+                    img([src]="DOODLE")
+
+                mat-card-content
+                    .cs-p
+                        p
+                            | Realiza la planificación estratégica de tu institución y dale seguimiento a los indicadores clave de rendimiento.
+                    ul
+                        li Monitorear el
+                            a(routerLink="/tesoreria/movimientos", routerLinkActive="active-link") Movimientos
+                            | principal de indicadores
+
+                        li
+                            |
+                            a(routerLink="/tesoreria/migracion") Migración
+                            | los indicadores y frecuencias de medición.
+
+                        li Visualiza de la
+                            a(routerLink="/tesoreria/caja") Caja
+                            | más importantes.
+
+                        li Visualiza de la
+                            a(routerLink="/tesoreria/configuracion") configuración
+                            | más importantes.
+
+                        li Visualiza de la
+                            a(routerLink="/tesoreria/reportes") reportes
+                            | más importantes.

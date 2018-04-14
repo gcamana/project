@@ -1,0 +1,7 @@
+
+<div class="cs-figure__list">
+  <figure *ngFor="let user of users; let i = index" (click)="selectedUser($event, user, i)" [class.disabled]="user.status"><img [src]="user.profile_image || UNKNOWN_USER_IMAGE" [alt]="user.first_name">
+    <caption><strong>{{ user.first_name | csCapitalize }}</strong><span>{{  user.last_name | csCapitalize }}</span></caption>
+    <div class="cs-figure__state" *ngIf="user.role == 'ESTUDIANTE'"><span *ngIf="user.has_prom" [ngClass]="'beca'"></span><span [ngClass]="user.is_debtor ? 'deudor' : 'no-deudor'"></span></div>
+  </figure>
+</div>

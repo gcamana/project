@@ -1,0 +1,20 @@
+h1(mat-dialog-title) ¿Deseas proceder con la devolución?
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    p
+        span.cs-red *
+        | Campos obligatorios
+    form([formGroup]="amountForm")
+        mat-form-field.full-width
+            span(matPrefix) S/ &nbsp;
+            input(matInput, onlyNumber, type="tel", formControlName="amount", placeholder="Monto", required)
+            mat-error(*ngIf="amountForm.controls.amount.invalid")
+
+        mat-form-field.full-width
+            input(matInput, type="text", formControlName="observation", placeholder="Observaci�n", required)
+            mat-error(*ngIf="amountForm.controls.observation.invalid")
+
+div.theme-treasury.mat-dialog-actions.no-padding-top(mat-dialog-actions)
+    button(mat-button, color="accent", (click)="actionSaveReturn()", [disabled]="!amountForm.valid" , cdkFocusInitial) {{ 'confirmar' | uppercase }}

@@ -1,0 +1,217 @@
+<div class="mdl-chipset">
+    <mat-chip-list>
+        <mat-chip (click)="selectPrograma()">Año lectivo</mat-chip>
+        <!--<mat-chip (click)="selectPrograma()">Creative summer</mat-chip>
+        <mat-chip (click)="selectPrograma()">Bimestre Extraordinario</mat-chip>
+        <mat-chip (click)="selectPrograma()">Sport Summer</mat-chip>-->
+  </mat-chip-list>
+</div> 
+<mat-progress-bar mode="indeterminate" *ngIf="proggres_pensiones == true"></mat-progress-bar> 
+<mat-card class="mat-card-main col-sm-6">
+    <mat-card-header>
+        
+        <button mat-icon-button md-raised-button id="anterior" (click) = "cambiarAnioPorTipo(1)">
+            <mat-icon aria-label="Example icon-button with a heart icon">navigate_before</mat-icon>
+        </button>
+         Detalles del año: {{year}}
+        <button mat-icon-button md-raised-button id="siguiente" (click) = "cambiarAnioPorTipo(2)">
+            <mat-icon aria-label="Example icon-button with a heart icon">navigate_next</mat-icon>
+        </button>
+
+    </mat-card-header>
+    <mat-card-content>
+    <div class="table responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td align="center">Sede</td>
+                    <td align="center">Cuota de ingreso</td>
+                    <td align="center">Matrícula</td>
+                    <td align="center">Ratificación</td>
+                    <td align="center">Pensión</td>
+                    <td align="center">Descuento</td>
+                    <td align="center">Acción</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let datos of pensiones; let i = index">
+                    <td align="center">{{datos.desc_sede}}</td>
+                    <td align="center">{{datos.cuota_ingreso}}</td>
+                    <td align="center">{{datos.monto_matricula}}</td>
+                    <td align="center">{{datos.monto_ratificacion}}</td>
+                    <td align="center">{{datos.monto_pension}}</td>
+                    <td align="center">{{datos.descuento_sede}}</td>
+                    <td align="center">
+                    <button mat-icon-button (click)="mostrarForm(datos.nid_sede, datos.year, datos.desc_sede);tiposDeNivel()">
+                      <i class="material-icons" >remove_red_eye</i>
+                    </button>
+                    <button mat-icon-button (click) = "editarMontoBySede(datos.cuota_ingreso, datos.monto_matricula, datos.monto_ratificacion, datos.monto_pension, datos.descuento_sede, datos.desc_sede, datos.nid_sede, datos.year);openModalEditarMonto();">
+                      <i class="material-icons">create</i>
+                    </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<!-- mostrar datos de nivel -->
+<mat-card class="mat-card-main col-sm-6">
+    <mat-card-header>
+             <h5 class="modal-title">Sede {{sede}}</h5>
+    </mat-card-header>
+    <mat-card-content>
+    <div class="table responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td align="center">Nivel / Grado</td>
+                    <td align="center">Cuota de ingreso</td>
+                    <td align="center">Matrícula</td>
+                    <td align="center">Ratificación</td>
+                    <td align="center">Pensión</td>
+                    <td align="center">Descuento</td>
+                    <td align="center">Acción</td>
+                </tr> 
+            </thead>
+          <tbody *ngFor="let datos of tipoDeNivel">
+                <tr class="lbl-titulo">
+                  <td align="center">{{datos.desc_nivel}}</td>
+                  <td align="center">{{datos.monto_cuota_ingreso}}</td>
+                  <td align="center">{{datos.monto_matricula}}</td>
+                  <td align="center">{{datos.monto_ratificacion}}</td>
+                  <td align="center">{{datos.monto_pension}}</td>
+                  <td align="center">{{datos.descuento_nivel}}</td>
+                  <td align="center">
+                  <button mat-icon-button data-toggle="modal" data-target="#modalVer">
+                    <i class="material-icons" >blur_off</i>
+                  </button>
+                  <button mat-icon-button data-toggle="modal" data-target="#modalEditar2" (click) = "editarMontoNivel(datos.desc_nivel, datos.monto_cuota_ingreso, datos.monto_matricula, datos.monto_ratificacion, datos.monto_pension, datos.descuento_nivel)">
+                    <i class="material-icons">mode_edit</i>
+                  </button>
+                  </td>
+                </tr>
+                <tr *ngFor="let grados of datos.grados">
+                  <td align="center">{{grados.desc_grado}}</td>
+                  <td align="center">{{grados.cuota_ingreso_g}}</td>
+                  <td align="center">{{grados.matricula_g}}</td>
+                  <td align="center">{{grados.ratificacion_g}}</td>
+                  <td align="center">{{grados.pension_g}}</td>
+                  <td align="center">{{grados.descuento_g}}</td>
+                  <td align="center">
+                  <button mat-icon-button data-toggle="modal" data-target="#modalVer">
+                    <i class="material-icons" >blur_off</i>
+                  </button>
+                  <button mat-icon-button data-toggle="modal" data-target="#modalEditar3" (click) = "editarMontoGrado(grados.desc_grado, grados.cuota_ingreso_g, grados.matricula_g, grados.ratificacion_g, grados.pension_g, grados.descuento_g)">
+                    <i class="material-icons">mode_edit</i>
+                  </button>
+                  </td>
+                </tr>
+          </tbody>
+        </table>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<!-- Modal Editar-->
+<div #modalEditar class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <mat-progress-bar mode="indeterminate" *ngIf="progress_pagar == true"></mat-progress-bar>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{desc_sede}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-form-field class="example-full-width col-sm-6">
+                        <input matInput [(ngModel)]="cuota_ingreso" placeholder="S/. Cuota ingreso">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width col-sm-6">
+                        <input matInput [(ngModel)]="monto_matricula" placeholder="S/. Matr&iacute;cula">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width col-sm-6">
+                        <input matInput [(ngModel)]="monto_ratificacion" placeholder="S/. Ratificaci&oacute;n">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width col-sm-6">
+                        <input matInput [(ngModel)]="monto_pension" placeholder="S/. Pensi&oacute;n">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width col-sm-6">
+                        <input matInput [(ngModel)]="descuento_sede" placeholder="S/. Descuento">
+                    </mat-form-field>
+                </mat-card-content>
+                <mat-card-actions class="text-right">
+                    <br><br><br><br><br><br><br><br>
+                    <button type="button" class="btn btn-default" (click)="editarMontoPension()">Guardar</button>
+                    <button type="button" class="btn btn-default" (click)="closeModalEditarMonto()">Cancelar</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar2 nivel-->
+<div id="modalEditar2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Nivel: {{desc_nivel}}</h4>
+      </div>
+            <div class="modal-body">
+              <label > Cuota de ingreso: </label>
+              <input type="text" [(ngModel)]="monto_cuota_ingreso" placeholder="Ingrese monto">
+              <br>
+              <label > Matrícula: </label>
+              <input type="text" [(ngModel)]="monto_matricula" placeholder="Ingrese monto">
+              <br>
+              <label > Ratificación: </label>
+              <input type="text" [(ngModel)]="monto_ratificacion" placeholder="Ingrese monto">
+              <br>
+              <label > Pensión: </label>
+              <input type="text" [(ngModel)]="monto_pension" placeholder="Ingrese monto">
+              <br>
+              <label > Descuento: </label>
+              <input type="text" [(ngModel)]="descuento_nivel" placeholder="Ingrese monto">
+              <br>
+            </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="crearMontoPension()">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar3 grado-->
+<div id="modalEditar3" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Grado: {{desc_grado}}</h4>
+      </div>
+            <div class="modal-body">
+              <label > Cuota de ingreso: </label>
+              <input type="text" [(ngModel)]="cuota_ingreso_g" placeholder="Ingrese monto">
+              <br>
+              <label > Matrícula: </label>
+              <input type="text" [(ngModel)]="matricula_g" placeholder="Ingrese monto">
+              <br>
+              <label > Ratificación: </label>
+              <input type="text" [(ngModel)]="ratificacion_g" placeholder="Ingrese monto">
+              <br>
+              <label > Pensión: </label>
+              <input type="text" [(ngModel)]="pension_g" placeholder="Ingrese monto">
+              <br>
+              <label > Descuento: </label>
+              <input type="text" [(ngModel)]="descuento_g" placeholder="Ingrese monto">
+              <br>
+            </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="crearMontoPension()">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

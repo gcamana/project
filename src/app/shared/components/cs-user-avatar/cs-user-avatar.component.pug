@@ -1,0 +1,10 @@
+div([ngClass]="getEntityClass()", *ngIf="users.length > 0")
+        .cs-avatar(*ngFor="let user of users")
+            div(*ngIf="showAvatarCount", (click)="goToListUser()")
+                img([ngStyle]="{'width.px': zoom, 'height.px': zoom}", [src]="user?.foto_persona || UNKNOWN_USER_IMAGE", [matTooltip]="user.nombres ? user.nombres : null")
+                strong(*ngIf="!hideName") {{ user.nombres }}
+
+        .cs-avatar-count(*ngIf="!hideAvatarCount", (click)="goToListUser()")
+            span(*ngIf="showAvatarCount; else elseBlock") + {{ users.length >= 3 ? users.length - 3 : '0' }}
+            ng-template(#elseBlock)
+                span + {{ users.length || '0' }}

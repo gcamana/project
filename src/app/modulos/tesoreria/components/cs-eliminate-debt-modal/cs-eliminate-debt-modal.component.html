@@ -1,0 +1,35 @@
+
+<h1 mat-dialog-title>¿Deseas eliminar la mora?
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <mat-list class="no-padding">
+    <mat-list-item><img matListAvatar [src]="UNKNOWN_USER_IMAGE">
+      <p matLine><strong>Giovanni</strong><span class="cs-padding-left">Camana Infanzon</span></p>
+    </mat-list-item>
+  </mat-list>
+  <div class="cs-item">
+    <div class="cs-inner-item">Pensión de Junio</div>
+    <div class="cs-inner-item">1000</div>
+  </div>
+  <div class="cs-item">
+    <div class="cs-inner-item">Pensión de Julio</div>
+    <div class="cs-inner-item">1000</div>
+  </div>
+  <div class="cs-item cs-red">
+    <div class="cs-inner-item">Mora</div>
+    <div class="cs-inner-item">-25</div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="cs-item cs-paddint-top">
+    <div class="cs-inner-item">Total a pagar</div>
+    <div class="cs-inner-item">
+      <h2>S/ 1975</h2>
+    </div>
+  </div>
+</div>
+<div class="theme-treasury mat-dialog-actions no-padding-top" mat-dialog-actions>
+  <button mat-button color="accent" [mat-dialog-close]="data.animal" cdkFocusInitial>CONFIRMAR</button>
+</div>

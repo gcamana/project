@@ -1,0 +1,12 @@
+
+<h1 mat-dialog-title><span [ngClass]="data.events[0].type == 'perdida' ? 'cs-red':'cs-green'">{{ data.events[0].price }}</span>
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="theme-treasury" mat-dialog-content>
+  <p>{{ data.events[0].description }}</p>
+</div>
+<div class="theme-treasury" mat-dialog-actions>
+  <button [ngClass]="data.events[0].type == 'perdida' ? 'cs-red':'cs-green'" mat-button (click)="openListIncidents()">IR A INCIDENCIAS</button>
+</div>

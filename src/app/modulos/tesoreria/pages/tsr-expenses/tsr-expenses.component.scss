@@ -1,0 +1,47 @@
+@import './../../../../variables';
+.wrapper{
+    padding: 0 92px;
+    position: relative;
+    @media screen and (max-width: 1024px) {
+        padding: 0 42px;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 0 24px;
+    }
+}
+//table
+.caja_table{
+    padding-top: 30px
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+.mat-cell {
+    img {
+        width: 27px;
+        height: 27px;
+        display: inline-flex;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: auto;
+    }
+}
+.table_margin_24{
+    margin-left: -24px;
+    margin-right: -24px;
+}
+// table finish
+//card
+mat-card{
+    mat-card-title{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0;
+        .button-row{
+            color: $gray;
+        }
+    }
+        
+}

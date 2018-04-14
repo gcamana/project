@@ -1,0 +1,10 @@
+h1(mat-dialog-title)
+    span([ngClass]="data.events[0].type == 'perdida' ? 'cs-red':'cs-green'") {{ data.events[0].price }}
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.theme-treasury(mat-dialog-content)
+    p {{ data.events[0].description }}
+
+div.theme-treasury(mat-dialog-actions)
+    button([ngClass]="data.events[0].type == 'perdida' ? 'cs-red':'cs-green'", mat-button, (click)="openListIncidents()") IR A INCIDENCIAS

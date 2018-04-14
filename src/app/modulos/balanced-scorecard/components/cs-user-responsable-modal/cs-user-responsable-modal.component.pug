@@ -1,0 +1,23 @@
+div.theme-bsc
+    mat-progress-bar(mode="indeterminate", *ngIf="isShowProgress")
+
+cs-search-user((keyup)="searchResp($event)", [(ngModel)]="filtro", ngDefaultControl, [isSearch]="true")
+
+div(mat-dialog-content)
+    mat-nav-list.cs-mat-nav-list-modal.theme-bsc
+        mat-list-item(*ngFor="let resp of responsables")
+            img(matListAvatar, [src]="resp.foto_persona || UNKNOWN_USER_IMAGE")
+            h3(matLine) {{ resp.nombres }}
+            p(matLine) {{ resp.cargo }}
+            mat-checkbox(color="primary", (change)="checkResp($event, resp.nid_persona)")
+
+
+        div([ngSwitch]="emptyValue")
+            cs-empty(*ngSwitchCase="'find'", [data]="responsables", [message]="'Busca y asinga un responsable'" , [image]="SEARCH_1")
+            cs-empty(*ngSwitchCase="'nothing'", [data]="responsables", [message]="'No hemos encontrados al responsable que busca'", [image]="SEARCH_2")
+
+
+hr
+div.theme-bsc(mat-dialog-actions)
+    button(mat-button, color="primary", (click)="onNoClick()") CERRAR
+    button(*ngIf="seleccionados.length > 0", mat-button, color="primary", (click)="saveResponsables()") ASIGNAR

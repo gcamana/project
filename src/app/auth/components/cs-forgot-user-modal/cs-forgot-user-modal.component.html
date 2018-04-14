@@ -1,0 +1,20 @@
+
+<h1 mat-dialog-title>{{ type.title  }}</h1>
+<mat-dialog-content>
+  <p>{{ type.message }}</p>
+  <form>
+    <mat-form-field class="full-width" *ngIf="data.type == 'password'">
+      <input matInput placeholder="Escribe tu correo" [formControl]="email" required>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Escribe tu número de documento" [formControl]="documento" required>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button><span [ngStyle]="{ 'color': data.color }">MÁS INFORMACIÓN</span></button>
+  <div>
+    <button mat-button mat-dialog-close><span [ngStyle]="{ 'color': data.color }">CANCELAR</span></button>
+    <button mat-button (click)="sendForm()" [disabled]="data.type == 'password' ? email.invalid &amp;&amp; documento.invalid : documento.invalid "><span [ngStyle]="email.valid &amp;&amp; documento.valid || documento.valid ? { 'color': data.color } : {}">ENVIAR</span></button>
+  </div>
+</mat-dialog-actions>

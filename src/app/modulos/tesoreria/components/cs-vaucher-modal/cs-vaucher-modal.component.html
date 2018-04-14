@@ -1,0 +1,60 @@
+
+<h1 mat-dialog-title *ngIf="!hideType">Comprobantes
+  <button class="cs-close" mat-icon-button (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div class="cs-row theme-treasury" *ngIf="hideType">
+  <div class="cs-panel">
+    <button mat-icon-button (click)="backOne()" *ngIf="!isDelete">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button (click)="backTwo()" *ngIf="isDelete">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <p>{{ doc_selected.tipo_documento | csCapitalize }} {{ doc_selected.nro_documento }}</p>
+  </div>
+  <button mat-icon-button *ngIf="isDelete" (click)="edit()">
+    <mat-icon>create</mat-icon>
+  </button>
+</div>
+<mat-card class="theme-treasury" *ngIf="isEdit">
+  <mat-form-field class="full-width" (focus)="onFocus($event)">
+    <input matInput [(ngModel)]="number" #autoFocus (keyup)="addChange($event)">
+  </mat-form-field>
+</mat-card>
+<div class="theme-treasury" mat-dialog-content>
+  <form class="cs-padding" *ngIf="!hideType">
+    <mat-radio-group (change)="onChangeVaucher($event)">
+      <mat-radio-button *ngFor="let doc of documents; let i = index" value="{{doc.tipo_documento}}" labelPosition="before" (change)="selectDocument(doc, i)">{{doc.info}}
+        <div class="cs-number">{{ doc.nro_documento }}</div>
+      </mat-radio-button>
+    </mat-radio-group>
+  </form>
+  <form class="cs-padding" *ngIf="hideType" [class.none]="isDelete">
+    <mat-radio-group (change)="onChangeAction($event)" [(ngModel)]="action_selected" name="action_selected">
+      <mat-radio-button value="FILE_DOWNLOAD" labelPosition="before">
+        <mat-icon>file_download</mat-icon>
+        <div class="cs-text">Descargar</div>
+      </mat-radio-button>
+      <mat-radio-button value="DELETE" labelPosition="before" [disabled]="doc_selected.disabled">
+        <mat-icon>delete</mat-icon>
+        <div class="cs-text">Anular</div>
+      </mat-radio-button>
+    </mat-radio-group>
+  </form>
+  <div class="cs-content" *ngIf="isDelete">
+    <h3>{{ titleDelete }}</h3>
+    <p>{{ descDelete }}</p>
+    <mat-form-field class="full-width padding-top padding-bottom" *ngIf="isBoleta">
+      <input matInput [matDatepicker]="picker" placeholder="Fecha de emisión" [formControl]="date" [(ngModel)]="fecha_emision">
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>date_range</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker panelClass="cs-vaucher-picker"></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>
+<div class="theme-treasury" mat-dialog-actions>
+  <button mat-button color="accent" (click)="actionDocument()" [disabled]="!isActiveButton" cdkFocusInitial>CONFIRMAR</button>
+</div>

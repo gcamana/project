@@ -1,0 +1,63 @@
+h1(*ngIf="!isAddField", mat-dialog-title)
+    img([src]="data.card.image")
+
+    button.cs-close(mat-icon-button, (click)="onNoClick()")
+        mat-icon close
+
+div.cs-row.theme-treasury(*ngIf="isAddField")
+    button(mat-icon-button, (click)="toggle()")
+        mat-icon arrow_back
+
+    p Agregar campo
+
+div.theme-treasury.no-padding(mat-dialog-content)
+    .cs-table(*ngIf="!isAddField")
+        //- p Empresa de servicios Privados
+        mat-table(#table, [dataSource]="dataSource")
+            ng-container(matColumnDef="select")
+                mat-header-cell.w-40.text-right(*matHeaderCellDef)
+                    //- mat-checkbox((change)="$event ? masterToggle() : null", [checked]="selection.hasValue() && isAllSelected()", [indeterminate]="selection.hasValue() && !isAllSelected()")
+
+                mat-cell.w-40.text-right(*matCellDef="let element; let i = index;")
+                    mat-checkbox((click)="$event.stopPropagation()", (change)="selectBussiness($event, i)", [checked]="selection.isSelected(element)")
+
+            ng-container(matColumnDef="business")
+                mat-header-cell(*matHeaderCellDef)
+                mat-cell(*matCellDef="let element") {{ element.razon_social}}
+
+            ng-container(matColumnDef="year")
+                mat-header-cell.w-140(*matHeaderCellDef)
+                mat-cell.w-140(*matCellDef="let element; let i = index;")
+                    mat-form-field.full-width
+                        mat-select(placeholder="Desde año", panelClass="cs-treasury-select" )
+                            mat-option(value="option1") 2016
+                            mat-option(value="option2") 2017
+                            mat-option(value="option3") 2018
+
+            mat-header-row(*matHeaderRowDef="displayedColumns")
+            mat-row(*matRowDef="let row; columns: displayedColumns;", (click)="selection.toggle(row)")
+
+    form(*ngIf="isAddField", [formGroup]="newAddForm")
+        mat-form-field.full-width
+            input(matInput, placeholder="RUC", formControlName="ruc")
+        mat-form-field.full-width
+            input(matInput, placeholder="RUC", formControlName="ruc1")
+        mat-form-field.full-width
+            input(matInput, placeholder="RUC", formControlName="ruc2")
+        mat-form-field.full-width
+            input(matInput, placeholder="RUC", formControlName="ruc3")
+        mat-form-field.full-width
+            input(matInput, placeholder="RUC", formControlName="ruc4")
+
+div.theme-treasury( mat-dialog-actions)
+    button(*ngIf="isAddField", mat-button, color="accent", [disabled]="!newAddForm.valid", (click)="exportTxtByBank();")
+        mat-icon file_download
+        | EXPORTAR TXT
+
+    button(*ngIf="!isAddField", mat-button, color="accent", [disabled]="selection.selected.length == 0", (click)="toggle()")
+        mat-icon file_download
+        | AGREGAR CAMPO
+
+    button(*ngIf="!isAddField", mat-button, color="accent", [disabled]="selection.selected.length == 0", (click)="exportTxtByBank();")
+        mat-icon file_download
+        | EXPORTAR TXT

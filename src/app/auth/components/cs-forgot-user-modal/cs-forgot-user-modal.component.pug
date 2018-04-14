@@ -1,0 +1,22 @@
+h1(mat-dialog-title) {{ type.title  }}
+
+mat-dialog-content
+    p {{ type.message }}
+
+    form
+        mat-form-field.full-width(*ngIf="data.type == 'password'")
+            input(matInput, placeholder="Escribe tu correo",  [formControl]="email", required)
+
+        mat-form-field.full-width
+            input(matInput, placeholder="Escribe tu número de documento",  [formControl]="documento", required)
+
+
+mat-dialog-actions
+    button(mat-button)
+        span([ngStyle]="{ 'color': data.color }") MÁS INFORMACIÓN
+    div
+        button(mat-button, mat-dialog-close)
+            span([ngStyle]="{ 'color': data.color }") CANCELAR
+
+        button(mat-button, (click)="sendForm()", [disabled]="data.type == 'password' ? email.invalid && documento.invalid : documento.invalid ")
+            span([ngStyle]="email.valid && documento.valid || documento.valid ? { 'color': data.color } : {}") ENVIAR

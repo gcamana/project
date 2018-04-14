@@ -1,0 +1,33 @@
+@import './../../../variables';
+
+// chart {
+//     display: block;
+// }
+
+.cs-gauge-state {
+    width: 16px;
+    height: 16px;
+    display: block;
+    border-radius: 50%;
+    background-color: transparent;
+    top: 30px;
+    z-index: 2;
+    left: 40px;
+    position: absolute;
+    &.orange {
+        background-color: $orange;
+    }
+    &.red {
+        background-color: $red;
+    }
+    &.green {
+        background-color: $green;
+    }
+    &.dark-green {
+        background-color: $dark-green;
+    }
+    @media screen and (max-width: 480px) {
+        left: 20px;
+        top: 20px;
+    }
+}
